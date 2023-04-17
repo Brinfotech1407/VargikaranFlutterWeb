@@ -3,8 +3,14 @@
 // found in the LICENSE file.
 
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:vargikaran_web_app/classes/language.dart';
 
 import 'package:vargikaran_web_app/layout/adaptive.dart';
+import 'package:vargikaran_web_app/main.dart';
+
+
+import '../classes/language_constants.dart';
 
 const appBarDesktopHeight = 128.0;
 
@@ -25,7 +31,7 @@ class HomePage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Headline'),
+            Text(AppLocalizations.of(context).helloWorld),
             /*SelectableText(
               localizations.starterAppGenericHeadline,
               style: textTheme.displaySmall!.copyWith(
@@ -122,7 +128,7 @@ class AdaptiveAppBar extends StatelessWidget implements PreferredSizeWidget {
                 alignment: AlignmentDirectional.centerStart,
                 margin: const EdgeInsetsDirectional.fromSTEB(72, 0, 0, 22),
                 child: SelectableText(
-                  'title',//localizations.starterAppGenericTitle,
+                  'AppLocalizations.of(context).helloWorld',
                   style: themeData.textTheme.titleLarge!.copyWith(
                     color: themeData.colorScheme.onPrimary,
                   ),
@@ -131,6 +137,36 @@ class AdaptiveAppBar extends StatelessWidget implements PreferredSizeWidget {
             )
           : null,
       actions: [
+        DropdownButton(
+          underline: const SizedBox(),
+          icon: const Icon(
+            Icons.language,
+            color: Colors.white,
+          ),
+          onChanged: (Language? language) async {
+            if (language != null) {
+              Locale _locale = await setLocale(language.languageCode);
+              MyApp.setLocale(context, _locale);
+            }
+          },
+          items: Language.languageList()
+              .map<DropdownMenuItem<Language>>(
+                (e) => DropdownMenuItem<Language>(
+              value: e,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: <Widget>[
+                  Text(
+                    e.flag,
+                    style: const TextStyle(fontSize: 30),
+                  ),
+                  Text(e.name)
+                ],
+              ),
+            ),
+          )
+              .toList(),
+        ),
         IconButton(
           icon: const Icon(Icons.share),
           tooltip: 'Share',//localizations.starterAppTooltipShare,

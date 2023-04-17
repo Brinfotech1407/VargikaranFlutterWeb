@@ -3,30 +3,24 @@
 // found in the LICENSE file.
 
 import 'package:flutter/material.dart';
-import 'package:vargikaran_web_app/data/gallery_options.dart';
 import 'package:vargikaran_web_app/starter/home.dart';
-import 'package:vargikaran_web_app/starter/routes.dart' as routes;
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 const _primaryColor = Color(0xFF6200EE);
 
 class StarterApp extends StatelessWidget {
   const StarterApp({super.key});
 
-  static const String defaultRoute = routes.defaultRoute;
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       restorationScopeId: 'starter_app',
-      title: 'GalleryLocalizations.of(context)!.starterAppTitle',
+      title: AppLocalizations.of(context).helloWorld,
       debugShowCheckedModeBanner: false,
       //localizationsDelegates: GalleryLocalizations.localizationsDelegates,
       //supportedLocales: GalleryLocalizations.supportedLocales,
      // locale: GalleryOptions.of(context).locale,
-      initialRoute: StarterApp.defaultRoute,
-      routes: {
-        StarterApp.defaultRoute: (context) => const _Home(),
-      },
       theme: ThemeData(
         highlightColor: Colors.transparent,
         colorScheme: const ColorScheme(
@@ -50,6 +44,7 @@ class StarterApp extends StatelessWidget {
         ),
        // platform: GalleryOptions.of(context).platform,
       ),
+      home: _Home(),
     );
   }
 }
