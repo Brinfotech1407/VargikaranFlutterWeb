@@ -1,6 +1,3 @@
-// Copyright 2019 The Flutter team. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
 
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -19,7 +16,6 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
     final colorScheme = Theme.of(context).colorScheme;
     final isDesktop = isDisplayDesktop(context);
    // final localizations = GalleryLocalizations.of(context)!;
@@ -39,13 +35,13 @@ class HomePage extends StatelessWidget {
               ),
             ),*/
             const SizedBox(height: 10),
-            Text('Subtitle'),
+            const Text('Subtitle'),
          /*   SelectableText(
               localizations.starterAppGenericSubtitle,
               style: textTheme.titleMedium,
             ),*/
             const SizedBox(height: 48),
-            Text('Body'),
+            const Text('Body'),
            /* SelectableText(
               localizations.starterAppGenericBody,
               style: textTheme.bodyLarge,
@@ -120,7 +116,7 @@ class AdaptiveAppBar extends StatelessWidget implements PreferredSizeWidget {
       automaticallyImplyLeading: !isDesktop,
       title: isDesktop
           ? null
-          : SelectableText('title'/*localizations.starterAppGenericTitle*/),
+          : const SelectableText('title'/*localizations.starterAppGenericTitle*/),
       bottom: isDesktop
           ? PreferredSize(
               preferredSize: const Size.fromHeight(26),
@@ -145,8 +141,8 @@ class AdaptiveAppBar extends StatelessWidget implements PreferredSizeWidget {
           ),
           onChanged: (Language? language) async {
             if (language != null) {
-              Locale _locale = await setLocale(language.languageCode);
-              MyApp.setLocale(context, _locale);
+              Locale locale = await setLocale(language.languageCode);
+             MyApp.setLocale(context, locale);
             }
           },
           items: Language.languageList()
@@ -225,7 +221,7 @@ class _ListDrawerState extends State<ListDrawer> {
                 enabled: true,
                 selected: i == selectedItem,
                 leading: const Icon(Icons.favorite),
-                title: Text(
+                title: const Text(
                   'Item {value}',
                   //localizations.starterAppDrawerItem(i + 1),
                 ),
