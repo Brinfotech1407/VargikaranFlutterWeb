@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:vargikaran_web_app/login_screen.dart';
 import 'package:vargikaran_web_app/starter/home.dart';
 
 void main() {
@@ -37,7 +38,7 @@ class _MyAppState extends State<MyApp> {
         locale: _locale,
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         supportedLocales: AppLocalizations.supportedLocales,
-      home: const HomePage(),
+      home: const LoginScreen(), //HomePage(),
     );
   }
 }
