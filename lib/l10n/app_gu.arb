@@ -1,3 +1,8 @@
 {
-    "helloWorld": "હેલો વર્લ્ડ"
+    "helloWorld": "હેલો વર્લ્ડ",
+    "drawerTitle": "ર મ સ",
+    "drawerFile1": "ડેશબોરડ",
+    "drawerFile2": "ફાઇલ્સ",
+    "drawerFile3": "ડીપાર્ટમેન્ટ પ્રમાણે",
+    "drawerFile4": "ફાઇલો શોધો"
 }

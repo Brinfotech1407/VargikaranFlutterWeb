@@ -1,3 +1,8 @@
 {
-    "helloWorld": "हेलो वर्ल्ड"
+    "helloWorld": "हेलो वर्ल्ड",
+    "drawerTitle": "आरएमएस",
+    "drawerFile1": "डैशबोर्ड",
+    "drawerFile2": "फाइल्स",
+    "drawerFile3": "डिपार्टमेंट वाइज",
+    "drawerFile4": "फ़ाइल ढूंढो"
 }

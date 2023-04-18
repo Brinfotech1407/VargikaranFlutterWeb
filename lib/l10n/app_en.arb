@@ -1,6 +1,11 @@
 {
   "helloWorld": "Hello World!",
+  "drawerFile1": "Dashboard",
+  "drawerFile2": "Files World!",
+  "drawerFile3": "Department Wise",
+  "drawerFile4": "Search files",
   "@helloWorld": {
     "description": "The conventional newborn programmer greeting"
   }
+
 }

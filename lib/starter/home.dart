@@ -191,7 +191,7 @@ class ListDrawer extends StatefulWidget {
 }
 
 class _ListDrawerState extends State<ListDrawer> {
-  static const numItems = 9;
+  static const numItems = 4;
 
   int selectedItem = 0;
 
@@ -205,14 +205,9 @@ class _ListDrawerState extends State<ListDrawer> {
           children: [
             ListTile(
               title: SelectableText(
-                'title',
+                'RMS',
               //  localizations.starterAppTitle,
                 style: textTheme.titleLarge,
-              ),
-              subtitle: SelectableText(
-                'subTitle',
-                //localizations.starterAppGenericSubtitle,
-                style: textTheme.bodyMedium,
               ),
             ),
             const Divider(),
@@ -220,9 +215,12 @@ class _ListDrawerState extends State<ListDrawer> {
               return ListTile(
                 enabled: true,
                 selected: i == selectedItem,
-                leading: const Icon(Icons.favorite),
-                title: const Text(
-                  'Item {value}',
+                selectedTileColor: Colors.white12,
+                subtitle: Divider(height: 0.5),
+                leading: getIconForDrawer(i+1),
+                title:  Text(
+                  getTextForDrawer(i + 1),
+                  //'Item {value}',
                   //localizations.starterAppDrawerItem(i + 1),
                 ),
                 onTap: () {
@@ -236,5 +234,35 @@ class _ListDrawerState extends State<ListDrawer> {
         ),
       ),
     );
+  }
+
+  Icon getIconForDrawer(int index) {
+    switch (index){
+      case 1:
+        return  const Icon(Icons.home);
+        case 2:
+        return  const Icon(Icons.file_copy_sharp);
+        case 3:
+        return  const Icon(Icons.file_copy_sharp);
+        case 4:
+        return   const Icon(Icons.file_copy_sharp);
+      default:
+        return    const Icon(Icons.home);
+    }
+  }
+
+  String getTextForDrawer(int index) {
+    switch (index){
+      case 1:
+        return  AppLocalizations.of(context).drawerFile1;
+      case 2:
+        return  AppLocalizations.of(context).drawerFile2;
+      case 3:
+        return  AppLocalizations.of(context).drawerFile3;
+      case 4:
+        return  AppLocalizations.of(context).drawerFile4;
+      default:
+        return  AppLocalizations.of(context).drawerFile1;
+    }
   }
 }
