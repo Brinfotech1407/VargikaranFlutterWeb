@@ -193,7 +193,8 @@ class ListDrawer extends StatefulWidget {
 class _ListDrawerState extends State<ListDrawer> {
   static const numItems = 4;
 
-  int selectedItem = 0;
+  //int selectedItem = 0;
+  ValueNotifier<int> selectedItem  = ValueNotifier<int>(0);
 
   @override
   Widget build(BuildContext context) {
@@ -212,21 +213,24 @@ class _ListDrawerState extends State<ListDrawer> {
             ),
             const Divider(),
             ...Iterable<int>.generate(numItems).toList().map((i) {
-              return ListTile(
-                enabled: true,
-                selected: i == selectedItem,
-                selectedTileColor: Colors.white12,
-                subtitle: Divider(height: 0.5),
-                leading: getIconForDrawer(i+1),
-                title:  Text(
-                  getTextForDrawer(i + 1),
-                  //'Item {value}',
-                  //localizations.starterAppDrawerItem(i + 1),
-                ),
-                onTap: () {
-                  setState(() {
-                    selectedItem = i;
-                  });
+              return ValueListenableBuilder<int>(
+                valueListenable: selectedItem,
+                builder: (context, selectedItemValue, child) {
+                  return ListTile(
+                    enabled: true,
+                    selected: i == selectedItemValue,
+                    selectedTileColor: Colors.white12,
+                    subtitle: Divider(height: 0.5),
+                    leading: getIconForDrawer(i+1),
+                    title:  Text(
+                      getTextForDrawer(i + 1),
+                      //'Item {value}',
+                      //localizations.starterAppDrawerItem(i + 1),
+                    ),
+                    onTap: () {
+                        selectedItem.value = i;
+                    },
+                  );
                 },
               );
             }),

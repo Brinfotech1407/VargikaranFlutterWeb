@@ -20,25 +20,29 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  Locale? _locale;
+ // Locale? _locale;
+  ValueNotifier<Locale> _locale = ValueNotifier(Locale('en'));
 
   setLocale(Locale locale) {
-    setState(() {
-      _locale = locale;
-    });
+      _locale.value = locale;
   }
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'VargiKaran',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-        locale: _locale,
-        localizationsDelegates: AppLocalizations.localizationsDelegates,
-        supportedLocales: AppLocalizations.supportedLocales,
-      home: const LoginScreen(), //HomePage(),
+    return ValueListenableBuilder<Locale>(
+      valueListenable: _locale,
+      builder: (context, value, child) {
+        return MaterialApp(
+          title: 'VargiKaran',
+          theme: ThemeData(
+            primarySwatch: Colors.blue,
+          ),
+          locale: value,
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
+          home: const LoginScreen(), //HomePage(),
+        );
+      },
     );
   }
 }
