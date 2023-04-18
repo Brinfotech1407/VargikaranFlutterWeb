@@ -4,6 +4,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:vargikaran_web_app/classes/language.dart';
 
 import 'package:vargikaran_web_app/layout/adaptive.dart';
+import 'package:vargikaran_web_app/login_screen.dart';
 import 'package:vargikaran_web_app/main.dart';
 
 
@@ -104,9 +105,7 @@ class AdaptiveAppBar extends StatelessWidget implements PreferredSizeWidget {
   final bool isDesktop;
 
   @override
-  Size get preferredSize => isDesktop
-      ? const Size.fromHeight(appBarDesktopHeight)
-      : const Size.fromHeight(kToolbarHeight);
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 
   @override
   Widget build(BuildContext context) {
@@ -114,71 +113,84 @@ class AdaptiveAppBar extends StatelessWidget implements PreferredSizeWidget {
   // final localizations = GalleryLocalizations.of(context)!;
     return AppBar(
       automaticallyImplyLeading: !isDesktop,
+      backgroundColor: Colors.blueGrey,
       title: isDesktop
-          ? null
+          ? Container(
+            alignment: AlignmentDirectional.centerStart,
+            child: SelectableText(
+              'Navsari',
+              style: themeData.textTheme.titleLarge!.copyWith(
+                color: themeData.colorScheme.onPrimary,
+              ),
+            ),
+          )
           : const SelectableText('title'/*localizations.starterAppGenericTitle*/),
-      bottom: isDesktop
+      actions: [
+        Align(
+          alignment: Alignment.center,
+          child: DropdownButton(
+          isDense: true,
+            icon: const Icon(
+              Icons.language,
+              color: Colors.white,
+
+            ),
+            alignment: Alignment.centerRight,
+            onChanged: (Language? language) async {
+              if (language != null) {
+                Locale locale = await setLocale(language.languageCode);
+                MyApp.setLocale(context, locale);
+              }
+            },
+            items: Language.languageList()
+                .map<DropdownMenuItem<Language>>(
+                  (e) => DropdownMenuItem<Language>(
+                value: e,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: <Widget>[
+                    Text(
+                      e.flag,
+                      style: const TextStyle(fontSize: 30),
+                    ),
+                    Text(e.name)
+                  ],
+                ),
+              ),
+            )
+                .toList(),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(right: 30),
+          child: IconButton(
+            icon: const Icon(Icons.logout),
+            tooltip: 'logout',//localizations.starterAppTooltipShare,
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const LoginScreen(),),
+              );
+            },
+          ),
+        ),
+      ],
+     /* bottom: isDesktop
           ? PreferredSize(
               preferredSize: const Size.fromHeight(26),
               child: Container(
                 alignment: AlignmentDirectional.centerStart,
                 margin: const EdgeInsetsDirectional.fromSTEB(72, 0, 0, 22),
                 child: SelectableText(
-                  'AppLocalizations.of(context).helloWorld',
+                  'Navsari',
                   style: themeData.textTheme.titleLarge!.copyWith(
                     color: themeData.colorScheme.onPrimary,
                   ),
                 ),
               ),
             )
-          : null,
-      actions: [
-        DropdownButton(
-          underline: const SizedBox(),
-          icon: const Icon(
-            Icons.language,
-            color: Colors.white,
-          ),
-          onChanged: (Language? language) async {
-            if (language != null) {
-              Locale locale = await setLocale(language.languageCode);
-             MyApp.setLocale(context, locale);
-            }
-          },
-          items: Language.languageList()
-              .map<DropdownMenuItem<Language>>(
-                (e) => DropdownMenuItem<Language>(
-              value: e,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: <Widget>[
-                  Text(
-                    e.flag,
-                    style: const TextStyle(fontSize: 30),
-                  ),
-                  Text(e.name)
-                ],
-              ),
-            ),
-          )
-              .toList(),
-        ),
-        IconButton(
-          icon: const Icon(Icons.share),
-          tooltip: 'Share',//localizations.starterAppTooltipShare,
-          onPressed: () {},
-        ),
-        IconButton(
-          icon: const Icon(Icons.favorite),
-          tooltip:'Favorite', //localizations.starterAppTooltipFavorite,
-          onPressed: () {},
-        ),
-        IconButton(
-          icon: const Icon(Icons.search),
-          tooltip:'Search', //localizations.starterAppTooltipSearch,
-          onPressed: () {},
-        ),
-      ],
+          : null,*/
+
     );
   }
 }
@@ -204,14 +216,18 @@ class _ListDrawerState extends State<ListDrawer> {
       child: SafeArea(
         child: ListView(
           children: [
-            ListTile(
-              title: SelectableText(
-                'RMS',
-              //  localizations.starterAppTitle,
-                style: textTheme.titleLarge,
+            const SizedBox(
+              height: 56,
+              child: ListTile(
+                tileColor: Colors.blueGrey,
+                title: SelectableText(
+                  'RMS',
+                //  localizations.starterAppTitle,
+                  style: TextStyle(color: Colors.white),
+                ),
               ),
             ),
-            const Divider(),
+
             ...Iterable<int>.generate(numItems).toList().map((i) {
               return ValueListenableBuilder<int>(
                 valueListenable: selectedItem,
@@ -220,7 +236,7 @@ class _ListDrawerState extends State<ListDrawer> {
                     enabled: true,
                     selected: i == selectedItemValue,
                     selectedTileColor: Colors.white12,
-                    subtitle: Divider(height: 0.5),
+                    subtitle: const Divider(height: 0.5),
                     leading: getIconForDrawer(i+1),
                     title:  Text(
                       getTextForDrawer(i + 1),

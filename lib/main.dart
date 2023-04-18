@@ -40,7 +40,7 @@ class _MyAppState extends State<MyApp> {
           locale: value,
           localizationsDelegates: AppLocalizations.localizationsDelegates,
           supportedLocales: AppLocalizations.supportedLocales,
-          home: const LoginScreen(), //HomePage(),
+          home: HomePage(),
         );
       },
     );

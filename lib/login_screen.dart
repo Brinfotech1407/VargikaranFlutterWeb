@@ -47,10 +47,9 @@ class _SignUpFormState extends State<SignUpForm> {
               alignment: Alignment.centerLeft,
               child: Text('Welcome!', style: Theme.of(context).textTheme.headlineSmall),
             ),
-            LinearProgressIndicator(value: _formProgress),
             Padding(
-              padding: const EdgeInsets.only(top: 8.0),
-              child: Text('Sign up', style: Theme.of(context).textTheme.headlineMedium),
+              padding: const EdgeInsets.only(top: 10,bottom: 10),
+              child: LinearProgressIndicator(value: _formProgress),
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
