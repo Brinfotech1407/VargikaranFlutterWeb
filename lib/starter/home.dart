@@ -19,6 +19,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
     final isDesktop = isDisplayDesktop(context);
+    final double _formProgress = 0;
    // final localizations = GalleryLocalizations.of(context)!;
     final body = SafeArea(
       child: Padding(
@@ -28,25 +29,48 @@ class HomePage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(AppLocalizations.of(context).helloWorld),
-            /*SelectableText(
-              localizations.starterAppGenericHeadline,
-              style: textTheme.displaySmall!.copyWith(
-                color: colorScheme.onSecondary,
+            Container(
+              width: 270,
+              padding: const EdgeInsets.all(8),
+              child: Card(
+               elevation: 1,
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: const [
+                              Text('15744',style: TextStyle(color: Colors.lightBlue,fontSize: 20)),
+                              Text('Total Files'),
+                            ],
+                          ),
+                        ),
+                        const Icon(Icons.file_copy_outlined),
+                      ],
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 10,bottom: 10),
+                      child: LinearProgressIndicator(value: _formProgress,minHeight: 1),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: const [
+                          Text('PROGRESS',style: TextStyle(fontSize: 11,color: Colors.grey)),
+                          Text('70%',style: TextStyle(fontSize: 11,color: Colors.grey)),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ),*/
-            const SizedBox(height: 10),
-            const Text('Subtitle'),
-         /*   SelectableText(
-              localizations.starterAppGenericSubtitle,
-              style: textTheme.titleMedium,
-            ),*/
-            const SizedBox(height: 48),
-            const Text('Body'),
-           /* SelectableText(
-              localizations.starterAppGenericBody,
-              style: textTheme.bodyLarge,
-            ),*/
+            )
           ],
         ),
       ),
@@ -175,21 +199,6 @@ class AdaptiveAppBar extends StatelessWidget implements PreferredSizeWidget {
           ),
         ),
       ],
-     /* bottom: isDesktop
-          ? PreferredSize(
-              preferredSize: const Size.fromHeight(26),
-              child: Container(
-                alignment: AlignmentDirectional.centerStart,
-                margin: const EdgeInsetsDirectional.fromSTEB(72, 0, 0, 22),
-                child: SelectableText(
-                  'Navsari',
-                  style: themeData.textTheme.titleLarge!.copyWith(
-                    color: themeData.colorScheme.onPrimary,
-                  ),
-                ),
-              ),
-            )
-          : null,*/
 
     );
   }
