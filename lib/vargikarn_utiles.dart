@@ -8,6 +8,7 @@ class Utils {
     required TextInputType textInputType,
     required TextInputType keyboardType,
     required Function(String? value) validator,
+    onTap,
     suffixIcon,
     bool obscureText = false,
     bool readOnly = false,
@@ -18,6 +19,7 @@ class Utils {
       padding: const EdgeInsets.all(8),
       child: TextFormField(
         controller: controller,
+        onTap: onTap,
         autofillHints: autofillHints,
         cursorColor: Colors.black,
         obscureText: obscureText,

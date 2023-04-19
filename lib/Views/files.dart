@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:vargikaran_web_app/layout/adaptive.dart';
 import 'package:vargikaran_web_app/vargikarn_utiles.dart';
 
@@ -18,11 +19,15 @@ class _FilesScreenState extends State<FilesScreen> {
   final orderNoController = TextEditingController();
   final remarksController = TextEditingController();
   final noOfPagesController = TextEditingController();
+  final startDateInputController = TextEditingController();
+  final endDateInputController = TextEditingController();
   var itemList = [1, 2, 3, 4, 5, 6].obs;
   var selectedItemNameList =
-      ['misthi', 'miva', 'manavi', 'vartika', 'savi', 'sitara'].obs;
-  RxString selectedItemNameDropdownValue = 'misthi'.obs;
+      ['Selected Name', 'name2', 'name3', 'name4', 'name5', 'name6'].obs;
+  RxString selectedItemNameDropdownValue = 'Selected Name'.obs;
   RxInt dropdownValue = 1.obs;
+  DateTime selectedDate = DateTime.now();
+
 
   @override
   Widget build(BuildContext context) {
@@ -77,7 +82,7 @@ class _FilesScreenState extends State<FilesScreen> {
                           ),
                           Row(
                             children: [
-                              buildRowText('Select DepartMent'),
+                              buildRowText('Select DepartMent*'),
                               Obx(
                                 () => Container(
                                   padding: const EdgeInsets.all(8),
@@ -97,7 +102,7 @@ class _FilesScreenState extends State<FilesScreen> {
                                     items: itemList.map((int items) {
                                       return DropdownMenuItem(
                                         value: items,
-                                        child: Text('$items Department',
+                                        child: Text('Department $items',
                                             style:
                                                 const TextStyle(fontSize: 14)),
                                       );
@@ -113,7 +118,7 @@ class _FilesScreenState extends State<FilesScreen> {
                           ),
                           Row(
                             children: [
-                              buildRowText('Select Branch'),
+                              buildRowText('Select Branch*'),
                               Obx(
                                 () => Container(
                                   padding: const EdgeInsets.all(8),
@@ -137,7 +142,7 @@ class _FilesScreenState extends State<FilesScreen> {
                                     items: itemList.map((int items) {
                                       return DropdownMenuItem(
                                         value: items,
-                                        child: Text('$items Branch',
+                                        child: Text('Select Branch $items',
                                             style:
                                                 const TextStyle(fontSize: 14)),
                                       );
@@ -337,7 +342,7 @@ class _FilesScreenState extends State<FilesScreen> {
                   margin: const EdgeInsets.only(left: 8, right: 8),
                   child: Row(
                     children: [
-                      buildRowText('Select DepartMent'),
+                      buildRowText('Select DepartMent*'),
                       Obx(
                         () => Flexible(
                           child: Container(
@@ -359,7 +364,7 @@ class _FilesScreenState extends State<FilesScreen> {
                               items: itemList.map((int items) {
                                 return DropdownMenuItem(
                                   value: items,
-                                  child: Text('$items Department',
+                                  child: Text('Department $items',
                                       softWrap: true,
                                       overflow: TextOverflow.ellipsis,
                                       style: const TextStyle(fontSize: 14)),
@@ -384,7 +389,7 @@ class _FilesScreenState extends State<FilesScreen> {
                         margin: const EdgeInsets.only(left: 8, right: 8),
                         child: Row(
                           children: [
-                            buildRowText('Select Branch'),
+                            buildRowText('Select Branch*'),
                             selectedBranchView(),
                           ],
                         ),
@@ -432,7 +437,7 @@ class _FilesScreenState extends State<FilesScreen> {
             items: itemList.map((int items) {
               return DropdownMenuItem(
                 value: items,
-                child: Text('$items Branch',
+                child: Text('Select Branch $items',
                     softWrap: true,
                     overflow: TextOverflow.ellipsis,
                     style: const TextStyle(fontSize: 14)),
@@ -473,7 +478,7 @@ class _FilesScreenState extends State<FilesScreen> {
             children: [
               Row(
                 children: [
-                  buildRowText('cupboard'),
+                  buildRowText('cupboard*'),
                   Obx(
                     () => buildCupBoardView(),
                   ),
@@ -547,7 +552,7 @@ class _FilesScreenState extends State<FilesScreen> {
       items: itemList.map((int items) {
         return DropdownMenuItem(
           value: items,
-          child: Text('$items Branch', style: const TextStyle(fontSize: 14)),
+          child: Text('Select Branch $items', style: const TextStyle(fontSize: 14)),
         );
       }).toList(),
       onChanged: (int? newValue) {
@@ -635,20 +640,33 @@ class _FilesScreenState extends State<FilesScreen> {
                 child: GestureDetector(
                   child: Utils().textFormFiledView(
                     hintText: 'dd-mm-yy',
+                    controller: startDateInputController,
                     readOnly: true,
                     suffixIcon: const Icon(Icons.calendar_month),
                     autofillHints: [AutofillHints.creditCardName],
                     textInputType: TextInputType.number,
                     keyboardType: TextInputType.number,
                     validator: (value) {},
+                    onTap: () async {
+                      DateTime? pickedDate = await showDatePicker(
+                          context: context, initialDate: DateTime.now(),
+                          firstDate: DateTime(2000),
+                          lastDate: DateTime(2101)
+                      );
+                      if(pickedDate != null ){
+                        print(pickedDate);
+                        String formattedDate = DateFormat('yyyy-MM-dd').format(pickedDate);
+                        print(formattedDate);
+                        setState(() {
+                          startDateInputController.text = formattedDate;
+                        });
+                      }else{
+                        print("Date is not selected");
+                      }
+                    },
                   ),
                   onTap: () {
-                    showDatePicker(
-                      context: context,
-                      initialDate: DateTime.now(),
-                      firstDate: DateTime(1900),
-                      lastDate: DateTime(2100),
-                    );
+                    selectedDate.toLocal();
                   },
                 ),
               ),
@@ -663,12 +681,31 @@ class _FilesScreenState extends State<FilesScreen> {
                 child: GestureDetector(
                   child: Utils().textFormFiledView(
                     hintText: 'dd-mm-yy',
+                    controller: endDateInputController,
                     readOnly: true,
                     suffixIcon: const Icon(Icons.calendar_month),
                     autofillHints: [AutofillHints.creditCardName],
                     textInputType: TextInputType.number,
                     keyboardType: TextInputType.number,
                     validator: (value) {},
+                    onTap: () async {
+                      DateTime? pickedDate = await showDatePicker(
+                          context: context, initialDate: DateTime.now(),
+                          firstDate: DateTime(2000),
+                          lastDate: DateTime(2101)
+                      );
+
+                      if(pickedDate != null ){
+                        print(pickedDate);
+                        String formattedDate = DateFormat('yyyy-MM-dd').format(pickedDate);
+                        print(formattedDate);
+                        setState(() {
+                          endDateInputController.text = formattedDate;
+                        });
+                      }else{
+                        print("Date is not selected");
+                      }
+                    },
                   ),
                   onTap: () {
                     showDatePicker(
@@ -702,6 +739,19 @@ class _FilesScreenState extends State<FilesScreen> {
         ],
       ),
     );
+  }
+
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+        context: context,
+        initialDate: selectedDate,
+        firstDate: DateTime(2015, 8),
+        lastDate: DateTime(2101));
+    if (picked != null && picked != selectedDate) {
+      setState(() {
+        selectedDate = picked;
+      });
+    }
   }
 
   Widget buildDocumentDetailsFirstCardView() {
@@ -821,7 +871,7 @@ class _FilesScreenState extends State<FilesScreen> {
       child: Text(
         title,
         textAlign: TextAlign.start,
-        style: const TextStyle(fontSize: 15),
+        style: const TextStyle(fontSize: 15,fontWeight: FontWeight.bold),
       ),
     );
   }
