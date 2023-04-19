@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 
-class Utils{
-
+class Utils {
   Widget textFormFiledView({
-     TextEditingController? controller,
+    TextEditingController? controller,
     required Iterable<String> autofillHints,
     required String hintText,
     required TextInputType textInputType,
@@ -25,12 +24,11 @@ class Utils{
         readOnly: readOnly,
         maxLength: isMaxLength ? maxLength : null,
         decoration: InputDecoration(
-          suffixIcon:suffixIcon,
+            suffixIcon: suffixIcon,
             counterText: "",
             hintText: hintText,
             hintStyle: const TextStyle(fontSize: 14),
             focusColor: Colors.black,
-
             contentPadding: const EdgeInsets.only(left: 10),
             border: const OutlineInputBorder(
               borderSide: BorderSide(width: 1, color: Colors.grey),
@@ -65,7 +63,6 @@ class Utils{
     );
   }
 
-
   Container buildRowText(String title) {
     return Container(
       alignment: Alignment.center,
@@ -75,6 +72,33 @@ class Utils{
         textAlign: TextAlign.start,
         style: const TextStyle(fontSize: 15),
       ),
+    );
+  }
+
+  Widget buildButtonView() {
+    return Container(
+      alignment: Alignment.center,
+      margin: const EdgeInsets.only(top: 10, bottom: 10),
+      padding: const EdgeInsets.only(right: 10,left: 10,bottom: 20,top: 20),
+      child: TextButton(
+          style: ButtonStyle(
+            foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
+            backgroundColor: MaterialStateProperty.all(Colors.blueGrey),
+            overlayColor: MaterialStateProperty.resolveWith<Color?>(
+              (Set<MaterialState> states) {
+                if (states.contains(MaterialState.hovered)) {
+                  return Colors.blue.withOpacity(0.04);
+                }
+                if (states.contains(MaterialState.focused) ||
+                    states.contains(MaterialState.pressed)) {
+                  return Colors.blue.withOpacity(0.12);
+                }
+                return null; // Defer to the widget's default.
+              },
+            ),
+          ),
+          onPressed: () {},
+          child: const Text('TextButton',style: TextStyle(fontSize: 18),)),
     );
   }
 }

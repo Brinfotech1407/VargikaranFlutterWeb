@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 import 'package:vargikaran_web_app/layout/adaptive.dart';
 import 'package:vargikaran_web_app/vargikarn_utiles.dart';
 
@@ -28,6 +27,7 @@ class _FilesScreenState extends State<FilesScreen> {
   @override
   Widget build(BuildContext context) {
     final isDesktop = isDisplayDesktop(context);
+    final isSmallDesktop = isDisplaySmallDesktop(context);
     return Container(
       margin: const EdgeInsets.only(bottom: 10, top: 10, right: 8, left: 8),
       child: SingleChildScrollView(
@@ -40,7 +40,7 @@ class _FilesScreenState extends State<FilesScreen> {
               elevation: 1,
               margin: const EdgeInsets.only(top: 18, bottom: 12),
               child: isDesktop
-                  ? buildDesktopDepartmentCardView()
+                  ? buildDesktopDepartmentCardView(isSmallDesktop)
                   : Container(
                       padding: const EdgeInsets.only(left: 9),
                       child: Column(
@@ -59,12 +59,11 @@ class _FilesScreenState extends State<FilesScreen> {
                                   )),
                             ],
                           ),
+                          const Divider(),
                           Row(
                             children: [
                               buildRowText('Fn. No'),
-                              Container(
-                                height: 70,
-                                width: 200,
+                              Flexible(
                                 child: Utils().textFormFiledView(
                                   controller: fileNoController,
                                   hintText: 'Enter F.N No',
@@ -81,7 +80,7 @@ class _FilesScreenState extends State<FilesScreen> {
                               buildRowText('Select DepartMent'),
                               Obx(
                                 () => Container(
-                                  padding: const EdgeInsets.all(10),
+                                  padding: const EdgeInsets.all(8),
                                   decoration: BoxDecoration(
                                       border: Border.all(
                                         color: Colors.grey,
@@ -92,13 +91,15 @@ class _FilesScreenState extends State<FilesScreen> {
                                   child: DropdownButton<int>(
                                     isDense: true,
                                     elevation: 0,
+                                    underline: Container(),
                                     dropdownColor: Colors.white,
                                     icon: const Icon(Icons.keyboard_arrow_down),
                                     items: itemList.map((int items) {
                                       return DropdownMenuItem(
                                         value: items,
                                         child: Text('$items Department',
-                                            style: const TextStyle(fontSize: 14)),
+                                            style:
+                                                const TextStyle(fontSize: 14)),
                                       );
                                     }).toList(),
                                     onChanged: (int? newValue) {
@@ -115,7 +116,7 @@ class _FilesScreenState extends State<FilesScreen> {
                               buildRowText('Select Branch'),
                               Obx(
                                 () => Container(
-                                  padding: const EdgeInsets.all(10),
+                                  padding: const EdgeInsets.all(8),
                                   margin: const EdgeInsets.only(
                                     top: 10,
                                     bottom: 10,
@@ -130,13 +131,15 @@ class _FilesScreenState extends State<FilesScreen> {
                                   child: DropdownButton<int>(
                                     isDense: true,
                                     elevation: 0,
+                                    underline: Container(),
                                     dropdownColor: Colors.white,
                                     icon: const Icon(Icons.keyboard_arrow_down),
                                     items: itemList.map((int items) {
                                       return DropdownMenuItem(
                                         value: items,
                                         child: Text('$items Branch',
-                                            style: const TextStyle(fontSize: 14)),
+                                            style:
+                                                const TextStyle(fontSize: 14)),
                                       );
                                     }).toList(),
                                     onChanged: (int? newValue) {
@@ -155,154 +158,134 @@ class _FilesScreenState extends State<FilesScreen> {
             Card(
               elevation: 1,
               margin: const EdgeInsets.only(top: 18, bottom: 12),
-              child: isDesktop
-                  ? buildDesktopDocumentCardView()
-                  : Container(
-                      padding: const EdgeInsets.only(left: 9),
+              child: isSmallDesktop
+                  ? Container(
+                      padding: const EdgeInsets.all(10),
                       child: Column(
                         children: [
-                          buildDocumentDetailesFirstCardView(),
-                          buildDocumentDetaliesSecondCard()
+                          buildDocumentDetailsFirstCardView(),
+                          buildDocumentDetalisSecondCard()
                         ],
                       ),
-                    ),
+                    )
+                  : isDesktop
+                      ? buildDesktopDocumentCardView()
+                      : Container(
+                          padding: const EdgeInsets.only(left: 9),
+                          child: Column(
+                            children: [
+                              buildDocumentDetailsFirstCardView(),
+                              buildDocumentDetalisSecondCard()
+                            ],
+                          ),
+                        ),
             ),
             Card(
               elevation: 1,
               margin: const EdgeInsets.only(top: 18, bottom: 12),
               child: isDesktop
-                  ? buildDesktopDepartmentLastCardView()
+                  ? buildDesktopDepartmentLastCardView(isSmallDesktop)
                   : Container(
-                padding: const EdgeInsets.only(left: 9),
-                child: Column(
-                  children: [
-                    Row(
-                      children: [
-                        IconButton(
-                            onPressed: () {},
-                            icon: const Icon(
-                              Icons.settings,
-                              size: 17,
-                            )),
-                        const Text('DEPARTMENT DETAILS',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                            )),
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        buildRowText('cupboard'),
-                        Obx(
-                              () => Container(
-                            padding: const EdgeInsets.all(10),
-                            decoration: BoxDecoration(
-                                border: Border.all(
-                                  color: Colors.grey,
-                                  width: 0.5,
-                                ),
-                                borderRadius:
-                                const BorderRadius.all(Radius.circular(8))),
-                            child: DropdownButton<int>(
-                              isDense: true,
-                              elevation: 0,
-                              dropdownColor: Colors.white,
-                              icon: const Icon(Icons.keyboard_arrow_down),
-                              items: itemList.map((int items) {
-                                return DropdownMenuItem(
-                                  value: items,
-                                  child: Text('$items Department',
-                                      style: const TextStyle(fontSize: 14)),
-                                );
-                              }).toList(),
-                              onChanged: (int? newValue) {
-                                dropdownValue.value = newValue!;
-                              },
-                              value: dropdownValue.value,
-                            ),
+                      padding: const EdgeInsets.only(
+                          left: 9, top: 8, bottom: 20, right: 8),
+                      child: Column(
+                        children: [
+                          Row(
+                            children: [
+                              IconButton(
+                                  onPressed: () {},
+                                  icon: const Icon(
+                                    Icons.settings,
+                                    size: 17,
+                                  )),
+                              const Text('DEPARTMENT DETAILS',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                  )),
+                            ],
                           ),
-                        ),
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        buildRowText('Rack*'),
-                        Obx(
-                              () => Container(
-                            padding: const EdgeInsets.all(10),
-                            decoration: BoxDecoration(
-                                border: Border.all(
-                                  color: Colors.grey,
-                                  width: 0.5,
-                                ),
-                                borderRadius:
-                                const BorderRadius.all(Radius.circular(8))),
-                            child: DropdownButton<int>(
-                              isDense: true,
-                              elevation: 0,
-                              dropdownColor: Colors.white,
-                              icon: const Icon(Icons.keyboard_arrow_down),
-                              items: itemList.map((int items) {
-                                return DropdownMenuItem(
-                                  value: items,
-                                  child: Text('$items Department',
-                                      style: const TextStyle(fontSize: 14)),
-                                );
-                              }).toList(),
-                              onChanged: (int? newValue) {
-                                dropdownValue.value = newValue!;
-                              },
-                              value: dropdownValue.value,
-                            ),
+                          Row(
+                            children: [
+                              buildRowText('cupboard'),
+                              Obx(
+                                () => buildCupBoardView(),
+                              ),
+                            ],
                           ),
-                        ),
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        buildRowText('Box*'),
-                        Obx(
-                              () => Container(
-                            padding: const EdgeInsets.all(10),
-                            decoration: BoxDecoration(
-                                border: Border.all(
-                                  color: Colors.grey,
-                                  width: 0.5,
-                                ),
-                                borderRadius:
-                                const BorderRadius.all(Radius.circular(8))),
-                            child: DropdownButton<int>(
-                              isDense: true,
-                              elevation: 0,
-                              dropdownColor: Colors.white,
-                              icon: const Icon(Icons.keyboard_arrow_down),
-                              items: itemList.map((int items) {
-                                return DropdownMenuItem(
-                                  value: items,
-                                  child: Text('$items Branch',
-                                      style: const TextStyle(fontSize: 14)),
-                                );
-                              }).toList(),
-                              onChanged: (int? newValue) {
-                                dropdownValue.value = newValue!;
-                              },
-                              value: dropdownValue.value,
-                            ),
+                          const SizedBox(
+                            height: 8,
                           ),
-                        ),
-                      ],
-                    )
-                  ],
-                ),
-              ),
+                          Row(
+                            children: [
+                              buildRowText('Rack*'),
+                              Obx(
+                                () => buildCupBoardView(),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 8,
+                          ),
+                          Row(
+                            children: [
+                              buildRowText('Box*'),
+                              Obx(
+                                () => Container(
+                                  padding: const EdgeInsets.all(10),
+                                  decoration: BoxDecoration(
+                                      border: Border.all(
+                                        color: Colors.grey,
+                                        width: 0.5,
+                                      ),
+                                      borderRadius: const BorderRadius.all(
+                                          Radius.circular(8))),
+                                  child: boxDropDownList(),
+                                ),
+                              ),
+                            ],
+                          )
+                        ],
+                      ),
+                    ),
             ),
+           Utils().buildButtonView(),
           ],
         ),
       ),
     );
   }
 
-  Widget buildDesktopDepartmentCardView() {
+  Container buildCupBoardView() {
+    return Container(
+      padding: const EdgeInsets.all(10),
+      decoration: BoxDecoration(
+          border: Border.all(
+            color: Colors.grey,
+            width: 0.5,
+          ),
+          borderRadius: const BorderRadius.all(Radius.circular(8))),
+      child: DropdownButton<int>(
+        isDense: true,
+        elevation: 0,
+        dropdownColor: Colors.white,
+        underline: Container(),
+        icon: const Icon(Icons.keyboard_arrow_down),
+        items: itemList.map((int items) {
+          return DropdownMenuItem(
+            value: items,
+            child:
+                Text('$items Department', style: const TextStyle(fontSize: 14)),
+          );
+        }).toList(),
+        onChanged: (int? newValue) {
+          dropdownValue.value = newValue!;
+        },
+        value: dropdownValue.value,
+      ),
+    );
+  }
+
+  Widget buildDesktopDepartmentCardView(bool isSmallDesktop) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Column(
@@ -322,12 +305,13 @@ class _FilesScreenState extends State<FilesScreen> {
                   )),
             ],
           ),
+          const Divider(thickness: 0.5),
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Expanded(
                 child: Container(
-                  margin: const EdgeInsets.only(left: 12,right: 8),
+                  margin: const EdgeInsets.only(left: 12, right: 10),
                   child: Row(
                     children: [
                       buildRowText('Fn. No'),
@@ -350,14 +334,14 @@ class _FilesScreenState extends State<FilesScreen> {
               ),
               Expanded(
                 child: Container(
-                  margin: const EdgeInsets.only(left: 8,right: 8),
+                  margin: const EdgeInsets.only(left: 8, right: 8),
                   child: Row(
                     children: [
                       buildRowText('Select DepartMent'),
                       Obx(
                         () => Flexible(
                           child: Container(
-                            margin: const EdgeInsets.only(right: 20),
+                            margin: const EdgeInsets.only(right: 8),
                             padding: const EdgeInsets.all(10),
                             decoration: BoxDecoration(
                                 border: Border.all(
@@ -376,6 +360,8 @@ class _FilesScreenState extends State<FilesScreen> {
                                 return DropdownMenuItem(
                                   value: items,
                                   child: Text('$items Department',
+                                      softWrap: true,
+                                      overflow: TextOverflow.ellipsis,
                                       style: const TextStyle(fontSize: 14)),
                                 );
                               }).toList(),
@@ -391,16 +377,123 @@ class _FilesScreenState extends State<FilesScreen> {
                   ),
                 ),
               ),
-              Expanded(
-                child: Container(
-                  margin: const EdgeInsets.only(left: 8,right: 8),
+              isSmallDesktop
+                  ? Container()
+                  : Expanded(
+                      child: Container(
+                        margin: const EdgeInsets.only(left: 8, right: 8),
+                        child: Row(
+                          children: [
+                            buildRowText('Select Branch'),
+                            selectedBranchView(),
+                          ],
+                        ),
+                      ),
+                    )
+            ],
+          ),
+          isSmallDesktop
+              ? Container(
+                  margin: const EdgeInsets.only(
+                      left: 8, right: 8, top: 10, bottom: 10),
                   child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       buildRowText('Select Branch'),
-                      Obx(
-                        () => Flexible(
-                          child: Container(
-                            margin: const EdgeInsets.only(right: 20),
+                      selectedBranchView(),
+                    ],
+                  ),
+                )
+              : Container(),
+        ],
+      ),
+    );
+  }
+
+  Obx selectedBranchView() {
+    return Obx(
+      () => Flexible(
+        child: Container(
+          margin: const EdgeInsets.only(right: 8),
+          padding: const EdgeInsets.all(10),
+          decoration: BoxDecoration(
+              border: Border.all(
+                color: Colors.grey,
+                width: 0.5,
+              ),
+              borderRadius: const BorderRadius.all(Radius.circular(8))),
+          child: DropdownButton<int>(
+            isDense: true,
+            elevation: 0,
+            underline: Container(),
+            dropdownColor: Colors.white,
+            icon: const Icon(Icons.keyboard_arrow_down),
+            items: itemList.map((int items) {
+              return DropdownMenuItem(
+                value: items,
+                child: Text('$items Branch',
+                    softWrap: true,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(fontSize: 14)),
+              );
+            }).toList(),
+            onChanged: (int? newValue) {
+              dropdownValue.value = newValue!;
+            },
+            value: dropdownValue.value,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget buildDesktopDepartmentLastCardView(bool isSmallDesktop) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 20, top: 8, right: 8, left: 8),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Row(
+            children: [
+              IconButton(
+                  onPressed: () {},
+                  icon: const Icon(
+                    Icons.settings,
+                    size: 17,
+                  )),
+              const Text('DEPARTMENT DETAILS',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                  )),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Row(
+                children: [
+                  buildRowText('cupboard'),
+                  Obx(
+                    () => buildCupBoardView(),
+                  ),
+                ],
+              ),
+              Row(
+                children: [
+                  buildRowText('Rack*'),
+                  Obx(
+                    () => buildCupBoardView(),
+                  ),
+                ],
+              ),
+              isSmallDesktop
+                  ? Container()
+                  : Row(
+                      children: [
+                        buildRowText('Box*'),
+                        Obx(
+                          () => Container(
                             padding: const EdgeInsets.all(10),
                             decoration: BoxDecoration(
                                 border: Border.all(
@@ -409,438 +502,323 @@ class _FilesScreenState extends State<FilesScreen> {
                                 ),
                                 borderRadius:
                                     const BorderRadius.all(Radius.circular(8))),
-                            child: DropdownButton<int>(
-                              isDense: true,
-                              elevation: 0,
-                              underline: Container(),
-                              dropdownColor: Colors.white,
-                              icon: const Icon(Icons.keyboard_arrow_down),
-                              items: itemList.map((int items) {
-                                return DropdownMenuItem(
-                                  value: items,
-                                  child: Text('$items Branch',
-                                      style: const TextStyle(fontSize: 14)),
-                                );
-                              }).toList(),
-                              onChanged: (int? newValue) {
-                                dropdownValue.value = newValue!;
-                              },
-                              value: dropdownValue.value,
-                            ),
+                            child: boxDropDownList(),
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                ),
-              )
+                      ],
+                    )
             ],
           ),
+          isSmallDesktop
+              ? Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    buildRowText('Box*'),
+                    Obx(
+                      () => Container(
+                        padding: const EdgeInsets.all(10),
+                        margin: const EdgeInsets.only(top: 10, bottom: 10),
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                            border: Border.all(
+                              color: Colors.grey,
+                              width: 0.5,
+                            ),
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(8))),
+                        child: boxDropDownList(),
+                      ),
+                    ),
+                  ],
+                )
+              : Container()
         ],
       ),
     );
   }
 
-  Column buildDesktopDepartmentLastCardView() {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Row(
-          children: [
-            IconButton(
-                onPressed: () {},
-                icon: const Icon(
-                  Icons.settings,
-                  size: 17,
-                )),
-            const Text('DEPARTMENT DETAILS',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                )),
-          ],
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            Row(
-              children: [
-                buildRowText('cupboard'),
-                Obx(
-                      () => Container(
-                    padding: const EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                        border: Border.all(
-                          color: Colors.grey,
-                          width: 0.5,
-                        ),
-                        borderRadius:
-                        const BorderRadius.all(Radius.circular(8))),
-                    child: DropdownButton<int>(
-                      isDense: true,
-                      elevation: 0,
-                      dropdownColor: Colors.white,
-                      icon: const Icon(Icons.keyboard_arrow_down),
-                      items: itemList.map((int items) {
-                        return DropdownMenuItem(
-                          value: items,
-                          child: Text('$items Department',
-                              style: const TextStyle(fontSize: 14)),
-                        );
-                      }).toList(),
-                      onChanged: (int? newValue) {
-                        dropdownValue.value = newValue!;
-                      },
-                      value: dropdownValue.value,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            Row(
-              children: [
-                buildRowText('Rack*'),
-                Obx(
-                      () => Container(
-                    padding: const EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                        border: Border.all(
-                          color: Colors.grey,
-                          width: 0.5,
-                        ),
-                        borderRadius:
-                        const BorderRadius.all(Radius.circular(8))),
-                    child: DropdownButton<int>(
-                      isDense: true,
-                      elevation: 0,
-                      dropdownColor: Colors.white,
-                      icon: const Icon(Icons.keyboard_arrow_down),
-                      items: itemList.map((int items) {
-                        return DropdownMenuItem(
-                          value: items,
-                          child: Text('$items Department',
-                              style: const TextStyle(fontSize: 14)),
-                        );
-                      }).toList(),
-                      onChanged: (int? newValue) {
-                        dropdownValue.value = newValue!;
-                      },
-                      value: dropdownValue.value,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            Row(
-              children: [
-                buildRowText('Box*'),
-                Obx(
-                      () => Container(
-                    padding: const EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                        border: Border.all(
-                          color: Colors.grey,
-                          width: 0.5,
-                        ),
-                        borderRadius:
-                        const BorderRadius.all(Radius.circular(8))),
-                    child: DropdownButton<int>(
-                      isDense: true,
-                      elevation: 0,
-                      dropdownColor: Colors.white,
-                      icon: const Icon(Icons.keyboard_arrow_down),
-                      items: itemList.map((int items) {
-                        return DropdownMenuItem(
-                          value: items,
-                          child: Text('$items Branch',
-                              style: const TextStyle(fontSize: 14)),
-                        );
-                      }).toList(),
-                      onChanged: (int? newValue) {
-                        dropdownValue.value = newValue!;
-                      },
-                      value: dropdownValue.value,
-                    ),
-                  ),
-                ),
-              ],
-            )
-          ],
-        ),
-      ],
+  DropdownButton<int> boxDropDownList() {
+    return DropdownButton<int>(
+      isDense: true,
+      elevation: 0,
+      dropdownColor: Colors.white,
+      underline: Container(),
+      icon: const Icon(Icons.keyboard_arrow_down),
+      items: itemList.map((int items) {
+        return DropdownMenuItem(
+          value: items,
+          child: Text('$items Branch', style: const TextStyle(fontSize: 14)),
+        );
+      }).toList(),
+      onChanged: (int? newValue) {
+        dropdownValue.value = newValue!;
+      },
+      value: dropdownValue.value,
     );
   }
 
   Widget buildDesktopDocumentCardView() {
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      child: Expanded(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Flexible(flex: 2, child: buildDocumentDetailsFirstCardView()),
+            Flexible(flex: 1, child: buildDocumentDetalisSecondCard())
+          ],
+        ),
+      ),
+    );
+  }
+
+  Card buildDocumentDetalisSecondCard() {
+    return Card(
+      child: Column(
         children: [
-          buildDocumentDetailesFirstCardView(),
-          buildDocumentDetaliesSecondCard()
+          Row(
+            children: [
+              IconButton(
+                  onPressed: () {},
+                  icon: const Icon(
+                    Icons.settings,
+                    size: 17,
+                  )),
+              const Text('LOCATION DETAILS',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                  )),
+            ],
+          ),
+          const Divider(
+            thickness: 0.5,
+          ),
+          Row(
+            children: [
+              buildRowText('Select Class'),
+              Obx(
+                () => Container(
+                  padding: const EdgeInsets.all(10),
+                  margin: const EdgeInsets.only(left: 5, bottom: 4),
+                  decoration: BoxDecoration(
+                      border: Border.all(
+                        color: Colors.grey,
+                        width: 0.5,
+                      ),
+                      borderRadius: const BorderRadius.all(Radius.circular(8))),
+                  child: DropdownButton<String>(
+                    isDense: true,
+                    elevation: 0,
+                    dropdownColor: Colors.white,
+                    underline: Container(),
+                    icon: const Icon(Icons.keyboard_arrow_down),
+                    items: selectedItemNameList.map((String items) {
+                      return DropdownMenuItem(
+                        value: items,
+                        child: Text('$items',
+                            style: const TextStyle(fontSize: 14)),
+                      );
+                    }).toList(),
+                    onChanged: (String? newValue) {
+                      selectedItemNameDropdownValue.value = newValue!;
+                    },
+                    value: selectedItemNameDropdownValue.value,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          Row(
+            children: [
+              buildRowText('Start Date'),
+              SizedBox(
+                height: 70,
+                width: 200,
+                child: GestureDetector(
+                  child: Utils().textFormFiledView(
+                    hintText: 'dd-mm-yy',
+                    readOnly: true,
+                    suffixIcon: const Icon(Icons.calendar_month),
+                    autofillHints: [AutofillHints.creditCardName],
+                    textInputType: TextInputType.number,
+                    keyboardType: TextInputType.number,
+                    validator: (value) {},
+                  ),
+                  onTap: () {
+                    showDatePicker(
+                      context: context,
+                      initialDate: DateTime.now(),
+                      firstDate: DateTime(1900),
+                      lastDate: DateTime(2100),
+                    );
+                  },
+                ),
+              ),
+            ],
+          ),
+          Row(
+            children: [
+              buildRowText('End Date'),
+              SizedBox(
+                height: 70,
+                width: 200,
+                child: GestureDetector(
+                  child: Utils().textFormFiledView(
+                    hintText: 'dd-mm-yy',
+                    readOnly: true,
+                    suffixIcon: const Icon(Icons.calendar_month),
+                    autofillHints: [AutofillHints.creditCardName],
+                    textInputType: TextInputType.number,
+                    keyboardType: TextInputType.number,
+                    validator: (value) {},
+                  ),
+                  onTap: () {
+                    showDatePicker(
+                      context: context,
+                      initialDate: DateTime.now(),
+                      firstDate: DateTime(1900),
+                      lastDate: DateTime(2100),
+                    );
+                  },
+                ),
+              ),
+            ],
+          ),
+          Row(
+            children: [
+              buildRowText('No. of Pages'),
+              SizedBox(
+                height: 70,
+                width: 200,
+                child: Utils().textFormFiledView(
+                  controller: noOfPagesController,
+                  hintText: '',
+                  autofillHints: [AutofillHints.creditCardName],
+                  textInputType: TextInputType.number,
+                  keyboardType: TextInputType.number,
+                  validator: (value) {},
+                ),
+              ),
+            ],
+          ),
         ],
       ),
     );
   }
 
-
-
-  Card buildDocumentDetaliesSecondCard() {
-    return Card(
-          child: Column(
+  Widget buildDocumentDetailsFirstCardView() {
+    return Container(
+      margin: const EdgeInsets.only(left: 8, right: 8),
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Row(
-                children: [
-                  IconButton(
-                      onPressed: () {},
-                      icon: const Icon(
-                        Icons.settings,
-                        size: 17,
-                      )),
-                  const Text('LOCATION DETAILS',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                      )),
-                ],
-              ),
-              Row(
-                children: [
-                  buildRowText('Select Class'),
-                  Obx(
-                    () => Container(
-                      padding: const EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                          border: Border.all(
-                            color: Colors.grey,
-                            width: 0.5,
-                          ),
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(8))),
-                      child: DropdownButton<String>(
-                        isDense: true,
-                        elevation: 0,
-                        dropdownColor: Colors.white,
-                        icon: const Icon(Icons.keyboard_arrow_down),
-                        items: selectedItemNameList.map((String items) {
-                          return DropdownMenuItem(
-                            value: items,
-                            child: Text('$items',
-                                style: const TextStyle(fontSize: 14)),
-                          );
-                        }).toList(),
-                        onChanged: (String? newValue) {
-                          selectedItemNameDropdownValue.value = newValue!;
-                        },
-                        value: selectedItemNameDropdownValue.value,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              Row(
-                children: [
-                  buildRowText('Start Date'),
-                  SizedBox(
-                    height: 70,
-                    width: 200,
-                    child: GestureDetector(
-                      child: Utils().textFormFiledView(
-                        hintText: 'dd-mm-yy',
-                        readOnly: true,
-                        suffixIcon: const Icon(Icons.calendar_month),
-                        autofillHints: [AutofillHints.creditCardName],
-                        textInputType: TextInputType.number,
-                        keyboardType: TextInputType.number,
-                        validator: (value) {},
-                      ),
-                      onTap: () {
-                        showDatePicker(
-                          context: context,
-                          initialDate:DateTime.now(),
-                          firstDate: DateTime(1900),
-                          lastDate: DateTime(2100),
-                        );
-                      },
-                    ),
-                  ),
-                ],
-              ),
-              Row(
-                children: [
-                  buildRowText('End Date'),
-                  SizedBox(
-                    height: 70,
-                    width: 200,
-                    child: GestureDetector(
-                      child: Utils().textFormFiledView(
-                        hintText: 'dd-mm-yy',
-                        readOnly: true,
-                        suffixIcon: const Icon(Icons.calendar_month),
-                        autofillHints: [AutofillHints.creditCardName],
-                        textInputType: TextInputType.number,
-                        keyboardType: TextInputType.number,
-                        validator: (value) {},
-                      ),
-                      onTap: () {
-                        showDatePicker(
-                          context: context,
-                          initialDate:DateTime.now(),
-                          firstDate: DateTime(1900),
-                          lastDate: DateTime(2100),
-                        );
-                      },
-                    ),
-                  ),
-                ],
-              ),
-              Row(
-                children: [
-                  buildRowText('No. of Pages'),
-                  SizedBox(
-                    height: 70,
-                    width: 200,
-                    child: Utils().textFormFiledView(
-                      controller: noOfPagesController,
-                      hintText: '',
-                      autofillHints: [AutofillHints.creditCardName],
-                      textInputType: TextInputType.number,
-                      keyboardType: TextInputType.number,
-                      validator: (value) {},
-                    ),
-                  ),
-                ],
+              IconButton(
+                  onPressed: () {},
+                  icon: const Icon(
+                    Icons.settings,
+                    size: 17,
+                  )),
+              const Text('DOCUMENT DETAILS',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                  )),
+            ],
+          ),
+          const Divider(thickness: 0.5),
+          Row(
+            children: [
+              buildRowText('Record Date'),
+              Expanded(
+                child: Utils().textFormFiledView(
+                  controller: recordDateController,
+                  hintText: '',
+                  autofillHints: [AutofillHints.creditCardName],
+                  textInputType: TextInputType.number,
+                  keyboardType: TextInputType.number,
+                  validator: (value) {},
+                ),
               ),
             ],
           ),
-        );
-  }
-
-  Column buildDocumentDetailesFirstCardView() {
-    return Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                IconButton(
-                    onPressed: () {},
-                    icon: const Icon(
-                      Icons.settings,
-                      size: 17,
-                    )),
-                const Text('DOCUMENT DETAILS',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                    )),
-              ],
-            ),
-            Row(
-              children: [
-                buildRowText('Record Date'),
-                Container(
-                  height: 70,
-                  width: 200,
-                  child: Utils().textFormFiledView(
-                    controller: recordDateController,
-                    hintText: '',
-                    autofillHints: [AutofillHints.creditCardName],
-                    textInputType: TextInputType.number,
-                    keyboardType: TextInputType.number,
-                    validator: (value) {},
-                  ),
+          Row(
+            children: [
+              buildRowText('Subject'),
+              Expanded(
+                child: Utils().textFormFiledView(
+                  controller: subjectController,
+                  hintText: '',
+                  isMaxLength: true,
+                  maxLength: 100,
+                  autofillHints: [AutofillHints.creditCardName],
+                  textInputType: TextInputType.number,
+                  keyboardType: TextInputType.number,
+                  validator: (value) {},
                 ),
-              ],
-            ),
-            Row(
-              children: [
-                buildRowText('Subject'),
-                SizedBox(
-                  height: 70,
-                  width: 200,
-                  child: Utils().textFormFiledView(
-                    controller: subjectController,
-                    hintText: '',
-                    isMaxLength: true,
-                    maxLength: 100,
-                    autofillHints: [AutofillHints.creditCardName],
-                    textInputType: TextInputType.number,
-                    keyboardType: TextInputType.number,
-                    validator: (value) {},
-                  ),
+              ),
+            ],
+          ),
+          Row(
+            children: [
+              buildRowText('Application Name'),
+              Expanded(
+                child: Utils().textFormFiledView(
+                  controller: applicationNameController,
+                  hintText: '',
+                  isMaxLength: true,
+                  maxLength: 100,
+                  autofillHints: [AutofillHints.creditCardName],
+                  textInputType: TextInputType.number,
+                  keyboardType: TextInputType.number,
+                  validator: (value) {},
                 ),
-              ],
-            ),
-            Row(
-              children: [
-                buildRowText('Application Name'),
-                SizedBox(
-                  height: 70,
-                  width: 200,
-                  child: Utils().textFormFiledView(
-                    controller: applicationNameController,
-                    hintText: '',
-                    isMaxLength: true,
-                    maxLength: 100,
-                    autofillHints: [AutofillHints.creditCardName],
-                    textInputType: TextInputType.number,
-                    keyboardType: TextInputType.number,
-                    validator: (value) {},
-                  ),
+              ),
+            ],
+          ),
+          Row(
+            children: [
+              buildRowText('Order No'),
+              Expanded(
+                child: Utils().textFormFiledView(
+                  controller: orderNoController,
+                  hintText: '',
+                  isMaxLength: true,
+                  maxLength: 100,
+                  autofillHints: [AutofillHints.creditCardName],
+                  textInputType: TextInputType.number,
+                  keyboardType: TextInputType.number,
+                  validator: (value) {},
                 ),
-              ],
-            ),
-            Row(
-              children: [
-                buildRowText('Order No'),
-                SizedBox(
-                  height: 70,
-                  width: 200,
-                  child: Utils().textFormFiledView(
-                    controller: orderNoController,
-                    hintText: '',
-                    isMaxLength: true,
-                    maxLength: 100,
-                    autofillHints: [AutofillHints.creditCardName],
-                    textInputType: TextInputType.number,
-                    keyboardType: TextInputType.number,
-                    validator: (value) {},
-                  ),
+              ),
+            ],
+          ),
+          Row(
+            children: [
+              buildRowText('Remarks'),
+              Expanded(
+                child: Utils().textFormFiledView(
+                  controller: remarksController,
+                  hintText: '',
+                  isMaxLength: true,
+                  maxLength: 100,
+                  autofillHints: [AutofillHints.creditCardName],
+                  textInputType: TextInputType.number,
+                  keyboardType: TextInputType.number,
+                  validator: (value) {},
                 ),
-              ],
-            ),
-            Row(
-              children: [
-                buildRowText('Remarks'),
-                SizedBox(
-                  height: 70,
-                  width: 200,
-                  child: Utils().textFormFiledView(
-                    controller: remarksController,
-                    hintText: '',
-                    isMaxLength: true,
-                    maxLength: 100,
-                    autofillHints: [AutofillHints.creditCardName],
-                    textInputType: TextInputType.number,
-                    keyboardType: TextInputType.number,
-                    validator: (value) {},
-                  ),
-                ),
-              ],
-            ),
-          ],
-        );
-  }
-
-  static String getFormattedDateFromDateTime({
-    required  dateTime,
-    required String formattedDate,
-  }) {
-    return DateFormat(formattedDate).format(dateTime).toString();
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
   }
 
   Container buildRowText(String title) {
     return Container(
-      alignment: Alignment.center,
+      alignment: Alignment.centerRight,
+      width: 160,
       padding: const EdgeInsets.only(right: 10, top: 14, bottom: 8),
       child: Text(
         title,

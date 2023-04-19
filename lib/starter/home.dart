@@ -39,16 +39,6 @@ class _HomePageState extends State<HomePage> {
                 isDesktop: true,
               ),
               body: buildShowBodyContent(),
-              floatingActionButton: FloatingActionButton.extended(
-                heroTag: 'Extended Add',
-                onPressed: () {},
-                label: Text(
-                  'BUTTON', //localizations.starterAppGenericButton,
-                  style: TextStyle(color: colorScheme.onSecondary),
-                ),
-                icon: Icon(Icons.add, color: colorScheme.onSecondary),
-                tooltip: 'Add', // localizations.starterAppTooltipAdd,
-              ),
             ),
           ),
         ],
@@ -61,15 +51,6 @@ class _HomePageState extends State<HomePage> {
           selectedDrawerItem: (value) {
             selectedDrawerFile.value = value;
           },
-        ),
-        floatingActionButton: FloatingActionButton(
-          heroTag: 'Add',
-          onPressed: () {},
-          tooltip: 'Add', //localizations.starterAppTooltipAdd,
-          child: Icon(
-            Icons.add,
-            color: Theme.of(context).colorScheme.onSecondary,
-          ),
         ),
       );
     }
