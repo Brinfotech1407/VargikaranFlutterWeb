@@ -23,7 +23,6 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
     final isDesktop = isDisplayDesktop(context);
-    final body = DashBoardScreen();
 
     if (isDesktop) {
       return Row(
@@ -82,15 +81,15 @@ class _HomePageState extends State<HomePage> {
       builder: (context, value, child) {
         switch (value) {
           case 0:
-            return DashBoardScreen();
+            return const DashBoardScreen();
           case 1:
-            return FilesScreen();
+            return const FilesScreen();
           case 2:
-            return DepartmentWiseScreen();
+            return const DepartmentWiseScreen();
           case 3:
-            return SearchScreen();
+            return const SearchScreen();
           default:
-            return DashBoardScreen();
+            return const DashBoardScreen();
         }
       },
     );
