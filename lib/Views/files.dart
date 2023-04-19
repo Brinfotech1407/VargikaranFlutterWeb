@@ -560,14 +560,12 @@ class _FilesScreenState extends State<FilesScreen> {
   Widget buildDesktopDocumentCardView() {
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: Expanded(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Flexible(flex: 2, child: buildDocumentDetailsFirstCardView()),
-            Flexible(flex: 1, child: buildDocumentDetalisSecondCard())
-          ],
-        ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Flexible(flex: 2, child: buildDocumentDetailsFirstCardView()),
+          Flexible(flex: 1, child: buildDocumentDetalisSecondCard())
+        ],
       ),
     );
   }
