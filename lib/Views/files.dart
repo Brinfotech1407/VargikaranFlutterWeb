@@ -169,7 +169,7 @@ class _FilesScreenState extends State<FilesScreen> {
                       child: Column(
                         children: [
                           buildDocumentDetailsFirstCardView(),
-                          buildDocumentDetalisSecondCard()
+                          buildDocumentDetailsSecondCard()
                         ],
                       ),
                     )
@@ -180,7 +180,7 @@ class _FilesScreenState extends State<FilesScreen> {
                           child: Column(
                             children: [
                               buildDocumentDetailsFirstCardView(),
-                              buildDocumentDetalisSecondCard()
+                              buildDocumentDetailsSecondCard()
                             ],
                           ),
                         ),
@@ -569,174 +569,177 @@ class _FilesScreenState extends State<FilesScreen> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Flexible(flex: 2, child: buildDocumentDetailsFirstCardView()),
-          Flexible(flex: 1, child: buildDocumentDetalisSecondCard())
+          Flexible(flex: 1, child: buildDocumentDetailsSecondCard())
         ],
       ),
     );
   }
 
-  Card buildDocumentDetalisSecondCard() {
+  Card buildDocumentDetailsSecondCard() {
     return Card(
-      child: Column(
-        children: [
-          Row(
-            children: [
-              IconButton(
-                  onPressed: () {},
-                  icon: const Icon(
-                    Icons.settings,
-                    size: 17,
-                  )),
-              const Text('LOCATION DETAILS',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                  )),
-            ],
-          ),
-          const Divider(
-            thickness: 0.5,
-          ),
-          Row(
-            children: [
-              buildRowText('Select Class'),
-              Obx(
-                () => Container(
-                  padding: const EdgeInsets.all(10),
-                  margin: const EdgeInsets.only(left: 5, bottom: 4),
-                  decoration: BoxDecoration(
-                      border: Border.all(
-                        color: Colors.grey,
-                        width: 0.5,
-                      ),
-                      borderRadius: const BorderRadius.all(Radius.circular(8))),
-                  child: DropdownButton<String>(
-                    isDense: true,
-                    elevation: 0,
-                    dropdownColor: Colors.white,
-                    underline: Container(),
-                    icon: const Icon(Icons.keyboard_arrow_down),
-                    items: selectedItemNameList.map((String items) {
-                      return DropdownMenuItem(
-                        value: items,
-                        child: Text('$items',
-                            style: const TextStyle(fontSize: 14)),
-                      );
-                    }).toList(),
-                    onChanged: (String? newValue) {
-                      selectedItemNameDropdownValue.value = newValue!;
-                    },
-                    value: selectedItemNameDropdownValue.value,
+      child: Container(
+        margin: const EdgeInsets.only(left: 12,top: 20),
+        child: Column(
+          children: [
+            Row(
+              children: [
+                IconButton(
+                    onPressed: () {},
+                    icon: const Icon(
+                      Icons.settings,
+                      size: 17,
+                    )),
+                const Text('LOCATION DETAILS',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                    )),
+              ],
+            ),
+            const Divider(
+              thickness: 0.5,
+            ),
+            Row(
+              children: [
+                buildRowText('Select Class'),
+                Obx(
+                  () => Container(
+                    padding: const EdgeInsets.all(10),
+                    margin: const EdgeInsets.only(left: 5, bottom: 4),
+                    decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Colors.grey,
+                          width: 0.5,
+                        ),
+                        borderRadius: const BorderRadius.all(Radius.circular(8))),
+                    child: DropdownButton<String>(
+                      isDense: true,
+                      elevation: 0,
+                      dropdownColor: Colors.white,
+                      underline: Container(),
+                      icon: const Icon(Icons.keyboard_arrow_down),
+                      items: selectedItemNameList.map((String items) {
+                        return DropdownMenuItem(
+                          value: items,
+                          child: Text('$items',
+                              style: const TextStyle(fontSize: 14)),
+                        );
+                      }).toList(),
+                      onChanged: (String? newValue) {
+                        selectedItemNameDropdownValue.value = newValue!;
+                      },
+                      value: selectedItemNameDropdownValue.value,
+                    ),
                   ),
                 ),
-              ),
-            ],
-          ),
-          Row(
-            children: [
-              buildRowText('Start Date'),
-              SizedBox(
-                height: 70,
-                width: 200,
-                child: GestureDetector(
-                  child: Utils().textFormFiledView(
-                    hintText: 'dd-mm-yy',
-                    controller: startDateInputController,
-                    readOnly: true,
-                    suffixIcon: const Icon(Icons.calendar_month),
-                    autofillHints: [AutofillHints.creditCardName],
-                    textInputType: TextInputType.number,
-                    keyboardType: TextInputType.number,
-                    validator: (value) {},
-                    onTap: () async {
-                      DateTime? pickedDate = await showDatePicker(
-                          context: context, initialDate: DateTime.now(),
-                          firstDate: DateTime(2000),
-                          lastDate: DateTime(2101)
-                      );
-                      if(pickedDate != null ){
-                        print(pickedDate);
-                        String formattedDate = DateFormat('yyyy-MM-dd').format(pickedDate);
-                        print(formattedDate);
-                        setState(() {
-                          startDateInputController.text = formattedDate;
-                        });
-                      }else{
-                        print("Date is not selected");
-                      }
+              ],
+            ),
+            Row(
+              children: [
+                buildRowText('Start Date'),
+                SizedBox(
+                  height: 70,
+                  width: 200,
+                  child: GestureDetector(
+                    child: Utils().textFormFiledView(
+                      hintText: 'dd-mm-yy',
+                      controller: startDateInputController,
+                      readOnly: true,
+                      suffixIcon: const Icon(Icons.calendar_month),
+                      autofillHints: [AutofillHints.creditCardName],
+                      textInputType: TextInputType.number,
+                      keyboardType: TextInputType.number,
+                      validator: (value) {},
+                      onTap: () async {
+                        DateTime? pickedDate = await showDatePicker(
+                            context: context, initialDate: DateTime.now(),
+                            firstDate: DateTime(2000),
+                            lastDate: DateTime(2101)
+                        );
+                        if(pickedDate != null ){
+                          print(pickedDate);
+                          String formattedDate = DateFormat('yyyy-MM-dd').format(pickedDate);
+                          print(formattedDate);
+                          setState(() {
+                            startDateInputController.text = formattedDate;
+                          });
+                        }else{
+                          print("Date is not selected");
+                        }
+                      },
+                    ),
+                    onTap: () {
+                      selectedDate.toLocal();
                     },
                   ),
-                  onTap: () {
-                    selectedDate.toLocal();
-                  },
                 ),
-              ),
-            ],
-          ),
-          Row(
-            children: [
-              buildRowText('End Date'),
-              SizedBox(
-                height: 70,
-                width: 200,
-                child: GestureDetector(
-                  child: Utils().textFormFiledView(
-                    hintText: 'dd-mm-yy',
-                    controller: endDateInputController,
-                    readOnly: true,
-                    suffixIcon: const Icon(Icons.calendar_month),
-                    autofillHints: [AutofillHints.creditCardName],
-                    textInputType: TextInputType.number,
-                    keyboardType: TextInputType.number,
-                    validator: (value) {},
-                    onTap: () async {
-                      DateTime? pickedDate = await showDatePicker(
-                          context: context, initialDate: DateTime.now(),
-                          firstDate: DateTime(2000),
-                          lastDate: DateTime(2101)
-                      );
+              ],
+            ),
+            Row(
+              children: [
+                buildRowText('End Date'),
+                SizedBox(
+                  height: 70,
+                  width: 200,
+                  child: GestureDetector(
+                    child: Utils().textFormFiledView(
+                      hintText: 'dd-mm-yy',
+                      controller: endDateInputController,
+                      readOnly: true,
+                      suffixIcon: const Icon(Icons.calendar_month),
+                      autofillHints: [AutofillHints.creditCardName],
+                      textInputType: TextInputType.number,
+                      keyboardType: TextInputType.number,
+                      validator: (value) {},
+                      onTap: () async {
+                        DateTime? pickedDate = await showDatePicker(
+                            context: context, initialDate: DateTime.now(),
+                            firstDate: DateTime(2000),
+                            lastDate: DateTime(2101)
+                        );
 
-                      if(pickedDate != null ){
-                        print(pickedDate);
-                        String formattedDate = DateFormat('yyyy-MM-dd').format(pickedDate);
-                        print(formattedDate);
-                        setState(() {
-                          endDateInputController.text = formattedDate;
-                        });
-                      }else{
-                        print("Date is not selected");
-                      }
+                        if(pickedDate != null ){
+                          print(pickedDate);
+                          String formattedDate = DateFormat('yyyy-MM-dd').format(pickedDate);
+                          print(formattedDate);
+                          setState(() {
+                            endDateInputController.text = formattedDate;
+                          });
+                        }else{
+                          print("Date is not selected");
+                        }
+                      },
+                    ),
+                    onTap: () {
+                      showDatePicker(
+                        context: context,
+                        initialDate: DateTime.now(),
+                        firstDate: DateTime(1900),
+                        lastDate: DateTime(2100),
+                      );
                     },
                   ),
-                  onTap: () {
-                    showDatePicker(
-                      context: context,
-                      initialDate: DateTime.now(),
-                      firstDate: DateTime(1900),
-                      lastDate: DateTime(2100),
-                    );
-                  },
                 ),
-              ),
-            ],
-          ),
-          Row(
-            children: [
-              buildRowText('No. of Pages'),
-              SizedBox(
-                height: 70,
-                width: 200,
-                child: Utils().textFormFiledView(
-                  controller: noOfPagesController,
-                  hintText: '',
-                  autofillHints: [AutofillHints.creditCardName],
-                  textInputType: TextInputType.number,
-                  keyboardType: TextInputType.number,
-                  validator: (value) {},
+              ],
+            ),
+            Row(
+              children: [
+                buildRowText('No. of Pages'),
+                SizedBox(
+                  height: 70,
+                  width: 200,
+                  child: Utils().textFormFiledView(
+                    controller: noOfPagesController,
+                    hintText: '',
+                    autofillHints: [AutofillHints.creditCardName],
+                    textInputType: TextInputType.number,
+                    keyboardType: TextInputType.number,
+                    validator: (value) {},
+                  ),
                 ),
-              ),
-            ],
-          ),
-        ],
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -865,7 +868,7 @@ class _FilesScreenState extends State<FilesScreen> {
 
   Container buildRowText(String title) {
     return Container(
-      alignment: Alignment.centerRight,
+      alignment: Alignment.centerLeft,
       width: 160,
       padding: const EdgeInsets.only(right: 10, top: 14, bottom: 8),
       child: Text(
