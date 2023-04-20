@@ -3,13 +3,15 @@ import 'package:flutter/material.dart';
 class Utils {
   Widget textFormFiledView({
     TextEditingController? controller,
-    required Iterable<String> autofillHints,
+     Iterable<String>? autofillHints,
     required String hintText,
-    required TextInputType textInputType,
-    required TextInputType keyboardType,
+     TextInputType? textInputType,
+     TextInputType? keyboardType,
     required Function(String? value) validator,
     onTap,
     suffixIcon,
+    int maxLine= 1,
+    int minLines= 1,
     bool obscureText = false,
     bool readOnly = false,
     bool isMaxLength = false,
@@ -24,6 +26,8 @@ class Utils {
         cursorColor: Colors.black,
         obscureText: obscureText,
         readOnly: readOnly,
+        maxLines: maxLine,
+        minLines: minLines,
         maxLength: isMaxLength ? maxLength : null,
         decoration: InputDecoration(
             suffixIcon: suffixIcon,
@@ -31,7 +35,7 @@ class Utils {
             hintText: hintText,
             hintStyle: const TextStyle(fontSize: 14),
             focusColor: Colors.black,
-            contentPadding: const EdgeInsets.only(left: 10),
+            contentPadding: const EdgeInsets.only(left: 10,top: 12),
             border: const OutlineInputBorder(
               borderSide: BorderSide(width: 1, color: Colors.grey),
             ),

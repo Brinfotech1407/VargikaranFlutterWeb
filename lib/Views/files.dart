@@ -21,14 +21,28 @@ class _FilesScreenState extends State<FilesScreen> {
   final noOfPagesController = TextEditingController();
   final startDateInputController = TextEditingController();
   final endDateInputController = TextEditingController();
-  var departItemList = [1, 2, 3, 4, 5, 6].obs;
+
+  var boxItemList = [1, 2, 3, 4, 5, 6].obs;
+  RxInt boxDropdownValue = 1.obs;
+
+  var cupBoardItemList = ['Name1', 'name2', 'name3',].obs;
+  RxString cupBoardItemNameDropdownValue = 'Name1'.obs;
+
+  var rackItemList = ['Name1', 'name2', 'name3','name4',].obs;
+  RxString rackItemNameDropdownValue = 'Name1'.obs;
+
   var selectedItemNameList =
       ['Name1', 'name2', 'name3', 'name4', 'name5', 'name6'].obs;
-  var selectedItemClassNameList = ['Name1', 'name2', 'name3', 'name4'].obs;
   RxString selectedItemNameDropdownValue = 'Name1'.obs;
+
+
+  var selectedItemClassNameList = ['Name1', 'name2', 'name3', 'name4'].obs;
   RxString selectedItemClassNameDropdownValue = 'Name1'.obs;
+
+  RxString selectedItemDepartmentNameDropdownValue = 'Name1'.obs;
   RxInt selectedItemDepartmentDropdownValue = 1.obs;
-  RxInt dropdownValue = 1.obs;
+
+
   DateTime selectedDate = DateTime.now();
 
   @override
@@ -191,7 +205,7 @@ class _FilesScreenState extends State<FilesScreen> {
                             children: [
                               buildRowText('Rack*'),
                               Obx(
-                                () => buildCupBoardView(),
+                                () => buildRackView(),
                               ),
                             ],
                           ),
@@ -255,7 +269,7 @@ class _FilesScreenState extends State<FilesScreen> {
       underline: Container(),
       dropdownColor: Colors.white,
       icon: const Icon(Icons.keyboard_arrow_down),
-      items: departItemList.map((int items) {
+      items: boxItemList.map((int items) {
         return DropdownMenuItem(
           value: items,
           child: Text('Select Department $items',
@@ -278,23 +292,53 @@ class _FilesScreenState extends State<FilesScreen> {
             width: 0.5,
           ),
           borderRadius: const BorderRadius.all(Radius.circular(8))),
-      child: DropdownButton<int>(
+      child: DropdownButton<String>(
         isDense: true,
         elevation: 0,
         dropdownColor: Colors.white,
         underline: Container(),
         icon: const Icon(Icons.keyboard_arrow_down),
-        items: departItemList.map((int items) {
+        items: cupBoardItemList.map((String items) {
           return DropdownMenuItem(
             value: items,
-            child: Text('Select Name $items ',
+            child: Text('Select $items ',
                 style: const TextStyle(fontSize: 14)),
           );
         }).toList(),
-        onChanged: (int? newValue) {
-          dropdownValue.value = newValue!;
+        onChanged: (String? newValue) {
+          cupBoardItemNameDropdownValue.value = newValue!;
         },
-        value: dropdownValue.value,
+        value: cupBoardItemNameDropdownValue.value,
+      ),
+    );
+  }
+
+  Container buildRackView() {
+    return Container(
+      padding: const EdgeInsets.all(10),
+      decoration: BoxDecoration(
+          border: Border.all(
+            color: Colors.grey,
+            width: 0.5,
+          ),
+          borderRadius: const BorderRadius.all(Radius.circular(8))),
+      child: DropdownButton<String>(
+        isDense: true,
+        elevation: 0,
+        dropdownColor: Colors.white,
+        underline: Container(),
+        icon: const Icon(Icons.keyboard_arrow_down),
+        items: rackItemList.map((String items) {
+          return DropdownMenuItem(
+            value: items,
+            child: Text('Select $items ',
+                style: const TextStyle(fontSize: 14)),
+          );
+        }).toList(),
+        onChanged: (String? newValue) {
+          rackItemNameDropdownValue.value = newValue!;
+        },
+        value: rackItemNameDropdownValue.value,
       ),
     );
   }
@@ -458,7 +502,7 @@ class _FilesScreenState extends State<FilesScreen> {
                 children: [
                   buildRowText('Rack*'),
                   Obx(
-                    () => buildCupBoardView(),
+                    () => buildRackView(),
                   ),
                 ],
               ),
@@ -519,7 +563,7 @@ class _FilesScreenState extends State<FilesScreen> {
       dropdownColor: Colors.white,
       underline: Container(),
       icon: const Icon(Icons.keyboard_arrow_down),
-      items: departItemList.map((int items) {
+      items: boxItemList.map((int items) {
         return DropdownMenuItem(
           value: items,
           child:
@@ -527,9 +571,9 @@ class _FilesScreenState extends State<FilesScreen> {
         );
       }).toList(),
       onChanged: (int? newValue) {
-        dropdownValue.value = newValue!;
+        boxDropdownValue.value = newValue!;
       },
-      value: dropdownValue.value,
+      value: boxDropdownValue.value,
     );
   }
 
@@ -612,10 +656,8 @@ class _FilesScreenState extends State<FilesScreen> {
                             firstDate: DateTime(2000),
                             lastDate: DateTime(2101));
                         if (pickedDate != null) {
-                          print(pickedDate);
                           String formattedDate =
                               DateFormat('yyyy-MM-dd').format(pickedDate);
-                          print(formattedDate);
                           setState(() {
                             startDateInputController.text = formattedDate;
                           });
@@ -653,10 +695,8 @@ class _FilesScreenState extends State<FilesScreen> {
                             lastDate: DateTime(2101));
 
                         if (pickedDate != null) {
-                          print(pickedDate);
                           String formattedDate =
                               DateFormat('yyyy-MM-dd').format(pickedDate);
-                          print(formattedDate);
                           setState(() {
                             endDateInputController.text = formattedDate;
                           });
@@ -712,24 +752,13 @@ class _FilesScreenState extends State<FilesScreen> {
         );
       }).toList(),
       onChanged: (String? newValue) {
-        selectedItemClassNameDropdownValue.value = newValue!;
+        selectedItemDepartmentNameDropdownValue.value = newValue!;
       },
-      value: selectedItemClassNameDropdownValue.value,
+      value: selectedItemDepartmentNameDropdownValue.value,
     );
   }
 
-  Future<void> _selectDate(BuildContext context) async {
-    final DateTime? picked = await showDatePicker(
-        context: context,
-        initialDate: selectedDate,
-        firstDate: DateTime(2015, 8),
-        lastDate: DateTime(2101));
-    if (picked != null && picked != selectedDate) {
-      setState(() {
-        selectedDate = picked;
-      });
-    }
-  }
+
 
   Widget buildDocumentDetailsCard() {
     return Container(
@@ -768,17 +797,17 @@ class _FilesScreenState extends State<FilesScreen> {
             ],
           ),
           Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               buildRowText('Subject'),
               Expanded(
                 child: Utils().textFormFiledView(
                   controller: subjectController,
                   hintText: '',
+                  maxLine: 4,
+                  minLines: 4,
                   isMaxLength: true,
-                  maxLength: 100,
-                  autofillHints: [AutofillHints.creditCardName],
-                  textInputType: TextInputType.number,
-                  keyboardType: TextInputType.number,
+                  maxLength: 400,
                   validator: (value) {},
                 ),
               ),
