@@ -1,7 +1,7 @@
 {
   "helloWorld": "Hello World!",
   "drawerFile1": "Dashboard",
-  "drawerFile2": "Files World!",
+  "drawerFile2": "Files",
   "drawerFile3": "Department Wise",
   "drawerFile4": "Search files",
   "@helloWorld": {

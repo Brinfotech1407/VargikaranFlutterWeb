@@ -22,26 +22,24 @@ class _FilesScreenState extends State<FilesScreen> {
   final startDateInputController = TextEditingController();
   final endDateInputController = TextEditingController();
 
-  var boxItemList = ['Name1', 'name2', 'name3',].obs;
-  RxString boxDropdownValue = 'Name1'.obs;
+  var boxItemList = ['Name1', 'name2', 'name3','Select Name'].obs;
+  RxString boxDropdownValue = 'Select Name'.obs;
 
-  var cupBoardItemList = ['Name1', 'name2', 'name3',].obs;
-  RxString cupBoardItemNameDropdownValue = 'Name1'.obs;
+  var cupBoardItemList = ['Name1', 'name2', 'name3','Select Name'].obs;
+  RxString cupBoardItemNameDropdownValue = 'Select Name'.obs;
 
-  var rackItemList = ['Name1', 'name2', 'name3','name4',].obs;
-  RxString rackItemNameDropdownValue = 'Name1'.obs;
+  var rackItemList = ['Name1', 'name2', 'name3','name4','Select Name'].obs;
+  RxString rackItemNameDropdownValue = 'Select Name'.obs;
 
   var selectedItemNameList =
-      ['Name1', 'name2', 'name3', 'name4', 'name5', 'name6'].obs;
-  RxString selectedItemNameDropdownValue = 'Name1'.obs;
+      ['Name1', 'name2', 'name3', 'name4', 'name5', 'Select Branch'].obs;
+  RxString selectedItemNameDropdownValue = 'Select Branch'.obs;
 
+  var selectedItemClassNameList = ['Name1', 'name2', 'name3', 'name4','Select Name'].obs;
+  RxString selectedItemClassNameDropdownValue = 'Select Name'.obs;
 
-  var selectedItemClassNameList = ['Name1', 'name2', 'name3', 'name4'].obs;
-  RxString selectedItemClassNameDropdownValue = 'Name1'.obs;
-
-  var departmentNameItemNameList =
-      ['Name1', 'name2', 'name3', 'name4', 'name5', 'name6'].obs;
-  RxString selectedItemDepartmentNameDropdownValue = 'Name1'.obs;
+  var departmentNameItemNameList = ['Name1', 'name2', 'name3', 'name4', 'Select Department'].obs;
+  RxString selectedItemDepartmentNameDropdownValue = 'Select Department'.obs;
 
   RxInt selectedItemDepartmentDropdownValue = 1.obs;
 
@@ -249,21 +247,22 @@ class _FilesScreenState extends State<FilesScreen> {
   DropdownButton<String> selectBranchDropDownView() {
     return DropdownButton<String>(
       isDense: true,
-      elevation: 0,
       underline: Container(),
+      value: selectedItemNameDropdownValue.value,
+      elevation: 0,
       dropdownColor: Colors.white,
       icon: const Icon(Icons.keyboard_arrow_down),
       items: selectedItemNameList.map((String items) {
         return DropdownMenuItem(
           value: items,
-          child: Text('Select Branch $items',
+          child: Text(items,
               style: const TextStyle(fontSize: 14)),
         );
       }).toList(),
       onChanged: (String? newValue) {
         selectedItemNameDropdownValue.value = newValue!;
       },
-      value: selectedItemNameDropdownValue.value,
+
     );
   }
 
@@ -271,20 +270,20 @@ class _FilesScreenState extends State<FilesScreen> {
     return DropdownButton<String>(
       isDense: true,
       elevation: 0,
-      underline: Container(),
       dropdownColor: Colors.white,
+      underline: Container(),
+      value: selectedItemDepartmentNameDropdownValue.value,
       icon: const Icon(Icons.keyboard_arrow_down),
       items: departmentNameItemNameList.map((String items) {
         return DropdownMenuItem(
           value: items,
-          child: Text('Select Department $items',
+          child: Text('$items ',
               style: const TextStyle(fontSize: 14)),
         );
       }).toList(),
       onChanged: (String? newValue) {
         selectedItemDepartmentNameDropdownValue.value = newValue!;
       },
-      value: selectedItemDepartmentNameDropdownValue.value,
     );
   }
 
@@ -302,18 +301,19 @@ class _FilesScreenState extends State<FilesScreen> {
         elevation: 0,
         dropdownColor: Colors.white,
         underline: Container(),
+        value: cupBoardItemNameDropdownValue.value,
         icon: const Icon(Icons.keyboard_arrow_down),
         items: cupBoardItemList.map((String items) {
           return DropdownMenuItem(
             value: items,
-            child: Text('Select $items ',
+            child: Text('$items ',
                 style: const TextStyle(fontSize: 14)),
           );
         }).toList(),
         onChanged: (String? newValue) {
           cupBoardItemNameDropdownValue.value = newValue!;
         },
-        value: cupBoardItemNameDropdownValue.value,
+
       ),
     );
   }
@@ -332,18 +332,19 @@ class _FilesScreenState extends State<FilesScreen> {
         elevation: 0,
         dropdownColor: Colors.white,
         underline: Container(),
+        value: rackItemNameDropdownValue.value,
         icon: const Icon(Icons.keyboard_arrow_down),
         items: rackItemList.map((String items) {
           return DropdownMenuItem(
             value: items,
-            child: Text('Select $items ',
+            child: Text('$items ',
                 style: const TextStyle(fontSize: 14)),
           );
         }).toList(),
         onChanged: (String? newValue) {
           rackItemNameDropdownValue.value = newValue!;
         },
-        value: rackItemNameDropdownValue.value,
+
       ),
     );
   }
@@ -564,18 +565,18 @@ class _FilesScreenState extends State<FilesScreen> {
       elevation: 0,
       dropdownColor: Colors.white,
       underline: Container(),
+      value: boxDropdownValue.value,
       icon: const Icon(Icons.keyboard_arrow_down),
       items: boxItemList.map((String items) {
         return DropdownMenuItem(
           value: items,
           child:
-              Text('Select Name $items', style: const TextStyle(fontSize: 14)),
+              Text(items, style: const TextStyle(fontSize: 14)),
         );
       }).toList(),
       onChanged: (String? newValue) {
         boxDropdownValue.value = newValue!;
       },
-      value: boxDropdownValue.value,
     );
   }
 
@@ -733,21 +734,22 @@ class _FilesScreenState extends State<FilesScreen> {
 
   DropdownButton<String> buildSelectClassNameDropDownValue() {
     return DropdownButton<String>(
+      underline: Container(),
+      value: selectedItemClassNameDropdownValue.value,
       isDense: true,
       elevation: 0,
       dropdownColor: Colors.white,
-      underline: Container(),
       icon: const Icon(Icons.keyboard_arrow_down),
       items: selectedItemClassNameList.map((String items) {
         return DropdownMenuItem(
           value: items,
-          child: Text('Select $items', style: const TextStyle(fontSize: 14)),
+          child: Text(items, style: const TextStyle(fontSize: 14)),
         );
       }).toList(),
       onChanged: (String? newValue) {
-        selectedItemDepartmentNameDropdownValue.value = newValue!;
+        selectedItemClassNameDropdownValue.value = newValue!;
       },
-      value: selectedItemDepartmentNameDropdownValue.value,
+
     );
   }
 
