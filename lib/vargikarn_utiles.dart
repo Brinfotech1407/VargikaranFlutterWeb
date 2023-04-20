@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:quickalert/models/quickalert_type.dart';
+import 'package:quickalert/widgets/quickalert_dialog.dart';
 
 class Utils {
   Widget textFormFiledView({
@@ -107,4 +109,45 @@ class Utils {
           child:  Text(title,style: const TextStyle(fontSize: 18),)),
     );
   }
+
+  void showAlertDialog({
+    required BuildContext context,
+    required String title,
+    required String desc,
+    required String confirmText,
+    required QuickAlertType showAlertdialogType,
+  }) {
+    if (showAlertdialogType == QuickAlertType.warning) {
+      QuickAlert.show(
+          context: context,
+          type: QuickAlertType.warning,
+          title: title,
+          confirmBtnText: confirmText,
+          text: desc);
+    } else if (showAlertdialogType == QuickAlertType.info) {
+      QuickAlert.show(
+          context: context,
+          type: QuickAlertType.info,
+          title: title,
+          confirmBtnText: confirmText,
+          text: desc);
+    } else if (showAlertdialogType == QuickAlertType.loading) {
+      QuickAlert.show(
+          context: context,
+          type: QuickAlertType.loading,
+          title: title,
+          confirmBtnText: confirmText,
+          text: desc);
+    } else if (showAlertdialogType == QuickAlertType.error) {
+      QuickAlert.show(
+          context: context,
+          type: QuickAlertType.error,
+          title: title,
+          confirmBtnText: confirmText,
+          text: desc);
+    }
+  }
+
+
+
 }

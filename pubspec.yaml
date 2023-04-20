@@ -43,6 +43,7 @@ dependencies:
   shared_preferences: ^2.1.0
   firebase_core:
   get: ^4.6.5
+  quickalert: ^1.0.1
 
 
 dev_dependencies:
