@@ -84,7 +84,7 @@ class _FilesScreenState extends State<FilesScreen> {
                           const Divider(),
                           Row(
                             children: [
-                              buildRowText('Fn. No'),
+                              buildRowText(title: 'Fn. No',width: 160),
                               Flexible(
                                 child: Utils().textFormFiledView(
                                   controller: fileNoController,
@@ -96,7 +96,7 @@ class _FilesScreenState extends State<FilesScreen> {
                           ),
                           Row(
                             children: [
-                              buildRowText('Select Department*'),
+                              buildRowText(title: 'Select Department*',width: 160),
                               Obx(
                                 () => Container(
                                   padding: const EdgeInsets.all(8),
@@ -114,7 +114,7 @@ class _FilesScreenState extends State<FilesScreen> {
                           ),
                           Row(
                             children: [
-                              buildRowText('Select Branch*'),
+                              buildRowText(title: 'Select Branch*',width: 160),
                               Obx(
                                 () => Container(
                                   padding: const EdgeInsets.all(8),
@@ -190,7 +190,7 @@ class _FilesScreenState extends State<FilesScreen> {
                           ),
                           Row(
                             children: [
-                              buildRowText('Cupboard'),
+                              buildRowText(title: 'Cupboard'),
                               Obx(
                                 () => buildCupBoardView(),
                               ),
@@ -201,7 +201,7 @@ class _FilesScreenState extends State<FilesScreen> {
                           ),
                           Row(
                             children: [
-                              buildRowText('Rack*'),
+                              buildRowText(title: 'Rack*'),
                               Obx(
                                 () => buildRackView(),
                               ),
@@ -212,7 +212,7 @@ class _FilesScreenState extends State<FilesScreen> {
                           ),
                           Row(
                             children: [
-                              buildRowText('Box*'),
+                              buildRowText(title: 'Box*'),
                               Obx(
                                 () => Container(
                                   padding: const EdgeInsets.all(10),
@@ -378,7 +378,7 @@ class _FilesScreenState extends State<FilesScreen> {
                   margin: const EdgeInsets.only(left: 12, right: 10),
                   child: Row(
                     children: [
-                      buildRowText('Fn. No.'),
+                      buildRowText(title: 'Fn. No.',width: 160),
                       Flexible(
                         child: Container(
                           margin: const EdgeInsets.only(right: 10),
@@ -398,7 +398,7 @@ class _FilesScreenState extends State<FilesScreen> {
                   margin: const EdgeInsets.only(left: 8, right: 8),
                   child: Row(
                     children: [
-                      buildRowText('Select Department*'),
+                      buildRowText(title: 'Select Department*',width: 160),
                       Obx(
                         () => Flexible(
                           child: Container(
@@ -425,7 +425,7 @@ class _FilesScreenState extends State<FilesScreen> {
                         margin: const EdgeInsets.only(left: 8, right: 8),
                         child: Row(
                           children: [
-                            buildRowText('Select Branch*'),
+                            buildRowText(title: 'Select Branch*',width: 160),
                             selectedBranchView(),
                           ],
                         ),
@@ -441,7 +441,7 @@ class _FilesScreenState extends State<FilesScreen> {
                     mainAxisSize: MainAxisSize.min,
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      buildRowText('Select Branch'),
+                      buildRowText(title: 'Select Branch',width: 160),
                       selectedBranchView(),
                     ],
                   ),
@@ -474,7 +474,7 @@ class _FilesScreenState extends State<FilesScreen> {
     return Padding(
       padding: const EdgeInsets.only(bottom: 20, top: 8, right: 8, left: 8),
       child: Column(
-        // /mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Row(
             children: [
@@ -491,11 +491,11 @@ class _FilesScreenState extends State<FilesScreen> {
             ],
           ),
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               Row(
                 children: [
-                  buildRowText('Cupboard*'),
+                  buildRowText(title: 'Cupboard*'),
                   Obx(
                     () => buildCupBoardView(),
                   ),
@@ -503,7 +503,7 @@ class _FilesScreenState extends State<FilesScreen> {
               ),
               Row(
                 children: [
-                  buildRowText('Rack*'),
+                  buildRowText(title: 'Rack*'),
                   Obx(
                     () => buildRackView(),
                   ),
@@ -513,7 +513,7 @@ class _FilesScreenState extends State<FilesScreen> {
                   ? Container()
                   : Row(
                       children: [
-                        buildRowText('Box*'),
+                        buildRowText(title: 'Box*'),
                         Obx(
                           () => Container(
                             padding: const EdgeInsets.all(10),
@@ -533,9 +533,8 @@ class _FilesScreenState extends State<FilesScreen> {
           ),
           isSmallDesktop
               ? Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    buildRowText('Box*'),
+                    buildRowText(title: 'Box*'),
                     Obx(
                       () => Container(
                         padding: const EdgeInsets.all(10),
@@ -618,7 +617,7 @@ class _FilesScreenState extends State<FilesScreen> {
             ),
             Row(
               children: [
-                buildRowText('Select Class'),
+                buildRowText(title: 'Select Class',width: 160),
                 Obx(
                   () => Expanded(
                     child: Container(
@@ -640,7 +639,7 @@ class _FilesScreenState extends State<FilesScreen> {
             ),
             Row(
               children: [
-                buildRowText('Start Date'),
+                buildRowText(title: 'Start Date',width: 160),
                 Expanded(
                   child: GestureDetector(
                     child: Utils().textFormFiledView(
@@ -675,7 +674,7 @@ class _FilesScreenState extends State<FilesScreen> {
             ),
             Row(
               children: [
-                buildRowText('End Date'),
+                buildRowText(title: 'End Date',width: 160),
                 Expanded(
                   child: GestureDetector(
                     child: Utils().textFormFiledView(
@@ -716,7 +715,7 @@ class _FilesScreenState extends State<FilesScreen> {
             ),
             Row(
               children: [
-                buildRowText('No. of Pages'),
+                buildRowText(title: 'No. of Pages',width: 160),
                 Expanded(
                   child: Utils().textFormFiledView(
                     controller: noOfPagesController,
@@ -778,7 +777,7 @@ class _FilesScreenState extends State<FilesScreen> {
           const Divider(thickness: 0.5),
           Row(
             children: [
-              buildRowText('Record Date'),
+              buildRowText(title: 'Record Date',width: 160),
               Expanded(
                 child: Utils().textFormFiledView(
                   controller: recordDateController,
@@ -791,7 +790,8 @@ class _FilesScreenState extends State<FilesScreen> {
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              buildRowText('Subject'),
+              buildRowText(title: 'Subject',
+              width: 160),
               Expanded(
                 child: Utils().textFormFiledView(
                   controller: subjectController,
@@ -807,7 +807,7 @@ class _FilesScreenState extends State<FilesScreen> {
           ),
           Row(
             children: [
-              buildRowText('Application Name'),
+              buildRowText(title: 'Application Name',width: 160),
               Expanded(
                 child: Utils().textFormFiledView(
                   controller: applicationNameController,
@@ -821,7 +821,7 @@ class _FilesScreenState extends State<FilesScreen> {
           ),
           Row(
             children: [
-              buildRowText('Order No'),
+              buildRowText(title: 'Order No',width: 160),
               Expanded(
                 child: Utils().textFormFiledView(
                   controller: orderNoController,
@@ -835,7 +835,7 @@ class _FilesScreenState extends State<FilesScreen> {
           ),
           Row(
             children: [
-              buildRowText('Remarks'),
+              buildRowText(title: 'Remarks',width: 160),
               Expanded(
                 child: Utils().textFormFiledView(
                   controller: remarksController,
@@ -852,10 +852,10 @@ class _FilesScreenState extends State<FilesScreen> {
     );
   }
 
-  Container buildRowText(String title) {
+  Container buildRowText({required String title, double? width}) {
     return Container(
       alignment: Alignment.centerLeft,
-      width: 160,
+      width: width,
       padding: const EdgeInsets.only(right: 10, top: 14, bottom: 8),
       child: Text(
         title,
