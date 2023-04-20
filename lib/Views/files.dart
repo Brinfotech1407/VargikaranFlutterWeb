@@ -22,8 +22,8 @@ class _FilesScreenState extends State<FilesScreen> {
   final startDateInputController = TextEditingController();
   final endDateInputController = TextEditingController();
 
-  var boxItemList = [1, 2, 3, 4, 5, 6].obs;
-  RxInt boxDropdownValue = 1.obs;
+  var boxItemList = ['Name1', 'name2', 'name3',].obs;
+  RxString boxDropdownValue = 'Name1'.obs;
 
   var cupBoardItemList = ['Name1', 'name2', 'name3',].obs;
   RxString cupBoardItemNameDropdownValue = 'Name1'.obs;
@@ -39,7 +39,10 @@ class _FilesScreenState extends State<FilesScreen> {
   var selectedItemClassNameList = ['Name1', 'name2', 'name3', 'name4'].obs;
   RxString selectedItemClassNameDropdownValue = 'Name1'.obs;
 
+  var departmentNameItemNameList =
+      ['Name1', 'name2', 'name3', 'name4', 'name5', 'name6'].obs;
   RxString selectedItemDepartmentNameDropdownValue = 'Name1'.obs;
+
   RxInt selectedItemDepartmentDropdownValue = 1.obs;
 
 
@@ -88,9 +91,6 @@ class _FilesScreenState extends State<FilesScreen> {
                                 child: Utils().textFormFiledView(
                                   controller: fileNoController,
                                   hintText: 'Enter F.N No',
-                                  autofillHints: [AutofillHints.creditCardName],
-                                  textInputType: TextInputType.number,
-                                  keyboardType: TextInputType.number,
                                   validator: (value) {},
                                 ),
                               ),
@@ -192,7 +192,7 @@ class _FilesScreenState extends State<FilesScreen> {
                           ),
                           Row(
                             children: [
-                              buildRowText('cupboard'),
+                              buildRowText('Cupboard'),
                               Obx(
                                 () => buildCupBoardView(),
                               ),
@@ -234,7 +234,12 @@ class _FilesScreenState extends State<FilesScreen> {
                       ),
                     ),
             ),
-            Utils().buildButtonView(),
+            Row(
+              children: [
+                Utils().buildButtonView(onTap:(){},title: 'Submit'),
+                Utils().buildButtonView(onTap:(){},title: 'Cancel'),
+              ],
+            ),
           ],
         ),
       ),
@@ -262,24 +267,24 @@ class _FilesScreenState extends State<FilesScreen> {
     );
   }
 
-  DropdownButton<int> buildSelectDepartNameDropdownView() {
-    return DropdownButton<int>(
+  DropdownButton<String> buildSelectDepartNameDropdownView() {
+    return DropdownButton<String>(
       isDense: true,
       elevation: 0,
       underline: Container(),
       dropdownColor: Colors.white,
       icon: const Icon(Icons.keyboard_arrow_down),
-      items: boxItemList.map((int items) {
+      items: departmentNameItemNameList.map((String items) {
         return DropdownMenuItem(
           value: items,
           child: Text('Select Department $items',
               style: const TextStyle(fontSize: 14)),
         );
       }).toList(),
-      onChanged: (int? newValue) {
-        selectedItemDepartmentDropdownValue.value = newValue!;
+      onChanged: (String? newValue) {
+        selectedItemDepartmentNameDropdownValue.value = newValue!;
       },
-      value: selectedItemDepartmentDropdownValue.value,
+      value: selectedItemDepartmentNameDropdownValue.value,
     );
   }
 
@@ -379,9 +384,6 @@ class _FilesScreenState extends State<FilesScreen> {
                           child: Utils().textFormFiledView(
                             controller: fileNoController,
                             hintText: 'Enter F.N No',
-                            autofillHints: [AutofillHints.creditCardName],
-                            textInputType: TextInputType.number,
-                            keyboardType: TextInputType.number,
                             validator: (value) {},
                           ),
                         ),
@@ -471,7 +473,7 @@ class _FilesScreenState extends State<FilesScreen> {
     return Padding(
       padding: const EdgeInsets.only(bottom: 20, top: 8, right: 8, left: 8),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        // /mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Row(
             children: [
@@ -488,11 +490,11 @@ class _FilesScreenState extends State<FilesScreen> {
             ],
           ),
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Row(
                 children: [
-                  buildRowText('cupboard*'),
+                  buildRowText('Cupboard*'),
                   Obx(
                     () => buildCupBoardView(),
                   ),
@@ -556,21 +558,21 @@ class _FilesScreenState extends State<FilesScreen> {
     );
   }
 
-  DropdownButton<int> boxDropDownList() {
-    return DropdownButton<int>(
+  DropdownButton<String> boxDropDownList() {
+    return DropdownButton<String>(
       isDense: true,
       elevation: 0,
       dropdownColor: Colors.white,
       underline: Container(),
       icon: const Icon(Icons.keyboard_arrow_down),
-      items: boxItemList.map((int items) {
+      items: boxItemList.map((String items) {
         return DropdownMenuItem(
           value: items,
           child:
               Text('Select Name $items', style: const TextStyle(fontSize: 14)),
         );
       }).toList(),
-      onChanged: (int? newValue) {
+      onChanged: (String? newValue) {
         boxDropdownValue.value = newValue!;
       },
       value: boxDropdownValue.value,
@@ -641,13 +643,10 @@ class _FilesScreenState extends State<FilesScreen> {
                 Expanded(
                   child: GestureDetector(
                     child: Utils().textFormFiledView(
-                      hintText: 'dd-mm-yy',
+                      hintText: 'dd-MM-yyyy',
                       controller: startDateInputController,
                       readOnly: true,
                       suffixIcon: const Icon(Icons.calendar_month),
-                      autofillHints: [AutofillHints.creditCardName],
-                      textInputType: TextInputType.number,
-                      keyboardType: TextInputType.number,
                       validator: (value) {},
                       onTap: () async {
                         DateTime? pickedDate = await showDatePicker(
@@ -657,7 +656,7 @@ class _FilesScreenState extends State<FilesScreen> {
                             lastDate: DateTime(2101));
                         if (pickedDate != null) {
                           String formattedDate =
-                              DateFormat('yyyy-MM-dd').format(pickedDate);
+                              DateFormat('dd-MM-yyyy').format(pickedDate);
                           setState(() {
                             startDateInputController.text = formattedDate;
                           });
@@ -679,13 +678,10 @@ class _FilesScreenState extends State<FilesScreen> {
                 Expanded(
                   child: GestureDetector(
                     child: Utils().textFormFiledView(
-                      hintText: 'dd-mm-yy',
+                      hintText: 'dd-MM-yyyy',
                       controller: endDateInputController,
                       readOnly: true,
                       suffixIcon: const Icon(Icons.calendar_month),
-                      autofillHints: [AutofillHints.creditCardName],
-                      textInputType: TextInputType.number,
-                      keyboardType: TextInputType.number,
                       validator: (value) {},
                       onTap: () async {
                         DateTime? pickedDate = await showDatePicker(
@@ -696,7 +692,7 @@ class _FilesScreenState extends State<FilesScreen> {
 
                         if (pickedDate != null) {
                           String formattedDate =
-                              DateFormat('yyyy-MM-dd').format(pickedDate);
+                              DateFormat('dd-MM-yyyy').format(pickedDate);
                           setState(() {
                             endDateInputController.text = formattedDate;
                           });
@@ -724,9 +720,6 @@ class _FilesScreenState extends State<FilesScreen> {
                   child: Utils().textFormFiledView(
                     controller: noOfPagesController,
                     hintText: '',
-                    autofillHints: [AutofillHints.creditCardName],
-                    textInputType: TextInputType.number,
-                    keyboardType: TextInputType.number,
                     validator: (value) {},
                   ),
                 ),
@@ -766,7 +759,7 @@ class _FilesScreenState extends State<FilesScreen> {
       child: Column(
         children: [
           Row(
-            mainAxisAlignment: MainAxisAlignment.start,
+           // mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               IconButton(
                   onPressed: () {},
@@ -788,9 +781,6 @@ class _FilesScreenState extends State<FilesScreen> {
                 child: Utils().textFormFiledView(
                   controller: recordDateController,
                   hintText: '',
-                  autofillHints: [AutofillHints.creditCardName],
-                  textInputType: TextInputType.number,
-                  keyboardType: TextInputType.number,
                   validator: (value) {},
                 ),
               ),
@@ -822,9 +812,6 @@ class _FilesScreenState extends State<FilesScreen> {
                   hintText: '',
                   isMaxLength: true,
                   maxLength: 100,
-                  autofillHints: [AutofillHints.creditCardName],
-                  textInputType: TextInputType.number,
-                  keyboardType: TextInputType.number,
                   validator: (value) {},
                 ),
               ),
@@ -839,9 +826,6 @@ class _FilesScreenState extends State<FilesScreen> {
                   hintText: '',
                   isMaxLength: true,
                   maxLength: 100,
-                  autofillHints: [AutofillHints.creditCardName],
-                  textInputType: TextInputType.number,
-                  keyboardType: TextInputType.number,
                   validator: (value) {},
                 ),
               ),
@@ -856,9 +840,6 @@ class _FilesScreenState extends State<FilesScreen> {
                   hintText: '',
                   isMaxLength: true,
                   maxLength: 100,
-                  autofillHints: [AutofillHints.creditCardName],
-                  textInputType: TextInputType.number,
-                  keyboardType: TextInputType.number,
                   validator: (value) {},
                 ),
               ),

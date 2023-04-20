@@ -81,7 +81,7 @@ class Utils {
     );
   }
 
-  Widget buildButtonView() {
+  Widget buildButtonView({ required VoidCallback onTap,required String title}) {
     return Container(
       alignment: Alignment.center,
       margin: const EdgeInsets.only(top: 10, bottom: 10),
@@ -103,8 +103,8 @@ class Utils {
               },
             ),
           ),
-          onPressed: () {},
-          child: const Text('TextButton',style: TextStyle(fontSize: 18),)),
+          onPressed: onTap,
+          child:  Text(title,style: const TextStyle(fontSize: 18),)),
     );
   }
 }
