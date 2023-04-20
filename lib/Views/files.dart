@@ -21,13 +21,15 @@ class _FilesScreenState extends State<FilesScreen> {
   final noOfPagesController = TextEditingController();
   final startDateInputController = TextEditingController();
   final endDateInputController = TextEditingController();
-  var itemList = [1, 2, 3, 4, 5, 6].obs;
+  var departItemList = [1, 2, 3, 4, 5, 6].obs;
   var selectedItemNameList =
-      ['Selected Name', 'name2', 'name3', 'name4', 'name5', 'name6'].obs;
-  RxString selectedItemNameDropdownValue = 'Selected Name'.obs;
+      ['Name1', 'name2', 'name3', 'name4', 'name5', 'name6'].obs;
+  var selectedItemClassNameList = ['Name1', 'name2', 'name3', 'name4'].obs;
+  RxString selectedItemNameDropdownValue = 'Name1'.obs;
+  RxString selectedItemClassNameDropdownValue = 'Name1'.obs;
+  RxInt selectedItemDepartmentDropdownValue = 1.obs;
   RxInt dropdownValue = 1.obs;
   DateTime selectedDate = DateTime.now();
-
 
   @override
   Widget build(BuildContext context) {
@@ -82,7 +84,7 @@ class _FilesScreenState extends State<FilesScreen> {
                           ),
                           Row(
                             children: [
-                              buildRowText('Select DepartMent*'),
+                              buildRowText('Select Department*'),
                               Obx(
                                 () => Container(
                                   padding: const EdgeInsets.all(8),
@@ -93,25 +95,7 @@ class _FilesScreenState extends State<FilesScreen> {
                                       ),
                                       borderRadius: const BorderRadius.all(
                                           Radius.circular(8))),
-                                  child: DropdownButton<int>(
-                                    isDense: true,
-                                    elevation: 0,
-                                    underline: Container(),
-                                    dropdownColor: Colors.white,
-                                    icon: const Icon(Icons.keyboard_arrow_down),
-                                    items: itemList.map((int items) {
-                                      return DropdownMenuItem(
-                                        value: items,
-                                        child: Text('Department $items',
-                                            style:
-                                                const TextStyle(fontSize: 14)),
-                                      );
-                                    }).toList(),
-                                    onChanged: (int? newValue) {
-                                      dropdownValue.value = newValue!;
-                                    },
-                                    value: dropdownValue.value,
-                                  ),
+                                  child: buildSelectDepartNameDropdownView(),
                                 ),
                               ),
                             ],
@@ -133,25 +117,7 @@ class _FilesScreenState extends State<FilesScreen> {
                                       ),
                                       borderRadius: const BorderRadius.all(
                                           Radius.circular(8))),
-                                  child: DropdownButton<int>(
-                                    isDense: true,
-                                    elevation: 0,
-                                    underline: Container(),
-                                    dropdownColor: Colors.white,
-                                    icon: const Icon(Icons.keyboard_arrow_down),
-                                    items: itemList.map((int items) {
-                                      return DropdownMenuItem(
-                                        value: items,
-                                        child: Text('Select Branch $items',
-                                            style:
-                                                const TextStyle(fontSize: 14)),
-                                      );
-                                    }).toList(),
-                                    onChanged: (int? newValue) {
-                                      dropdownValue.value = newValue!;
-                                    },
-                                    value: dropdownValue.value,
-                                  ),
+                                  child: selectBranchDropDownView(),
                                 ),
                               ),
                             ],
@@ -168,8 +134,8 @@ class _FilesScreenState extends State<FilesScreen> {
                       padding: const EdgeInsets.all(10),
                       child: Column(
                         children: [
-                          buildDocumentDetailsFirstCardView(),
-                          buildDocumentDetailsSecondCard()
+                          buildDocumentDetailsCard(),
+                          buildDocumentDetailsLocationCard()
                         ],
                       ),
                     )
@@ -179,8 +145,8 @@ class _FilesScreenState extends State<FilesScreen> {
                           padding: const EdgeInsets.only(left: 9),
                           child: Column(
                             children: [
-                              buildDocumentDetailsFirstCardView(),
-                              buildDocumentDetailsSecondCard()
+                              buildDocumentDetailsCard(),
+                              buildDocumentDetailsLocationCard()
                             ],
                           ),
                         ),
@@ -191,6 +157,7 @@ class _FilesScreenState extends State<FilesScreen> {
               child: isDesktop
                   ? buildDesktopDepartmentLastCardView(isSmallDesktop)
                   : Container(
+                      margin: const EdgeInsets.only(left: 8),
                       padding: const EdgeInsets.only(
                           left: 9, top: 8, bottom: 20, right: 8),
                       child: Column(
@@ -253,10 +220,52 @@ class _FilesScreenState extends State<FilesScreen> {
                       ),
                     ),
             ),
-           Utils().buildButtonView(),
+            Utils().buildButtonView(),
           ],
         ),
       ),
+    );
+  }
+
+  DropdownButton<String> selectBranchDropDownView() {
+    return DropdownButton<String>(
+      isDense: true,
+      elevation: 0,
+      underline: Container(),
+      dropdownColor: Colors.white,
+      icon: const Icon(Icons.keyboard_arrow_down),
+      items: selectedItemNameList.map((String items) {
+        return DropdownMenuItem(
+          value: items,
+          child: Text('Select Branch $items',
+              style: const TextStyle(fontSize: 14)),
+        );
+      }).toList(),
+      onChanged: (String? newValue) {
+        selectedItemNameDropdownValue.value = newValue!;
+      },
+      value: selectedItemNameDropdownValue.value,
+    );
+  }
+
+  DropdownButton<int> buildSelectDepartNameDropdownView() {
+    return DropdownButton<int>(
+      isDense: true,
+      elevation: 0,
+      underline: Container(),
+      dropdownColor: Colors.white,
+      icon: const Icon(Icons.keyboard_arrow_down),
+      items: departItemList.map((int items) {
+        return DropdownMenuItem(
+          value: items,
+          child: Text('Select Department $items',
+              style: const TextStyle(fontSize: 14)),
+        );
+      }).toList(),
+      onChanged: (int? newValue) {
+        selectedItemDepartmentDropdownValue.value = newValue!;
+      },
+      value: selectedItemDepartmentDropdownValue.value,
     );
   }
 
@@ -275,11 +284,11 @@ class _FilesScreenState extends State<FilesScreen> {
         dropdownColor: Colors.white,
         underline: Container(),
         icon: const Icon(Icons.keyboard_arrow_down),
-        items: itemList.map((int items) {
+        items: departItemList.map((int items) {
           return DropdownMenuItem(
             value: items,
-            child:
-                Text('$items Department', style: const TextStyle(fontSize: 14)),
+            child: Text('Select Name $items ',
+                style: const TextStyle(fontSize: 14)),
           );
         }).toList(),
         onChanged: (int? newValue) {
@@ -319,7 +328,7 @@ class _FilesScreenState extends State<FilesScreen> {
                   margin: const EdgeInsets.only(left: 12, right: 10),
                   child: Row(
                     children: [
-                      buildRowText('Fn. No'),
+                      buildRowText('Fn. No.'),
                       Flexible(
                         child: Container(
                           margin: const EdgeInsets.only(right: 10),
@@ -342,40 +351,20 @@ class _FilesScreenState extends State<FilesScreen> {
                   margin: const EdgeInsets.only(left: 8, right: 8),
                   child: Row(
                     children: [
-                      buildRowText('Select DepartMent*'),
+                      buildRowText('Select Department*'),
                       Obx(
                         () => Flexible(
                           child: Container(
-                            margin: const EdgeInsets.only(right: 8),
-                            padding: const EdgeInsets.all(10),
-                            decoration: BoxDecoration(
-                                border: Border.all(
-                                  color: Colors.grey,
-                                  width: 0.5,
-                                ),
-                                borderRadius:
-                                    const BorderRadius.all(Radius.circular(8))),
-                            child: DropdownButton<int>(
-                              isDense: true,
-                              underline: Container(),
-                              elevation: 0,
-                              dropdownColor: Colors.white,
-                              icon: const Icon(Icons.keyboard_arrow_down),
-                              items: itemList.map((int items) {
-                                return DropdownMenuItem(
-                                  value: items,
-                                  child: Text('Department $items',
-                                      softWrap: true,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: const TextStyle(fontSize: 14)),
-                                );
-                              }).toList(),
-                              onChanged: (int? newValue) {
-                                dropdownValue.value = newValue!;
-                              },
-                              value: dropdownValue.value,
-                            ),
-                          ),
+                              margin: const EdgeInsets.only(right: 8),
+                              padding: const EdgeInsets.all(10),
+                              decoration: BoxDecoration(
+                                  border: Border.all(
+                                    color: Colors.grey,
+                                    width: 0.5,
+                                  ),
+                                  borderRadius: const BorderRadius.all(
+                                      Radius.circular(8))),
+                              child: buildSelectDepartNameDropdownView()),
                         ),
                       ),
                     ],
@@ -428,26 +417,7 @@ class _FilesScreenState extends State<FilesScreen> {
                 width: 0.5,
               ),
               borderRadius: const BorderRadius.all(Radius.circular(8))),
-          child: DropdownButton<int>(
-            isDense: true,
-            elevation: 0,
-            underline: Container(),
-            dropdownColor: Colors.white,
-            icon: const Icon(Icons.keyboard_arrow_down),
-            items: itemList.map((int items) {
-              return DropdownMenuItem(
-                value: items,
-                child: Text('Select Branch $items',
-                    softWrap: true,
-                    overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(fontSize: 14)),
-              );
-            }).toList(),
-            onChanged: (int? newValue) {
-              dropdownValue.value = newValue!;
-            },
-            value: dropdownValue.value,
-          ),
+          child: selectBranchDropDownView(),
         ),
       ),
     );
@@ -549,10 +519,11 @@ class _FilesScreenState extends State<FilesScreen> {
       dropdownColor: Colors.white,
       underline: Container(),
       icon: const Icon(Icons.keyboard_arrow_down),
-      items: itemList.map((int items) {
+      items: departItemList.map((int items) {
         return DropdownMenuItem(
           value: items,
-          child: Text('Select Branch $items', style: const TextStyle(fontSize: 14)),
+          child:
+              Text('Select Name $items', style: const TextStyle(fontSize: 14)),
         );
       }).toList(),
       onChanged: (int? newValue) {
@@ -568,17 +539,17 @@ class _FilesScreenState extends State<FilesScreen> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Flexible(flex: 2, child: buildDocumentDetailsFirstCardView()),
-          Flexible(flex: 1, child: buildDocumentDetailsSecondCard())
+          Flexible(flex: 2, child: buildDocumentDetailsCard()),
+          Flexible(flex: 1, child: buildDocumentDetailsLocationCard())
         ],
       ),
     );
   }
 
-  Card buildDocumentDetailsSecondCard() {
+  Card buildDocumentDetailsLocationCard() {
     return Card(
       child: Container(
-        margin: const EdgeInsets.only(left: 12,top: 20),
+        margin: const EdgeInsets.only(left: 12, top: 20, right: 12),
         child: Column(
           children: [
             Row(
@@ -602,32 +573,19 @@ class _FilesScreenState extends State<FilesScreen> {
               children: [
                 buildRowText('Select Class'),
                 Obx(
-                  () => Container(
-                    padding: const EdgeInsets.all(10),
-                    margin: const EdgeInsets.only(left: 5, bottom: 4),
-                    decoration: BoxDecoration(
-                        border: Border.all(
-                          color: Colors.grey,
-                          width: 0.5,
-                        ),
-                        borderRadius: const BorderRadius.all(Radius.circular(8))),
-                    child: DropdownButton<String>(
-                      isDense: true,
-                      elevation: 0,
-                      dropdownColor: Colors.white,
-                      underline: Container(),
-                      icon: const Icon(Icons.keyboard_arrow_down),
-                      items: selectedItemNameList.map((String items) {
-                        return DropdownMenuItem(
-                          value: items,
-                          child: Text('$items',
-                              style: const TextStyle(fontSize: 14)),
-                        );
-                      }).toList(),
-                      onChanged: (String? newValue) {
-                        selectedItemNameDropdownValue.value = newValue!;
-                      },
-                      value: selectedItemNameDropdownValue.value,
+                  () => Expanded(
+                    child: Container(
+                      padding: const EdgeInsets.all(9),
+                      margin:
+                          const EdgeInsets.only(left: 5, bottom: 6, right: 7),
+                      decoration: BoxDecoration(
+                          border: Border.all(
+                            color: Colors.grey,
+                            width: 0.5,
+                          ),
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(8))),
+                      child: buildSelectClassNameDropDownValue(),
                     ),
                   ),
                 ),
@@ -636,9 +594,7 @@ class _FilesScreenState extends State<FilesScreen> {
             Row(
               children: [
                 buildRowText('Start Date'),
-                SizedBox(
-                  height: 70,
-                  width: 200,
+                Expanded(
                   child: GestureDetector(
                     child: Utils().textFormFiledView(
                       hintText: 'dd-mm-yy',
@@ -651,18 +607,19 @@ class _FilesScreenState extends State<FilesScreen> {
                       validator: (value) {},
                       onTap: () async {
                         DateTime? pickedDate = await showDatePicker(
-                            context: context, initialDate: DateTime.now(),
+                            context: context,
+                            initialDate: DateTime.now(),
                             firstDate: DateTime(2000),
-                            lastDate: DateTime(2101)
-                        );
-                        if(pickedDate != null ){
+                            lastDate: DateTime(2101));
+                        if (pickedDate != null) {
                           print(pickedDate);
-                          String formattedDate = DateFormat('yyyy-MM-dd').format(pickedDate);
+                          String formattedDate =
+                              DateFormat('yyyy-MM-dd').format(pickedDate);
                           print(formattedDate);
                           setState(() {
                             startDateInputController.text = formattedDate;
                           });
-                        }else{
+                        } else {
                           print("Date is not selected");
                         }
                       },
@@ -677,9 +634,7 @@ class _FilesScreenState extends State<FilesScreen> {
             Row(
               children: [
                 buildRowText('End Date'),
-                SizedBox(
-                  height: 70,
-                  width: 200,
+                Expanded(
                   child: GestureDetector(
                     child: Utils().textFormFiledView(
                       hintText: 'dd-mm-yy',
@@ -692,19 +647,20 @@ class _FilesScreenState extends State<FilesScreen> {
                       validator: (value) {},
                       onTap: () async {
                         DateTime? pickedDate = await showDatePicker(
-                            context: context, initialDate: DateTime.now(),
+                            context: context,
+                            initialDate: DateTime.now(),
                             firstDate: DateTime(2000),
-                            lastDate: DateTime(2101)
-                        );
+                            lastDate: DateTime(2101));
 
-                        if(pickedDate != null ){
+                        if (pickedDate != null) {
                           print(pickedDate);
-                          String formattedDate = DateFormat('yyyy-MM-dd').format(pickedDate);
+                          String formattedDate =
+                              DateFormat('yyyy-MM-dd').format(pickedDate);
                           print(formattedDate);
                           setState(() {
                             endDateInputController.text = formattedDate;
                           });
-                        }else{
+                        } else {
                           print("Date is not selected");
                         }
                       },
@@ -724,9 +680,7 @@ class _FilesScreenState extends State<FilesScreen> {
             Row(
               children: [
                 buildRowText('No. of Pages'),
-                SizedBox(
-                  height: 70,
-                  width: 200,
+                Expanded(
                   child: Utils().textFormFiledView(
                     controller: noOfPagesController,
                     hintText: '',
@@ -744,6 +698,26 @@ class _FilesScreenState extends State<FilesScreen> {
     );
   }
 
+  DropdownButton<String> buildSelectClassNameDropDownValue() {
+    return DropdownButton<String>(
+      isDense: true,
+      elevation: 0,
+      dropdownColor: Colors.white,
+      underline: Container(),
+      icon: const Icon(Icons.keyboard_arrow_down),
+      items: selectedItemClassNameList.map((String items) {
+        return DropdownMenuItem(
+          value: items,
+          child: Text('Select $items', style: const TextStyle(fontSize: 14)),
+        );
+      }).toList(),
+      onChanged: (String? newValue) {
+        selectedItemClassNameDropdownValue.value = newValue!;
+      },
+      value: selectedItemClassNameDropdownValue.value,
+    );
+  }
+
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
         context: context,
@@ -757,7 +731,7 @@ class _FilesScreenState extends State<FilesScreen> {
     }
   }
 
-  Widget buildDocumentDetailsFirstCardView() {
+  Widget buildDocumentDetailsCard() {
     return Container(
       margin: const EdgeInsets.only(left: 8, right: 8),
       child: Column(
@@ -874,7 +848,7 @@ class _FilesScreenState extends State<FilesScreen> {
       child: Text(
         title,
         textAlign: TextAlign.start,
-        style: const TextStyle(fontSize: 15,fontWeight: FontWeight.bold),
+        style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
       ),
     );
   }
