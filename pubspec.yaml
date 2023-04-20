@@ -44,11 +44,24 @@ dependencies:
   firebase_core:
   get: ^4.6.5
   quickalert: ^1.0.1
+  #firebase related package
+  firebase_auth: ^4.2.9
+  cloud_firestore: ^4.4.3
+  firebase_messaging: ^14.2.6
+  #.g file creation used
+  json_annotation: ^4.8.0
+  #unique id provide
+  uuid: ^3.0.7
 
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  # .g file create using this package
+  build_resolvers: ^2.1.0
+  built_value_generator: ^8.4.3
+  build_runner: ^2.3.3
+  json_serializable: ^6.6.1
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is

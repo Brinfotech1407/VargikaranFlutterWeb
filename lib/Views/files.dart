@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:uuid/uuid.dart';
 import 'package:vargikaran_web_app/layout/adaptive.dart';
+import 'package:vargikaran_web_app/model/files_model.dart';
+import 'package:vargikaran_web_app/services/database.dart';
 import 'package:vargikaran_web_app/vargikarn_utiles.dart';
 
 class FilesScreen extends StatefulWidget {
@@ -45,6 +48,9 @@ class _FilesScreenState extends State<FilesScreen> {
 
 
   DateTime selectedDate = DateTime.now();
+
+  int startDate = 0 ;
+  int endDate = 0 ;
 
   @override
   Widget build(BuildContext context) {
@@ -234,7 +240,29 @@ class _FilesScreenState extends State<FilesScreen> {
             ),
             Row(
               children: [
-                Utils().buildButtonView(onTap:(){},title: 'Submit'),
+                Utils().buildButtonView(onTap:() async {
+                  final FileModel fileData = FileModel(
+                    id: userID(),
+                    applicationName: applicationNameController.text,
+                    boxName: boxDropdownValue.value,
+                    branch: selectedItemNameDropdownValue.value,
+                    classes: selectedItemClassNameDropdownValue.value,
+                    cupBoardName: cupBoardItemNameDropdownValue.value,
+                    department: selectedItemDepartmentNameDropdownValue.value,
+                    endDate:endDate,
+                    fnNo: fileNoController.text,
+                    noOfPages: noOfPagesController.text,
+                    orderNo: orderNoController.text,
+                    rackName: rackItemNameDropdownValue.value,
+                    recordDate: recordDateController.text,
+                    remarks: remarksController.text,
+                    startDate: startDate,
+                    subject: subjectController.text,
+                  );
+
+                  await Database().addFilesData(fileData, context);
+
+                },title: 'Submit'),
                 Utils().buildButtonView(onTap:(){},title: 'Cancel'),
               ],
             ),
@@ -242,6 +270,9 @@ class _FilesScreenState extends State<FilesScreen> {
         ),
       ),
     );
+  }
+  String userID() {
+    return const Uuid().v4();
   }
 
   DropdownButton<String> selectBranchDropDownView() {
@@ -658,6 +689,7 @@ class _FilesScreenState extends State<FilesScreen> {
                           String formattedDate =
                               DateFormat('dd-MM-yyyy').format(pickedDate);
                           setState(() {
+                            startDate =pickedDate.millisecondsSinceEpoch;
                             startDateInputController.text = formattedDate;
                           });
                         } else {
@@ -695,6 +727,7 @@ class _FilesScreenState extends State<FilesScreen> {
                               DateFormat('dd-MM-yyyy').format(pickedDate);
                           setState(() {
                             endDateInputController.text = formattedDate;
+                            endDate = pickedDate.millisecondsSinceEpoch;
                           });
                         } else {
                           print("Date is not selected");
