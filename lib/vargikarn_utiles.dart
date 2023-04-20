@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:quickalert/models/quickalert_type.dart';
 import 'package:quickalert/widgets/quickalert_dialog.dart';
@@ -147,6 +149,19 @@ class Utils {
           text: desc);
     }
   }
+
+  linearProgressView(progressValue){
+    Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        LinearProgressIndicator(
+          backgroundColor: Colors.cyanAccent,
+          valueColor:  const AlwaysStoppedAnimation<Color>(Colors.red),
+          value: progressValue,
+        ),
+        Text('${(progressValue * 100).round()}%'),
+      ],
+    );}
 
 
 
