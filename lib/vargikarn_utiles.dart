@@ -39,7 +39,7 @@ class Utils {
             hintText: hintText,
             hintStyle: const TextStyle(fontSize: 14),
             focusColor: Colors.black,
-            contentPadding: const EdgeInsets.only(left: 10,top: 12),
+            contentPadding: const EdgeInsets.only(left: 10,top: 18,bottom: 8),
             border: const OutlineInputBorder(
               borderSide: BorderSide(width: 1, color: Colors.grey),
             ),
@@ -59,7 +59,7 @@ class Utils {
             ),
             errorBorder: OutlineInputBorder(
               borderSide: const BorderSide(
-                color: Color(0x00000000),
+                color: Colors.red,
                 width: 1,
               ),
               borderRadius: BorderRadius.circular(8),
