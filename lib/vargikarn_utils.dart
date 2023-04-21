@@ -31,6 +31,7 @@ class Utils {
         maxLines: maxLine,
         minLines: minLines,
         maxLength: isMaxLength ? maxLength : null,
+        autovalidateMode: AutovalidateMode.onUserInteraction,
         decoration: InputDecoration(
             suffixIcon: suffixIcon,
             counterText: "",
@@ -83,6 +84,8 @@ class Utils {
           isDense: true,
           elevation: 0,
           dropdownColor: Colors.white,
+         focusColor: Colors.transparent,
+          autovalidateMode: AutovalidateMode.onUserInteraction,
           decoration: InputDecoration(
               counterText: "",
               hintStyle: const TextStyle(fontSize: 14),

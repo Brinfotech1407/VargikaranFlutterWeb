@@ -12,7 +12,7 @@ class LoadingController extends GetxController {
    checkLoginStatus(
       {required bool isAllDetailsFilled,required BuildContext context}) async {
     isLoading.value = true;
-    await Future.delayed(const Duration(seconds: 2));
+    await Future.delayed(const Duration(seconds: 10));
 
 
     if (isAllDetailsFilled) {
