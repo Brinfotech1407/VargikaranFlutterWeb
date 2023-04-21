@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:vargikaran_web_app/vargikarn_utiles.dart';
+import 'package:vargikaran_web_app/vargikarn_utils.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({Key? key}) : super(key: key);

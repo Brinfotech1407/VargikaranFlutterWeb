@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:quickalert/quickalert.dart';
 
-import 'vargikarn_utiles.dart';
+import 'vargikarn_utils.dart';
 
 class LoadingController extends GetxController {
   var isLoading = false.obs;
@@ -19,12 +19,12 @@ class LoadingController extends GetxController {
       isLoggedIn.value = true;
     } else {
       // ignore: use_build_context_synchronously
-      Utils().showAlertDialog(
+      /*Utils().showAlertDialog(
           context:context,
           title: '',
-          desc:'Invalid email or password.',
+          desc:'Invalid Data',
           confirmText:'Okay',
-          showAlertdialogType: QuickAlertType.warning);
+          showAlertdialogType: QuickAlertType.warning);*/
     }
   }
 }

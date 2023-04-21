@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:quickalert/models/quickalert_type.dart';
 import 'package:quickalert/widgets/quickalert_dialog.dart';
@@ -7,15 +5,15 @@ import 'package:quickalert/widgets/quickalert_dialog.dart';
 class Utils {
   Widget textFormFiledView({
     TextEditingController? controller,
-     Iterable<String>? autofillHints,
+    Iterable<String>? autofillHints,
     required String hintText,
-     TextInputType? textInputType,
-     TextInputType? keyboardType,
+    TextInputType? textInputType,
+    TextInputType? keyboardType,
     required Function(String? value) validator,
     onTap,
     suffixIcon,
-    int maxLine= 1,
-    int minLines= 1,
+    int maxLine = 1,
+    int minLines = 1,
     bool obscureText = false,
     bool readOnly = false,
     bool isMaxLength = false,
@@ -39,7 +37,7 @@ class Utils {
             hintText: hintText,
             hintStyle: const TextStyle(fontSize: 14),
             focusColor: Colors.black,
-            contentPadding: const EdgeInsets.only(left: 10,top: 18,bottom: 8),
+            contentPadding: const EdgeInsets.only(left: 10, top: 18, bottom: 8),
             border: const OutlineInputBorder(
               borderSide: BorderSide(width: 1, color: Colors.grey),
             ),
@@ -73,6 +71,62 @@ class Utils {
     );
   }
 
+  Widget dropDownFormView(
+      {required String? Function(String?)? validator,
+      required List<DropdownMenuItem<String>>? item,
+      required onChanged,
+      required value}) {
+    return Flexible(
+      child: Container(
+        margin: const EdgeInsets.all(8),
+        child: DropdownButtonFormField<String>(
+          isDense: true,
+          elevation: 0,
+          dropdownColor: Colors.white,
+          decoration: InputDecoration(
+              counterText: "",
+              hintStyle: const TextStyle(fontSize: 14),
+              focusColor: Colors.black,
+              contentPadding: const EdgeInsets.only(left: 10, top: 18, bottom: 8),
+              border: const OutlineInputBorder(
+                borderSide: BorderSide(width: 1, color: Colors.grey),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderSide: const BorderSide(
+                  color: Colors.grey,
+                  width: 1.0,
+                ),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderSide: const BorderSide(
+                  color: Colors.grey,
+                  width: 0.5,
+                ),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              errorBorder: OutlineInputBorder(
+                borderSide: const BorderSide(
+                  color: Colors.red,
+                  width: 1,
+                ),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              disabledBorder: const OutlineInputBorder()),
+          borderRadius: const BorderRadius.all(Radius.circular(8)),
+          validator: validator,
+          value: value,
+          icon: const Padding(
+            padding: EdgeInsets.only(right: 8.0),
+            child: Icon(Icons.keyboard_arrow_down),
+          ),
+          items: item,
+          onChanged: onChanged,
+        ),
+      ),
+    );
+  }
+
   Container buildRowText(String title) {
     return Container(
       alignment: Alignment.center,
@@ -85,11 +139,11 @@ class Utils {
     );
   }
 
-  Widget buildButtonView({ required VoidCallback onTap,required String title}) {
+  Widget buildButtonView({required VoidCallback onTap, required String title}) {
     return Container(
       alignment: Alignment.center,
       margin: const EdgeInsets.only(top: 10, bottom: 10),
-      padding: const EdgeInsets.only(right: 10,left: 10,bottom: 20,top: 20),
+      padding: const EdgeInsets.only(right: 10, left: 10, bottom: 20, top: 20),
       child: TextButton(
           style: ButtonStyle(
             foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
@@ -108,7 +162,10 @@ class Utils {
             ),
           ),
           onPressed: onTap,
-          child:  Text(title,style: const TextStyle(fontSize: 18),)),
+          child: Text(
+            title,
+            style: const TextStyle(fontSize: 18),
+          )),
     );
   }
 
@@ -150,19 +207,17 @@ class Utils {
     }
   }
 
-  linearProgressView(progressValue){
+  linearProgressView(progressValue) {
     Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         LinearProgressIndicator(
           backgroundColor: Colors.cyanAccent,
-          valueColor:  const AlwaysStoppedAnimation<Color>(Colors.red),
+          valueColor: const AlwaysStoppedAnimation<Color>(Colors.red),
           value: progressValue,
         ),
         Text('${(progressValue * 100).round()}%'),
       ],
-    );}
-
-
-
+    );
+  }
 }
