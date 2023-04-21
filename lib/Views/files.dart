@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:uuid/uuid.dart';
 import 'package:vargikaran_web_app/layout/adaptive.dart';
+import 'package:vargikaran_web_app/loading_controller.dart';
 import 'package:vargikaran_web_app/model/files_model.dart';
 import 'package:vargikaran_web_app/services/database.dart';
 import 'package:vargikaran_web_app/vargikarn_utiles.dart';
@@ -24,6 +25,8 @@ class _FilesScreenState extends State<FilesScreen> {
   final noOfPagesController = TextEditingController();
   final startDateInputController = TextEditingController();
   final endDateInputController = TextEditingController();
+
+  final LoadingController loadingController = Get.put(LoadingController());
 
   var boxItemList = ['Name1', 'name2', 'name3','Select Name'].obs;
   RxString boxDropdownValue = 'Select Name'.obs;
@@ -48,6 +51,7 @@ class _FilesScreenState extends State<FilesScreen> {
 
 
   DateTime selectedDate = DateTime.now();
+   double progressValue = 20;
 
   int startDate = 0 ;
   int endDate = 0 ;
@@ -65,6 +69,13 @@ class _FilesScreenState extends State<FilesScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              if(loadingController.isLoading.isTrue)...[
+                LinearProgressIndicator(
+                  backgroundColor: Colors.cyanAccent,
+                  valueColor:  const AlwaysStoppedAnimation<Color>(Colors.red),
+                  value: progressValue,
+                ),
+              ],
               SelectableText('Add New File',
                   style: TextStyle(fontSize: 22, color: Colors.grey.shade800)),
               Card(
@@ -250,9 +261,12 @@ class _FilesScreenState extends State<FilesScreen> {
               ),
               Row(
                 children: [
-                  Utils().buildButtonView(onTap:() async {
+                  Utils().buildButtonView(onTap:()
+                  async {
+                    loadingController.checkLoginStatus(
+                        isAllDetailsFilled: _formKey.currentState!.validate(),
+                        context: context);
                     if (_formKey.currentState!.validate()) {
-                      // If the form is valid, display a snackbar. In the real world,
                     final FileModel fileData = FileModel(
                       id: userID(),
                       applicationName: applicationNameController.text,
@@ -274,6 +288,9 @@ class _FilesScreenState extends State<FilesScreen> {
 
                     await Database().addFilesData(fileData, context);
                     }
+                    loadingController.isLoading.value = false;
+
+                    clearTextFiledData();
 
                   },title: 'Submit'),
                   Utils().buildButtonView(onTap:(){},title: 'Cancel'),
@@ -973,5 +990,23 @@ class _FilesScreenState extends State<FilesScreen> {
         style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
       ),
     );
+  }
+
+  void clearTextFiledData() {
+    subjectController.clear();
+    startDateInputController.clear();
+    remarksController.clear();
+    recordDateController.clear();
+    orderNoController.clear();
+    fileNoController.clear();
+    endDateInputController.clear();
+    noOfPagesController.clear();
+    applicationNameController.clear();
+    departmentNameItemNameList.clear();
+
+     rackItemNameDropdownValue.close();
+     selectedItemClassNameDropdownValue.close();
+     boxDropdownValue.close();
+
   }
 }
