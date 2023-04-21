@@ -100,7 +100,9 @@ class _FilesScreenState extends State<FilesScreen> {
                                     hintText: 'Enter F.N No',
                                     validator: (value) {
                                       if (value == null || value.isEmpty) {
-                                        return 'Please enter some text';
+                                        return onTextEmptyMsg();
+                                      }else if(value.isAlphabetOnly){
+                                        return 'Please enter numeric value';
                                       }
                                       return null;
                                     },
@@ -430,7 +432,9 @@ class _FilesScreenState extends State<FilesScreen> {
                             hintText: 'Enter F.N No',
                             validator: (value) {
                               if (value == null || value.isEmpty) {
-                                return 'Please enter some text';
+                                return onTextEmptyMsg();
+                              }else if(value.isAlphabetOnly){
+                                return 'Please enter only numeric text';
                               }
                               return null;
                             },
@@ -697,7 +701,9 @@ class _FilesScreenState extends State<FilesScreen> {
                       suffixIcon: const Icon(Icons.calendar_month),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Please enter some text';
+                          return onTextEmptyMsg();
+                        }else if(value.isAlphabetOnly){
+                          return 'Please enter numeric Date value';
                         }
                         return null;
                       },
@@ -738,7 +744,9 @@ class _FilesScreenState extends State<FilesScreen> {
                       suffixIcon: const Icon(Icons.calendar_month),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Please enter some text';
+                          return onTextEmptyMsg();
+                        }else if(value.isAlphabetOnly){
+                          return 'Please enter numeric Date value';
                         }
                         return null;
                       },
@@ -782,7 +790,9 @@ class _FilesScreenState extends State<FilesScreen> {
                     hintText: '',
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return 'Please enter some text';
+                        return onTextEmptyMsg();
+                      }else if(value.isAlphabetOnly){
+                        return 'Please enter numeric number';
                       }
                       return null;
                     },
@@ -795,6 +805,8 @@ class _FilesScreenState extends State<FilesScreen> {
       ),
     );
   }
+
+  String onTextEmptyMsg() => 'Please enter some text';
 
   DropdownButton<String> buildSelectClassNameDropDownValue() {
     return DropdownButton<String>(
@@ -849,7 +861,9 @@ class _FilesScreenState extends State<FilesScreen> {
                   hintText: '',
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Please enter some text';
+                      return onTextEmptyMsg();
+                    }else if(value.isAlphabetOnly){
+                      return 'Please enter numeric Date value';
                     }
                     return null;
                   },
@@ -872,7 +886,7 @@ class _FilesScreenState extends State<FilesScreen> {
                   maxLength: 400,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Please enter some text';
+                      return onTextEmptyMsg();
                     }
                     return null;
                   },
@@ -891,7 +905,9 @@ class _FilesScreenState extends State<FilesScreen> {
                   maxLength: 100,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Please enter some text';
+                      return onTextEmptyMsg();
+                    }else if(value.isNumericOnly){
+                      return 'Please enter only alphabetic word';
                     }
                     return null;
                   },
@@ -910,7 +926,9 @@ class _FilesScreenState extends State<FilesScreen> {
                   maxLength: 100,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Please enter some text';
+                      return onTextEmptyMsg();
+                    }else if(value.isAlphabetOnly){
+                      return 'Please enter numeric value';
                     }
                     return null;
                   },
@@ -929,7 +947,9 @@ class _FilesScreenState extends State<FilesScreen> {
                   maxLength: 100,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Please enter some text';
+                      return onTextEmptyMsg();
+                    }else if(value.isNumericOnly){
+                      return 'Please enter text value';
                     }
                     return null;
                   },
