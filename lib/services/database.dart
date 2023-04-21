@@ -26,4 +26,22 @@ class Database {
     }
     return filesData.id;
   }
+
+  Future<FileModel?> getFilesData(String uid) async {
+    try {
+      final QuerySnapshot<Map<String, dynamic>> doc = (await _firestore
+          .collection('Files')
+          .where('id', isEqualTo: uid)
+          .get());
+
+      if (doc.docs.isNotEmpty) {
+        final FileModel userModel = FileModel.fromJson(doc.docs.first.data());
+        return userModel;
+      } else {
+        return null;
+      }
+    } catch (e) {
+      throw Exception(e.toString());
+    }
+  }
 }
