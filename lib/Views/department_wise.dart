@@ -13,7 +13,7 @@ class _DepartmentWiseScreenState extends State<DepartmentWiseScreen> {
     return Container(
       height: double.infinity,
       width: double.infinity,
-      color: Colors.purple,
+      color: Colors.yellow.shade200,
     );
   }
 }

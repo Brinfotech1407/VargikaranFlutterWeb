@@ -13,6 +13,10 @@ class _SearchScreenState extends State<SearchScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(height: 300,width: 500,color: Colors.blueGrey,);
+    return Container(
+      height: double.infinity,
+      width: double.infinity,
+      color: Colors.purple.shade200,
+    );;
   }
 }

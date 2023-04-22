@@ -17,13 +17,13 @@ class FilesScreen extends StatefulWidget {
 
 class _FilesScreenState extends State<FilesScreen> {
   var selectedItemEntryList = [
-    '',
     '10',
     '20',
     '30',
     '40',
+    '50',
   ].obs;
-  RxString selectedItemDropdownValue = ''.obs;
+  RxString selectedItemDropdownValue = '10'.obs;
   final searchController = TextEditingController();
   List<FileModel> arrFilesList = [];
 
@@ -58,6 +58,15 @@ class _FilesScreenState extends State<FilesScreen> {
             children: [
               Obx(
                 () => entryDropDownView(),
+              ),
+              Container(
+                alignment: Alignment.centerLeft,
+                padding: const EdgeInsets.only(right: 10, top: 14, bottom: 8),
+                child: const Text(
+                  'entries',
+                  textAlign: TextAlign.start,
+                  style: TextStyle(fontSize: 15),
+                ),
               ),
               const Spacer(),
               Container(
@@ -132,7 +141,7 @@ class _FilesScreenState extends State<FilesScreen> {
                   mainAxisSize: MainAxisSize.min,
                   children: const [
                     Text('ADD'),
-                    Icon(Icons.add_circle_outline),
+                    Icon(Icons.add_circle_outline,size: 18),
                   ],
                 )),
           ),
