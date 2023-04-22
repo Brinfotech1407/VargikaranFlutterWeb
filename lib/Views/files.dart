@@ -31,26 +31,28 @@ class _FilesScreenState extends State<FilesScreen> {
 
   var boxItemList = [
     'Select Name',
-    'Name1',
-    'name2',
-    'name3',
+    'B1',
+    'B2',
+    'B3',
+    'B4',
   ].obs;
   RxString boxDropdownValue = 'Select Name'.obs;
 
   var cupBoardItemList = [
     'Select Name',
-    'Name1',
-    'name2',
-    'name3',
+    'C1',
+    'C2',
+    'C3',
+    'C4',
   ].obs;
   RxString cupBoardItemNameDropdownValue = 'Select Name'.obs;
 
   var rackItemList = [
     'Select Name',
-    'Name1',
-    'name2',
-    'name3',
-    'name4',
+    'R1',
+    'R2',
+    'R3',
+    'R4',
   ].obs;
   RxString rackItemNameDropdownValue = 'Select Name'.obs;
 
@@ -66,10 +68,10 @@ class _FilesScreenState extends State<FilesScreen> {
 
   var selectedItemClassNameList = [
     'Select Name',
-    'Name1',
-    'name2',
-    'name3',
-    'name4',
+    'A',
+    'B',
+    'C',
+    'D',
   ].obs;
   RxString selectedItemClassNameDropdownValue = 'Select Name'.obs;
 
@@ -106,11 +108,7 @@ class _FilesScreenState extends State<FilesScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               if (loadingController.isLoading.isTrue) ...[
-                LinearProgressIndicator(
-                  backgroundColor: Colors.cyanAccent,
-                  valueColor: const AlwaysStoppedAnimation<Color>(Colors.red),
-                  value: progressValue,
-                ),
+               const CircularProgressIndicator(),
               ],
               SelectableText('Add New File',
                   style: TextStyle(fontSize: 22, color: Colors.grey.shade800)),
@@ -264,6 +262,7 @@ class _FilesScreenState extends State<FilesScreen> {
                       ),
               ),
               Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Utils().buildButtonView(
                       onTap: () async {
@@ -957,10 +956,10 @@ class _FilesScreenState extends State<FilesScreen> {
     noOfPagesController.clear();
     applicationNameController.clear();
 
-    rackItemNameDropdownValue.close();
-    selectedItemClassNameDropdownValue.close();
-    boxDropdownValue.close();
-    rackItemNameDropdownValue.close();
+    rackItemNameDropdownValue.value.isEmpty;
+    selectedItemClassNameDropdownValue.value.isEmpty;
+    boxDropdownValue.value.isEmpty;
+    rackItemNameDropdownValue.value.isEmpty;
   }
 
   bool isEnterAllDetails() {

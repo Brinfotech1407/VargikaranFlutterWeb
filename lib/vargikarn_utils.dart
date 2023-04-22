@@ -165,9 +165,12 @@ class Utils {
             ),
           ),
           onPressed: onTap,
-          child: Text(
-            title,
-            style: const TextStyle(fontSize: 18),
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              title,
+              style: const TextStyle(fontSize: 20),
+            ),
           )),
     );
   }
