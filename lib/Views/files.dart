@@ -16,7 +16,6 @@ class FilesScreen extends StatefulWidget {
 }
 
 class _FilesScreenState extends State<FilesScreen> {
-  final _formKey = GlobalKey<FormState>();
   var selectedItemEntryList = [
     '',
     '10',
@@ -40,7 +39,6 @@ class _FilesScreenState extends State<FilesScreen> {
         .getFilesData(FireStoreServices().noOfRecords)
         .then((List<FileModel>? value) {
       if (value != null) {
-        print('value Lenght ${value.length}');
         setState(() {
           arrFilesList = value;
         });
@@ -121,7 +119,6 @@ class _FilesScreenState extends State<FilesScreen> {
                         builder: (context) => const AddFileScreen()),
                   );
                   if (result) {
-                    print('Calling GetFilesData');
                     if (mounted) {
                       setState(() {
                         arrFilesList.clear();
@@ -215,7 +212,9 @@ class _FilesScreenState extends State<FilesScreen> {
             ),
             disabledBorder: const OutlineInputBorder()),
         borderRadius: const BorderRadius.all(Radius.circular(8)),
-        validator: (value) {},
+        validator: (value) {
+          return null;
+        },
         value: selectedItemDropdownValue.value,
         icon: const Padding(
           padding: EdgeInsets.only(right: 8.0),
