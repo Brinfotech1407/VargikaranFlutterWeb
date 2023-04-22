@@ -6,9 +6,10 @@ import 'package:vargikaran_web_app/Views/sfgrid_view.dart';
 import 'package:vargikaran_web_app/model/files_model.dart';
 import 'package:vargikaran_web_app/vargikarn_utils.dart';
 
+import '../services/firestore_services.dart';
+
 class FilesScreen extends StatefulWidget {
-  const FilesScreen({Key? key, required this.arrFilesList}) : super(key: key);
-  final List<FileModel> arrFilesList;
+  const FilesScreen({Key? key}) : super(key: key);
 
   @override
   State<FilesScreen> createState() => _FilesScreenState();
@@ -25,6 +26,27 @@ class _FilesScreenState extends State<FilesScreen> {
   ].obs;
   RxString selectedItemDropdownValue = ''.obs;
   final searchController = TextEditingController();
+  List<FileModel> arrFilesList = [];
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getFilesData();
+  }
+
+  void getFilesData() {
+    FireStoreServices()
+        .getFilesData(FireStoreServices().noOfRecords)
+        .then((List<FileModel>? value) {
+      if (value != null) {
+        print('value Lenght ${value.length}');
+        setState(() {
+          arrFilesList = value;
+        });
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,16 +64,14 @@ class _FilesScreenState extends State<FilesScreen> {
               const Spacer(),
               Container(
                 alignment: Alignment.centerLeft,
-                padding:
-                    const EdgeInsets.only(right: 10, top: 14, bottom: 8),
+                padding: const EdgeInsets.only(right: 10, top: 14, bottom: 8),
                 child: const Text(
                   'Search',
                   textAlign: TextAlign.start,
-                  style:
-                      TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                 ),
               ),
-              Container(
+              SizedBox(
                 width: 200,
                 child: Utils().textFormFiledView(
                   controller: searchController,
@@ -61,7 +81,12 @@ class _FilesScreenState extends State<FilesScreen> {
               ),
             ],
           ),
-          Expanded(child: GridViewScreen(arrFilesList: widget.arrFilesList)),
+          Expanded(
+              child: arrFilesList.isEmpty
+                  ? const Center(
+                      child: CircularProgressIndicator(),
+                    )
+                  : GridViewScreen(arrFilesList: arrFilesList)),
         ],
       ),
     );
@@ -89,11 +114,22 @@ class _FilesScreenState extends State<FilesScreen> {
                   padding: MaterialStateProperty.all(const EdgeInsets.only(
                       top: 12, bottom: 12, right: 6, left: 6)),
                 ),
-                onPressed: () {
-                  Navigator.push(
+                onPressed: () async {
+                  bool result = await Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) =>  const AddFileScreen()),
+                    MaterialPageRoute(
+                        builder: (context) => const AddFileScreen()),
                   );
+                  if (result) {
+                    print('Calling GetFilesData');
+                    if (mounted) {
+                      setState(() {
+                        arrFilesList.clear();
+                      });
+                    }
+
+                    getFilesData();
+                  }
                 },
                 child: Row(
                   mainAxisSize: MainAxisSize.min,

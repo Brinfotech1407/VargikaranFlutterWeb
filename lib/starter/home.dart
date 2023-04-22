@@ -9,7 +9,6 @@ import 'package:vargikaran_web_app/Views/files.dart';
 import 'package:vargikaran_web_app/Views/search.dart';
 import 'package:vargikaran_web_app/layout/adaptive.dart';
 import 'package:vargikaran_web_app/model/files_model.dart';
-import 'package:vargikaran_web_app/services/database.dart';
 
 const appBarDesktopHeight = 128.0;
 
@@ -27,16 +26,9 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    getFilesData();
   }
 
-  void getFilesData() {
-    Database().getFilesData(Database().noOfRecords).then((List<FileModel>? value) {
-      if (value != null) {
-        arrFilesList = value;
-      }
-    });
-  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -83,7 +75,7 @@ class _HomePageState extends State<HomePage> {
           case 0:
             return const DashBoardScreen();
           case 1:
-            return  FilesScreen(arrFilesList: arrFilesList);
+            return  FilesScreen();
           case 2:
             return const DepartmentWiseScreen();
           case 3:

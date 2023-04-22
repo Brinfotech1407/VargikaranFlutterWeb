@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:uuid/uuid.dart';
+import 'package:vargikaran_web_app/Views/files.dart';
 import 'package:vargikaran_web_app/date_time_utils.dart';
 import 'package:vargikaran_web_app/layout/adaptive.dart';
 import 'package:vargikaran_web_app/loading_controller.dart';
 import 'package:vargikaran_web_app/model/files_model.dart';
-import 'package:vargikaran_web_app/services/database.dart';
+import 'package:vargikaran_web_app/services/firestore_services.dart';
 import 'package:vargikaran_web_app/vargikarn_utils.dart';
 
 class AddFileScreen extends StatefulWidget {
@@ -299,12 +300,12 @@ class _AddFileScreenState extends State<AddFileScreen> {
                               startDate: startDate,
                               subject: subjectController.text,
                             );
-                            await Database().addFilesData(fileData, context);
+                            await FireStoreServices().addFilesData(fileData, context);
 
                          /*   clearTextFiledData();*/
                             _formKey.currentState?.reset();
                             loadingController.isLoading.value = false;
-                            Navigator.pop(context);
+                            Navigator.pop(context,true);
                           }
                         },
                         title: 'Submit'),

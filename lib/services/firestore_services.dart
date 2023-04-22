@@ -7,7 +7,7 @@ import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:vargikaran_web_app/model/files_model.dart';
 import 'package:vargikaran_web_app/services/preference_service.dart';
 
-class Database {
+class FireStoreServices {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final PreferenceService _preferenceService = PreferenceService();
   FirebaseAuth auth = FirebaseAuth.instance;
@@ -15,7 +15,7 @@ class Database {
   RxList<DocumentSnapshot<Map<String, dynamic>>> myData =
       RxList<DocumentSnapshot<Map<String, dynamic>>>();
 
-  final int noOfRecords= 25;
+  final int noOfRecords = 25;
 
   Future<String?> addFilesData(
       FileModel filesData, BuildContext context) async {
@@ -35,6 +35,7 @@ class Database {
       final QuerySnapshot<Map<String, dynamic>> doc = (await _firestore
           .collection('Files')
           .limit(count)
+          .orderBy('entryDate', descending: true)
           .get());
 
       if (doc.docs.isNotEmpty) {

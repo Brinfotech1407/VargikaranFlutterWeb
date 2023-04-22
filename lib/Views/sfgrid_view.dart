@@ -4,7 +4,7 @@ import 'package:vargikaran_web_app/constants.dart';
 import 'package:vargikaran_web_app/date_time_utils.dart';
 import 'package:vargikaran_web_app/layout/adaptive.dart';
 import 'package:vargikaran_web_app/model/files_model.dart';
-import 'package:vargikaran_web_app/services/database.dart';
+import 'package:vargikaran_web_app/services/firestore_services.dart';
 
 class GridViewScreen extends StatefulWidget {
   const GridViewScreen({Key? key, required this.arrFilesList})
@@ -44,6 +44,8 @@ class _GridViewScreenState extends State<GridViewScreen> {
       horizontalScrollController: ScrollController(),
       verticalScrollController: ScrollController(),
       allowColumnsResizing: true,
+      allowSorting: true,
+      allowPullToRefresh: true,
       onColumnResizeUpdate: (ColumnResizeUpdateDetails details) {
         setState(() {
           columnWidths[details.column.columnName] = details.width;
@@ -388,9 +390,9 @@ class FilesInfoDataGridSource extends DataGridSource {
   DataGridRowAdapter buildRow(DataGridRow row) {
     final int rowIndex = dataGridRows.indexOf(row);
     Color backgroundColor = Colors.transparent;
-    if (rowIndex % 2 == 0 && culture == null) {
+    /*if (rowIndex % 2 == 0 && culture == null) {
       backgroundColor = const Color.fromRGBO(0, 116, 227, 1).withOpacity(0.07);
-    }
+    }*/
     return DataGridRowAdapter(color: backgroundColor, cells: <Widget>[
       Container(
         padding: const EdgeInsets.all(8),
@@ -509,7 +511,7 @@ class FilesInfoDataGridSource extends DataGridSource {
   @override
   Future<void> handleLoadMoreRows() async {
     await Future<void>.delayed(const Duration(seconds: 5));
-    files = await getFiles(files, Database().noOfRecords);
+    files = await getFiles(files, FireStoreServices().noOfRecords);
     buildDataGridRows();
     notifyListeners();
   }
@@ -517,7 +519,7 @@ class FilesInfoDataGridSource extends DataGridSource {
   @override
   Future<void> handleRefresh() async {
     await Future<void>.delayed(const Duration(seconds: 5));
-    files = await getFiles(files, Database().noOfRecords);
+    files = await getFiles(files, FireStoreServices().noOfRecords);
     buildDataGridRows();
     notifyListeners();
   }
@@ -560,7 +562,7 @@ class FilesInfoDataGridSource extends DataGridSource {
     final int startIndex = filesData.isNotEmpty ? filesData.length : 0;
     final int endIndex = startIndex + count;
 
-    List<FileModel>? fileData = await Database().getFilesData(count);
+    List<FileModel>? fileData = await FireStoreServices().getFilesData(count);
 
     return fileData ?? filesData;
   }
