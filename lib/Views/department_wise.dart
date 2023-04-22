@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
+import 'package:vargikaran_web_app/constants.dart';
 import 'package:vargikaran_web_app/date_time_utils.dart';
 import 'package:vargikaran_web_app/layout/adaptive.dart';
 import 'package:vargikaran_web_app/model/files_model.dart';
@@ -34,11 +35,19 @@ class _DepartmentWiseScreenState extends State<DepartmentWiseScreen> {
   Widget build(BuildContext context) {
     isWebOrDesktop = isDisplayDesktop(context);
     return SfDataGrid(
-      source: filesDataSource,
-      horizontalScrollController: ScrollController(),
-      allowColumnsResizing: true,
+      defaultColumnWidth: 150,
       gridLinesVisibility: GridLinesVisibility.both,
       headerGridLinesVisibility: GridLinesVisibility.both,
+      source: filesDataSource,
+      isScrollbarAlwaysShown: true,
+      horizontalScrollController: ScrollController(),
+      allowColumnsResizing: true,
+      onColumnResizeUpdate: (ColumnResizeUpdateDetails details) {
+        setState(() {
+          columnWidths[details.column.columnName] = details.width;
+        });
+        return true;
+      },
       loadMoreViewBuilder: _buildLoadMoreView,
       columns: _getColumns(),
     );
@@ -87,11 +96,29 @@ class _DepartmentWiseScreenState extends State<DepartmentWiseScreen> {
     );
   }
 
+   Map<String, double> columnWidths = {
+    fnNo: double.nan,
+    subject: double.nan,
+    applicationName: double.nan,
+    orderNo: double.nan,
+    branch: double.nan,
+    department: double.nan,
+    noOfPages: double.nan,
+    classes: double.nan,
+    startDate: double.nan,
+    endDate: double.nan,
+    recordDate: double.nan,
+    entryDate: double.nan,
+    location: double.nan,
+    remark: double.nan,
+  };
+
   List<GridColumn> _getColumns() {
     return <GridColumn>[
       GridColumn(
-          columnName: 'fnNo',
-          width: isWebOrDesktop ? 120 : double.nan,
+          columnName: fnNo,
+          width: columnWidths[fnNo]!,
+          minimumWidth: 30.0,
           columnWidthMode:
               !isWebOrDesktop ? ColumnWidthMode.none : ColumnWidthMode.fill,
           label: Container(
@@ -102,14 +129,11 @@ class _DepartmentWiseScreenState extends State<DepartmentWiseScreen> {
                 overflow: TextOverflow.ellipsis,
               ))),
       GridColumn(
-          columnName: 'subject',
+          columnName: subject,
+          minimumWidth: 30.0,
           columnWidthMode:
               !isWebOrDesktop ? ColumnWidthMode.none : ColumnWidthMode.fill,
-          width: !isWebOrDesktop
-              ? 120
-              : (isWebOrDesktop)
-                  ? 150
-                  : double.nan,
+          width: columnWidths[subject]!,
           label: Container(
               padding: const EdgeInsets.all(8),
               alignment: Alignment.center,
@@ -118,8 +142,9 @@ class _DepartmentWiseScreenState extends State<DepartmentWiseScreen> {
                 overflow: TextOverflow.ellipsis,
               ))),
       GridColumn(
-          columnName: 'applicationName',
-          width: (isWebOrDesktop) ? 120 : double.nan,
+          columnName: applicationName,
+          minimumWidth: 30.0,
+          width: columnWidths[applicationName]!,
           label: Container(
               padding: const EdgeInsets.all(8),
               alignment: Alignment.center,
@@ -128,8 +153,9 @@ class _DepartmentWiseScreenState extends State<DepartmentWiseScreen> {
                 overflow: TextOverflow.ellipsis,
               ))),
       GridColumn(
-          width: (isWebOrDesktop) ? 110 : double.nan,
-          columnName: 'orderNo',
+          width: columnWidths[orderNo]!,
+          minimumWidth: 30.0,
+          columnName: orderNo,
           label: Container(
               padding: const EdgeInsets.all(8),
               alignment: Alignment.center,
@@ -138,8 +164,9 @@ class _DepartmentWiseScreenState extends State<DepartmentWiseScreen> {
                 overflow: TextOverflow.ellipsis,
               ))),
       GridColumn(
-          columnName: 'branch',
-          width: (isWebOrDesktop) ? 120 : double.nan,
+          columnName: branch,
+          minimumWidth: 30.0,
+          width: columnWidths[branch]!,
           columnWidthMode:
               !isWebOrDesktop ? ColumnWidthMode.none : ColumnWidthMode.fill,
           label: Container(
@@ -150,8 +177,9 @@ class _DepartmentWiseScreenState extends State<DepartmentWiseScreen> {
                 overflow: TextOverflow.ellipsis,
               ))),
       GridColumn(
-          width: (isWebOrDesktop) ? 120 : double.nan,
-          columnName: 'department',
+          width: columnWidths[department]!,
+          minimumWidth: 30.0,
+          columnName: department,
           columnWidthMode: ColumnWidthMode.lastColumnFill,
           label: Container(
               padding: const EdgeInsets.all(8),
@@ -159,10 +187,12 @@ class _DepartmentWiseScreenState extends State<DepartmentWiseScreen> {
               child: const Text(
                 'Department',
                 overflow: TextOverflow.ellipsis,
-              ))),
+              ))
+      ),
       GridColumn(
-          width: (isWebOrDesktop) ? 120 : double.nan,
-          columnName: 'noOfPages',
+          width: columnWidths[noOfPages]!,
+          minimumWidth: 30.0,
+          columnName: noOfPages,
           columnWidthMode: ColumnWidthMode.lastColumnFill,
           label: Container(
               padding: const EdgeInsets.all(8),
@@ -172,8 +202,9 @@ class _DepartmentWiseScreenState extends State<DepartmentWiseScreen> {
                 overflow: TextOverflow.ellipsis,
               ))),
       GridColumn(
-          width: (isWebOrDesktop) ? 120 : double.nan,
-          columnName: 'classes',
+          width: columnWidths[classes]!,
+          minimumWidth: 30.0,
+          columnName: classes,
           columnWidthMode: ColumnWidthMode.lastColumnFill,
           label: Container(
               padding: const EdgeInsets.all(8),
@@ -183,8 +214,9 @@ class _DepartmentWiseScreenState extends State<DepartmentWiseScreen> {
                 overflow: TextOverflow.ellipsis,
               ))),
       GridColumn(
-          width: (isWebOrDesktop) ? 120 : double.nan,
-          columnName: 'startDate',
+          width: columnWidths[startDate]!,
+          minimumWidth: 30.0,
+          columnName: startDate,
           columnWidthMode: ColumnWidthMode.lastColumnFill,
           label: Container(
               padding: const EdgeInsets.all(8),
@@ -194,8 +226,9 @@ class _DepartmentWiseScreenState extends State<DepartmentWiseScreen> {
                 overflow: TextOverflow.ellipsis,
               ))),
       GridColumn(
-          width: (isWebOrDesktop) ? 120 : double.nan,
-          columnName: 'endDate',
+          width: columnWidths[endDate]!,
+          minimumWidth: 30.0,
+          columnName: endDate,
           columnWidthMode: ColumnWidthMode.lastColumnFill,
           label: Container(
               padding: const EdgeInsets.all(8),
@@ -205,8 +238,9 @@ class _DepartmentWiseScreenState extends State<DepartmentWiseScreen> {
                 overflow: TextOverflow.ellipsis,
               ))),
       GridColumn(
-          width: (isWebOrDesktop) ? 120 : double.nan,
-          columnName: 'recordDate',
+          width: columnWidths[recordDate]!,
+          minimumWidth: 30.0,
+          columnName: recordDate,
           columnWidthMode: ColumnWidthMode.lastColumnFill,
           label: Container(
               padding: const EdgeInsets.all(8),
@@ -216,8 +250,9 @@ class _DepartmentWiseScreenState extends State<DepartmentWiseScreen> {
                 overflow: TextOverflow.ellipsis,
               ))),
       GridColumn(
-          width: (isWebOrDesktop) ? 120 : double.nan,
-          columnName: 'entryDate',
+          width: columnWidths[entryDate]!,
+          minimumWidth: 30.0,
+          columnName: entryDate,
           columnWidthMode: ColumnWidthMode.lastColumnFill,
           label: Container(
               padding: const EdgeInsets.all(8),
@@ -227,7 +262,9 @@ class _DepartmentWiseScreenState extends State<DepartmentWiseScreen> {
                 overflow: TextOverflow.ellipsis,
               ))),
       GridColumn(
-          columnName: 'location',
+          columnName: location,
+          minimumWidth: 30.0,
+          width: columnWidths[location]!,
           columnWidthMode: ColumnWidthMode.lastColumnFill,
           label: Container(
               padding: const EdgeInsets.all(8),
@@ -237,8 +274,9 @@ class _DepartmentWiseScreenState extends State<DepartmentWiseScreen> {
                 overflow: TextOverflow.ellipsis,
               ))),
       GridColumn(
-          width: (isWebOrDesktop) ? 120 : double.nan,
-          columnName: 'remark',
+          width: columnWidths[remark]!,
+          minimumWidth: 30.0,
+          columnName: remark,
           columnWidthMode: ColumnWidthMode.lastColumnFill,
           label: Container(
               padding: const EdgeInsets.all(8),
