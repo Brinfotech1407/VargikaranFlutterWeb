@@ -2,10 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:uuid/uuid.dart';
-import 'package:vargikaran_web_app/Views/files.dart';
 import 'package:vargikaran_web_app/date_time_utils.dart';
 import 'package:vargikaran_web_app/layout/adaptive.dart';
-import 'package:vargikaran_web_app/loading_controller.dart';
 import 'package:vargikaran_web_app/model/files_model.dart';
 import 'package:vargikaran_web_app/services/firestore_services.dart';
 import 'package:vargikaran_web_app/vargikarn_utils.dart';
@@ -28,7 +26,6 @@ class _AddFileScreenState extends State<AddFileScreen> {
   final startDateInputController = TextEditingController();
   final endDateInputController = TextEditingController();
 
-  final LoadingController loadingController = Get.put(LoadingController());
 
   var boxItemList = [
     'Select Name',
@@ -95,6 +92,7 @@ class _AddFileScreenState extends State<AddFileScreen> {
   int endDate = 0;
 
   final _formKey = GlobalKey<FormState>();
+  final RxBool _isLoading= false.obs;
 
   @override
   Widget build(BuildContext context) {
@@ -106,21 +104,24 @@ class _AddFileScreenState extends State<AddFileScreen> {
         child: SingleChildScrollView(
           child: Form(
             key: _formKey,
-            child: Column(
+            child: Obx(
+    () =>Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                if (loadingController.isLoading.isTrue) ...[
-                 Padding(
-                  padding: const EdgeInsets.only(top: 8.0,bottom: 8),
-                  child: LinearProgressIndicator(
-                    backgroundColor: Colors.cyanAccent,
-                    valueColor: const AlwaysStoppedAnimation<Color>(Colors.lightGreenAccent),
-                    value: progressValue,
+                if (_isLoading.isTrue) ...[
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8.0, bottom: 8),
+                    child: LinearProgressIndicator(
+                      backgroundColor: Colors.cyanAccent,
+                      valueColor: const AlwaysStoppedAnimation<Color>(
+                          Colors.green),
+                      value: progressValue,
+                    ),
                   ),
-                ),
                 ],
                 SelectableText('Add New File',
-                    style: TextStyle(fontSize: 22, color: Colors.grey.shade800)),
+                    style:
+                        TextStyle(fontSize: 22, color: Colors.grey.shade800)),
                 Card(
                   elevation: 1,
                   margin: const EdgeInsets.only(top: 18, bottom: 12),
@@ -273,54 +274,59 @@ class _AddFileScreenState extends State<AddFileScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Utils().buildButtonView(
-                        onTap: () async {
-                          loadingController.checkLoginStatus(
-                              isAllDetailsFilled: isEnterAllDetails(),
-                              context: context);
-                          if (_formKey.currentState!.validate() &&
-                              isEnterAllDetails()) {
-                            final FileModel fileData = FileModel(
-                              id: userID(),
-                              applicationName: applicationNameController.text,
-                              boxName: boxDropdownValue.value,
-                              branch: selectedItemNameDropdownValue.value,
-                              classes: selectedItemClassNameDropdownValue.value,
-                              cupBoardName: cupBoardItemNameDropdownValue.value,
-                              department:
-                                  selectedItemDepartmentNameDropdownValue.value,
-                              endDate: endDate,
-                              fnNo: fileNoController.text,
-                              noOfPages: noOfPagesController.text,
-                              orderNo: orderNoController.text,
-                              rackName: rackItemNameDropdownValue.value,
-                              recordDate: recordDateController.text,
-                              entryDate: DateTimeUtils.getCurrentDateTime(),
-                              remarks: remarksController.text,
-                              startDate: startDate,
-                              subject: subjectController.text,
-                            );
-                            await FireStoreServices().addFilesData(fileData, context);
+                    if (_isLoading.isTrue) ...[
+                      const Padding(
+                        padding: EdgeInsets.only(top: 8.0, bottom: 8),
+                        child:Center(child: CircularProgressIndicator()),
+                      ),
+                    ]else...[
+                      Utils().buildButtonView(
+                          onTap: () async {
+                            _isLoading.value =true;
 
-                         /*   clearTextFiledData();*/
-                            _formKey.currentState?.reset();
-                            loadingController.isLoading.value = false;
-                            Navigator.pop(context,true);
-                          }
-                        },
-                        title: 'Submit'),
+                            await Future.delayed(const Duration(seconds: 3));
+
+                            if (_formKey.currentState!.validate() &&
+                                isEnterAllDetails()) {
+                              final FileModel fileData = FileModel(
+                                id: userID(),
+                                applicationName: applicationNameController.text,
+                                boxName: boxDropdownValue.value,
+                                branch: selectedItemNameDropdownValue.value,
+                                classes: selectedItemClassNameDropdownValue.value,
+                                cupBoardName: cupBoardItemNameDropdownValue.value,
+                                department:
+                                selectedItemDepartmentNameDropdownValue.value,
+                                endDate: endDate,
+                                fnNo: fileNoController.text,
+                                noOfPages: noOfPagesController.text,
+                                orderNo: orderNoController.text,
+                                rackName: rackItemNameDropdownValue.value,
+                                recordDate: recordDateController.text,
+                                entryDate: DateTimeUtils.getCurrentDateTime(),
+                                remarks: remarksController.text,
+                                startDate: startDate,
+                                subject: subjectController.text,
+                              );
+                              await FireStoreServices().addFilesData(fileData, context);
+
+                              /*   clearTextFiledData();*/
+                              _formKey.currentState?.reset();
+                              Navigator.pop(context,true);
+                            }
+
+                            _isLoading.value=false;
+                          },
+                          title: 'Submit'),
+                    ],
+
                     Utils().buildButtonView(onTap: () {
                       Navigator.pop(context);
                     }, title: 'Cancel'),
                   ],
                 ),
-                if (loadingController.isLoading.isTrue) ...[
-                  const Center(child: Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: CircularProgressIndicator(),
-                  )),
-               ],
               ],
+            ),
             ),
           ),
         ),
