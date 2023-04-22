@@ -520,36 +520,43 @@ class _FilesScreenState extends State<FilesScreen> {
                   )),
             ],
           ),
-          //TODO in below row show the error for dropdown used flexible widget
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Row(
-                children: [
-                  buildRowText(title: 'Cupboard*'),
-                  Obx(
-                    () => SizedBox(width: 250, child: buildCupBoardView()),
-                  ),
-                ],
+              Flexible(
+                child: Row(
+                  children: [
+                    buildRowText(title: 'Cupboard*'),
+                    Obx(
+                      () => buildCupBoardView(),
+                    ),
+                  ],
+                ),
               ),
-              Row(
-                children: [
-                  buildRowText(title: 'Rack*'),
-                  Obx(
-                    () => SizedBox(width: 250, child: buildRackView()),
-                  ),
-                ],
+              const SizedBox(width: 12),
+              Flexible(
+                child: Row(
+                  children: [
+                    buildRowText(title: 'Rack*'),
+                    Obx(
+                      () => buildRackView(),
+                    ),
+                  ],
+                ),
               ),
+              const SizedBox(width: 12),
               isSmallDesktop
                   ? Container()
-                  : Row(
-                      children: [
-                        buildRowText(title: 'Box*'),
-                        Obx(
-                          () => SizedBox(width: 250, child: boxDropDownList()),
-                        ),
-                      ],
-                    )
+                  : Flexible(
+                    child: Row(
+                        children: [
+                          buildRowText(title: 'Box*'),
+                          Obx(
+                            () => boxDropDownList(),
+                          ),
+                        ],
+                      ),
+                  )
             ],
           ),
           isSmallDesktop
