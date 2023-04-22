@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:uuid/uuid.dart';
+import 'package:vargikaran_web_app/date_time_utils.dart';
 import 'package:vargikaran_web_app/layout/adaptive.dart';
 import 'package:vargikaran_web_app/loading_controller.dart';
 import 'package:vargikaran_web_app/model/files_model.dart';
@@ -286,6 +287,7 @@ class _FilesScreenState extends State<FilesScreen> {
                             orderNo: orderNoController.text,
                             rackName: rackItemNameDropdownValue.value,
                             recordDate: recordDateController.text,
+                            entryDate: DateTimeUtils.getCurrentDateTime(),
                             remarks: remarksController.text,
                             startDate: startDate,
                             subject: subjectController.text,
@@ -295,7 +297,6 @@ class _FilesScreenState extends State<FilesScreen> {
                           clearTextFiledData();
                           loadingController.isLoading.value = false;
                         }
-
                       },
                       title: 'Submit'),
                   Utils().buildButtonView(onTap: () {}, title: 'Cancel'),
@@ -548,7 +549,7 @@ class _FilesScreenState extends State<FilesScreen> {
               isSmallDesktop
                   ? Container()
                   : Flexible(
-                    child: Row(
+                      child: Row(
                         children: [
                           buildRowText(title: 'Box*'),
                           Obx(
@@ -556,7 +557,7 @@ class _FilesScreenState extends State<FilesScreen> {
                           ),
                         ],
                       ),
-                  )
+                    )
             ],
           ),
           isSmallDesktop

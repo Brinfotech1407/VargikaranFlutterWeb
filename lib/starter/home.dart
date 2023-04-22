@@ -6,6 +6,8 @@ import 'package:vargikaran_web_app/Views/department_wise.dart';
 import 'package:vargikaran_web_app/Views/files.dart';
 import 'package:vargikaran_web_app/Views/search.dart';
 import 'package:vargikaran_web_app/layout/adaptive.dart';
+import 'package:vargikaran_web_app/model/files_model.dart';
+import 'package:vargikaran_web_app/services/database.dart';
 
 const appBarDesktopHeight = 128.0;
 
@@ -18,6 +20,21 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   ValueNotifier<int> selectedDrawerFile = ValueNotifier<int>(0);
+  List<FileModel> arrFilesList = [];
+
+  @override
+  void initState() {
+    super.initState();
+    getFilesData();
+  }
+
+  void getFilesData() {
+    Database().getFilesData(Database().noOfRecords).then((List<FileModel>? value) {
+      if (value != null) {
+        arrFilesList = value;
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -66,7 +83,7 @@ class _HomePageState extends State<HomePage> {
           case 1:
             return const FilesScreen();
           case 2:
-            return const DepartmentWiseScreen();
+            return DepartmentWiseScreen(arrFilesList: arrFilesList);
           case 3:
             return const SearchScreen();
           default:

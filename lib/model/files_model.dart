@@ -10,6 +10,7 @@ class FileModel {
   String? department;
   String? branch;
   String? recordDate;
+  int? entryDate;
   String? subject;
   String? applicationName;
   String? remarks;
@@ -28,6 +29,7 @@ class FileModel {
     this.department,
     this.branch,
     this.recordDate,
+    this.entryDate,
     this.subject,
     this.applicationName,
     this.remarks,
@@ -48,6 +50,7 @@ class FileModel {
     department,
     branch,
     recordDate,
+    entryDate,
     subject,
     applicationName,
     remarks,

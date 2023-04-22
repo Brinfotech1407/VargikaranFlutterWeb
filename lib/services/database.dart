@@ -15,7 +15,10 @@ class Database {
   RxList<DocumentSnapshot<Map<String, dynamic>>> myData =
       RxList<DocumentSnapshot<Map<String, dynamic>>>();
 
-  Future<String?> addFilesData(FileModel filesData, BuildContext context) async {
+  final int noOfRecords=25;
+
+  Future<String?> addFilesData(
+      FileModel filesData, BuildContext context) async {
     try {
       await _firestore
           .collection("Files")
@@ -27,16 +30,19 @@ class Database {
     return filesData.id;
   }
 
-  Future<FileModel?> getFilesData(String uid) async {
+  Future<List<FileModel>?> getFilesData(int count) async {
     try {
       final QuerySnapshot<Map<String, dynamic>> doc = (await _firestore
           .collection('Files')
-          .where('id', isEqualTo: uid)
+          .limit(count)
           .get());
 
       if (doc.docs.isNotEmpty) {
-        final FileModel userModel = FileModel.fromJson(doc.docs.first.data());
-        return userModel;
+        final List<FileModel> filesModel = doc.docs
+            .map((QueryDocumentSnapshot<Map<String, dynamic>> e) =>
+                FileModel.fromJson(e.data()))
+            .toList();
+        return filesModel;
       } else {
         return null;
       }
