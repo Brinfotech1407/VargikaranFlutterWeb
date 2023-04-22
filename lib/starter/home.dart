@@ -3,6 +3,8 @@ import 'package:vargikaran_web_app/Views/Drawer.dart';
 import 'package:vargikaran_web_app/Views/appBar.dart';
 import 'package:vargikaran_web_app/Views/dashboard.dart';
 import 'package:vargikaran_web_app/Views/department_wise.dart';
+import 'package:vargikaran_web_app/Views/sfgrid_view.dart';
+import 'package:vargikaran_web_app/Views/add_files.dart';
 import 'package:vargikaran_web_app/Views/files.dart';
 import 'package:vargikaran_web_app/Views/search.dart';
 import 'package:vargikaran_web_app/layout/adaptive.dart';
@@ -81,9 +83,9 @@ class _HomePageState extends State<HomePage> {
           case 0:
             return const DashBoardScreen();
           case 1:
-            return const FilesScreen();
+            return  FilesScreen(arrFilesList: arrFilesList);
           case 2:
-            return DepartmentWiseScreen(arrFilesList: arrFilesList);
+            return const DepartmentWiseScreen();
           case 3:
             return const SearchScreen();
           default:
