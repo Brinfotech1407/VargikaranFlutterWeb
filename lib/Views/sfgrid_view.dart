@@ -42,6 +42,7 @@ class _GridViewScreenState extends State<GridViewScreen> {
       source: filesDataSource,
       isScrollbarAlwaysShown: true,
       horizontalScrollController: ScrollController(),
+      verticalScrollController: ScrollController(),
       allowColumnsResizing: true,
       onColumnResizeUpdate: (ColumnResizeUpdateDetails details) {
         setState(() {

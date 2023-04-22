@@ -15,7 +15,7 @@ class Database {
   RxList<DocumentSnapshot<Map<String, dynamic>>> myData =
       RxList<DocumentSnapshot<Map<String, dynamic>>>();
 
-  final int noOfRecords=25;
+  final int noOfRecords= 25;
 
   Future<String?> addFilesData(
       FileModel filesData, BuildContext context) async {

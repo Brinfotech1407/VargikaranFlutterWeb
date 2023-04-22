@@ -28,44 +28,41 @@ class _FilesScreenState extends State<FilesScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Form(
-      key: _formKey,
-      child: Card(
-        margin: const EdgeInsets.all(12),
-        child: Column(
-          children: [
-            buildIconButtonHeaderView(context),
-            Divider(thickness: 1, color: Colors.grey.shade200),
-            Row(
-              children: [
-                Obx(
-                  () => entryDropDownView(),
+    return Card(
+      margin: const EdgeInsets.all(12),
+      child: Column(
+        children: [
+          buildIconButtonHeaderView(context),
+          Divider(thickness: 1, color: Colors.grey.shade200),
+          Row(
+            children: [
+              Obx(
+                () => entryDropDownView(),
+              ),
+              const Spacer(),
+              Container(
+                alignment: Alignment.centerLeft,
+                padding:
+                    const EdgeInsets.only(right: 10, top: 14, bottom: 8),
+                child: const Text(
+                  'Search',
+                  textAlign: TextAlign.start,
+                  style:
+                      TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                 ),
-                const Spacer(),
-                Container(
-                  alignment: Alignment.centerLeft,
-                  padding:
-                      const EdgeInsets.only(right: 10, top: 14, bottom: 8),
-                  child: const Text(
-                    'Search',
-                    textAlign: TextAlign.start,
-                    style:
-                        TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
-                  ),
+              ),
+              Container(
+                width: 200,
+                child: Utils().textFormFiledView(
+                  controller: searchController,
+                  hintText: '',
+                  validator: (value) {},
                 ),
-                Container(
-                  width: 200,
-                  child: Utils().textFormFiledView(
-                    controller: searchController,
-                    hintText: '',
-                    validator: (value) {},
-                  ),
-                ),
-              ],
-            ),
-            GridViewScreen(arrFilesList: widget.arrFilesList),
-          ],
-        ),
+              ),
+            ],
+          ),
+          Expanded(child: GridViewScreen(arrFilesList: widget.arrFilesList)),
+        ],
       ),
     );
   }
