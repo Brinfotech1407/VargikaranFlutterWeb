@@ -1,7 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:vargikaran_web_app/starter/home.dart';
+import 'package:vargikaran_web_app/home/home.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

@@ -4,7 +4,7 @@ import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:vargikaran_web_app/Views/add_files.dart';
 import 'package:vargikaran_web_app/Views/sfgrid_view.dart';
 import 'package:vargikaran_web_app/model/files_model.dart';
-import 'package:vargikaran_web_app/vargikarn_utils.dart';
+import 'package:vargikaran_web_app/utils/vargikarn_utils.dart';
 
 import '../services/firestore_services.dart';
 

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
-import 'package:vargikaran_web_app/constants.dart';
-import 'package:vargikaran_web_app/date_time_utils.dart';
+import 'package:vargikaran_web_app/utils/constants.dart';
+import 'package:vargikaran_web_app/utils/date_time_utils.dart';
 import 'package:vargikaran_web_app/layout/adaptive.dart';
 import 'package:vargikaran_web_app/model/files_model.dart';
 import 'package:vargikaran_web_app/services/firestore_services.dart';
@@ -388,7 +388,6 @@ class FilesInfoDataGridSource extends DataGridSource {
 
   @override
   DataGridRowAdapter buildRow(DataGridRow row) {
-    final int rowIndex = dataGridRows.indexOf(row);
     Color backgroundColor = Colors.transparent;
     /*if (rowIndex % 2 == 0 && culture == null) {
       backgroundColor = const Color.fromRGBO(0, 116, 227, 1).withOpacity(0.07);

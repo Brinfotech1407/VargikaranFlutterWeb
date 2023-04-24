@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:vargikaran_web_app/classes/language.dart';
 import 'package:vargikaran_web_app/classes/language_constants.dart';
 import 'package:vargikaran_web_app/login_screen.dart';
-import 'package:vargikaran_web_app/main.dart';
+import 'package:vargikaran_web_app/home/main.dart';
 
 class AdaptiveAppBar extends StatelessWidget implements PreferredSizeWidget {
   const AdaptiveAppBar({

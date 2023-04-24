@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:vargikaran_web_app/starter/home.dart';
+
+import 'home/home.dart';
 
 
 class LoginScreen extends StatelessWidget {

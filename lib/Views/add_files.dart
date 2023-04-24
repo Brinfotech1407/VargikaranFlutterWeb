@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:uuid/uuid.dart';
-import 'package:vargikaran_web_app/date_time_utils.dart';
+import 'package:vargikaran_web_app/utils/date_time_utils.dart';
 import 'package:vargikaran_web_app/layout/adaptive.dart';
 import 'package:vargikaran_web_app/model/files_model.dart';
 import 'package:vargikaran_web_app/services/firestore_services.dart';
-import 'package:vargikaran_web_app/vargikarn_utils.dart';
+import 'package:vargikaran_web_app/utils/vargikarn_utils.dart';
 
 class AddFileScreen extends StatefulWidget {
   const AddFileScreen({Key? key}) : super(key: key);
@@ -312,11 +312,13 @@ class _AddFileScreenState extends State<AddFileScreen> {
                                   startDate: startDate,
                                   subject: subjectController.text,
                                 );
+                                // ignore: use_build_context_synchronously
                                 await FireStoreServices()
                                     .addFilesData(fileData, context);
 
                                 /*   clearTextFiledData();*/
                                 _formKey.currentState?.reset();
+                                // ignore: use_build_context_synchronously
                                 Navigator.pop(context, true);
                               }
 
@@ -726,7 +728,6 @@ class _AddFileScreenState extends State<AddFileScreen> {
                             startDateInputController.text = formattedDate;
                           });
                         } else {
-                          print("Date is not selected");
                         }
                       },
                     ),
@@ -770,7 +771,6 @@ class _AddFileScreenState extends State<AddFileScreen> {
                             endDate = pickedDate.millisecondsSinceEpoch;
                           });
                         } else {
-                          print("Date is not selected");
                         }
                       },
                     ),
