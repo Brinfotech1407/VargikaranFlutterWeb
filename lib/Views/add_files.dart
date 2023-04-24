@@ -356,6 +356,9 @@ class _AddFileScreenState extends State<AddFileScreen> {
                                         await FireStoreServices()
                                             .addFilesData(fileData, context);
 
+                                        int count=int.parse(fileNoController.text);
+                                        await FireStoreServices().setUpdatedFileNo(count);
+
                                         /*   clearTextFiledData();*/
                                         _formKey.currentState?.reset();
                                         // ignore: use_build_context_synchronously

@@ -72,19 +72,18 @@ class FireStoreServices {
     return null;
   }
 
-  Future<AdminModel?> setUpdatedFileNo(int count) async {
+  Future<AdminModel?> setUpdatedFileNo(int number) async {
     try {
-      final DocumentSnapshot<Map<String, dynamic>> doc =
-      await _firestore.collection('Admin').doc('data').get();
 
-      if (doc.exists) {
-        try {
-          final AdminModel adminModel = AdminModel.fromJson(doc.data()!);
-          return adminModel;
-        } catch (e) {
-          return null;
-        }
-      }
+      final Map<String, dynamic> data = <String, dynamic>{};
+
+      data['FNNO'] = number;
+
+      await _firestore
+          .collection('Admin')
+          .doc('data')
+          .set(data, SetOptions(merge: true));
+
     } catch (e) {
       throw Exception(e.toString());
     }
