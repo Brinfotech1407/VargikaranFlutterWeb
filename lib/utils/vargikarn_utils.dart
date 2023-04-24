@@ -18,56 +18,61 @@ class Utils {
     bool readOnly = false,
     bool isMaxLength = false,
     int maxLength = 3,
+    required double order,
   }) {
     return Padding(
       padding: const EdgeInsets.all(8),
-      child: TextFormField(
-        controller: controller,
-        onTap: onTap,
-        autofillHints: autofillHints,
-        cursorColor: Colors.black,
-        obscureText: obscureText,
-        readOnly: readOnly,
-        maxLines: maxLine,
-        minLines: minLines,
-        maxLength: isMaxLength ? maxLength : null,
-        autovalidateMode: AutovalidateMode.onUserInteraction,
-        decoration: InputDecoration(
-            suffixIcon: suffixIcon,
-            counterText: "",
-            hintText: hintText,
-            hintStyle: const TextStyle(fontSize: 14),
-            focusColor: Colors.black,
-            contentPadding: const EdgeInsets.only(left: 10, top: 18, bottom: 8),
-            border: const OutlineInputBorder(
-              borderSide: BorderSide(width: 1, color: Colors.grey),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderSide: const BorderSide(
-                color: Colors.grey,
-                width: 1.0,
+      child: FocusTraversalOrder(
+        order: NumericFocusOrder(order),
+        child: TextFormField(
+          textCapitalization: TextCapitalization.words,
+          controller: controller,
+          onTap: onTap,
+          autofillHints: autofillHints,
+          cursorColor: Colors.black,
+          obscureText: obscureText,
+          readOnly: readOnly,
+          maxLines: maxLine,
+          minLines: minLines,
+          maxLength: isMaxLength ? maxLength : null,
+          autovalidateMode: AutovalidateMode.onUserInteraction,
+          decoration: InputDecoration(
+              suffixIcon: suffixIcon,
+              counterText: "",
+              hintText: hintText,
+              hintStyle: const TextStyle(fontSize: 14),
+              focusColor: Colors.black,
+              contentPadding: const EdgeInsets.only(left: 10, top: 18, bottom: 8),
+              border: const OutlineInputBorder(
+                borderSide: BorderSide(width: 1, color: Colors.grey),
               ),
-              borderRadius: BorderRadius.circular(8),
-            ),
-            enabledBorder: OutlineInputBorder(
-              borderSide: const BorderSide(
-                color: Colors.grey,
-                width: 0.5,
+              focusedBorder: OutlineInputBorder(
+                borderSide: const BorderSide(
+                  color: Colors.grey,
+                  width: 1.0,
+                ),
+                borderRadius: BorderRadius.circular(8),
               ),
-              borderRadius: BorderRadius.circular(8),
-            ),
-            errorBorder: OutlineInputBorder(
-              borderSide: const BorderSide(
-                color: Colors.red,
-                width: 1,
+              enabledBorder: OutlineInputBorder(
+                borderSide: const BorderSide(
+                  color: Colors.grey,
+                  width: 0.5,
+                ),
+                borderRadius: BorderRadius.circular(8),
               ),
-              borderRadius: BorderRadius.circular(8),
-            ),
-            disabledBorder: const OutlineInputBorder()),
-        keyboardType: keyboardType,
-        validator: (String? value) {
-          return validator(value);
-        },
+              errorBorder: OutlineInputBorder(
+                borderSide: const BorderSide(
+                  color: Colors.red,
+                  width: 1,
+                ),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              disabledBorder: const OutlineInputBorder()),
+          keyboardType: keyboardType,
+          validator: (String? value) {
+            return validator(value);
+          },
+        ),
       ),
     );
   }
