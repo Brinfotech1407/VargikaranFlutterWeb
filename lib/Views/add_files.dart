@@ -92,6 +92,13 @@ class _AddFileScreenState extends State<AddFileScreen> {
 
   final _formKey = GlobalKey<FormState>();
   final RxBool _isLoading = false.obs;
+  @override
+  void initState() {
+    startDateInputController.text = DateFormat('dd-MM-yyyy').format( DateTime.now());
+   endDateInputController.text = DateFormat('dd-MM-yyyy').format( DateTime.now());
+   recordDateController.text = DateFormat('dd-MM-yyyy').format( DateTime.now());
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -713,7 +720,7 @@ class _AddFileScreenState extends State<AddFileScreen> {
                   child: GestureDetector(
                     child: Utils().textFormFiledView(
                       order: 10,
-                      hintText: 'dd-MM-yyyy',
+                      hintText: startDate.toString(),
                       controller: startDateInputController,
                       readOnly: true,
                       suffixIcon: const Icon(Icons.calendar_month),
@@ -877,11 +884,27 @@ class _AddFileScreenState extends State<AddFileScreen> {
                   order: 4,
                   controller: recordDateController,
                   hintText: '',
+                  suffixIcon: const Icon(Icons.calendar_month),
+                  onTap: () async {
+                    DateTime? pickedDate = await showDatePicker(
+                        context: context,
+                        initialDate: DateTime.now(),
+                        firstDate: DateTime(2000),
+                        lastDate: DateTime(2101));
+                    if (pickedDate != null) {
+                      String formattedDate =
+                      DateFormat('dd-MM-yyyy').format(pickedDate);
+                      setState(() {
+                        recordDateController.text = formattedDate;
+                      });
+                    } else {
+                    }
+                  },
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return onTextEmptyMsg();
                     } else if (value.isAlphabetOnly) {
-                      return 'Please enter numeric Date value';
+                      return 'Please enter Date value';
                     }
                     return null;
                   },
