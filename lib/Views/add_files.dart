@@ -55,11 +55,10 @@ class _AddFileScreenState extends State<AddFileScreen> {
 
   var selectedItemNameList = [
     'Select Branch',
-    'Name1',
-    'name2',
-    'name3',
-    'name4',
-    'name5',
+    'Branch1',
+    'Branch2',
+    'Branch3',
+    'Branch4',
   ].obs;
   RxString selectedItemNameDropdownValue = 'Select Branch'.obs;
 
@@ -74,10 +73,11 @@ class _AddFileScreenState extends State<AddFileScreen> {
 
   var departmentNameItemNameList = [
     'Select Department',
-    'Name1',
-    'name2',
-    'name3',
-    'name4',
+    'Department1',
+    'Department2',
+    'Department3',
+    'Department4',
+    'Department5',
   ].obs;
   RxString selectedItemDepartmentNameDropdownValue = 'Select Department'.obs;
 
@@ -152,6 +152,7 @@ class _AddFileScreenState extends State<AddFileScreen> {
                                       buildRowText(title: 'Fn. No', width: 160),
                                       Flexible(
                                         child: Utils().textFormFiledView(
+                                          order: 1,
                                           controller: fileNoController,
                                           hintText: 'Enter F.N No',
                                           validator: (value) {
@@ -466,6 +467,7 @@ class _AddFileScreenState extends State<AddFileScreen> {
                         child: Container(
                           margin: const EdgeInsets.only(right: 10),
                           child: Utils().textFormFiledView(
+                            order: 1,
                             controller: fileNoController,
                             hintText: 'Enter F.N No',
                             validator: (value) {
@@ -705,6 +707,7 @@ class _AddFileScreenState extends State<AddFileScreen> {
                 Expanded(
                   child: GestureDetector(
                     child: Utils().textFormFiledView(
+                      order: 7,
                       hintText: 'dd-MM-yyyy',
                       controller: startDateInputController,
                       readOnly: true,
@@ -747,6 +750,7 @@ class _AddFileScreenState extends State<AddFileScreen> {
                 Expanded(
                   child: GestureDetector(
                     child: Utils().textFormFiledView(
+                      order: 8,
                       hintText: 'dd-MM-yyyy',
                       controller: endDateInputController,
                       readOnly: true,
@@ -794,6 +798,7 @@ class _AddFileScreenState extends State<AddFileScreen> {
                 buildRowText(title: 'No. of Pages', width: 160),
                 Expanded(
                   child: Utils().textFormFiledView(
+                    order: 9,
                     controller: noOfPagesController,
                     hintText: '',
                     validator: (value) {
@@ -863,6 +868,7 @@ class _AddFileScreenState extends State<AddFileScreen> {
               buildRowText(title: 'Record Date', width: 160),
               Expanded(
                 child: Utils().textFormFiledView(
+                  order: 2,
                   controller: recordDateController,
                   hintText: '',
                   validator: (value) {
@@ -883,6 +889,7 @@ class _AddFileScreenState extends State<AddFileScreen> {
               buildRowText(title: 'Subject', width: 160),
               Expanded(
                 child: Utils().textFormFiledView(
+                  order: 3,
                   controller: subjectController,
                   hintText: '',
                   maxLine: 4,
@@ -904,6 +911,7 @@ class _AddFileScreenState extends State<AddFileScreen> {
               buildRowText(title: 'Application Name', width: 160),
               Expanded(
                 child: Utils().textFormFiledView(
+                  order: 4,
                   controller: applicationNameController,
                   hintText: '',
                   isMaxLength: true,
@@ -925,6 +933,7 @@ class _AddFileScreenState extends State<AddFileScreen> {
               buildRowText(title: 'Order No', width: 160),
               Expanded(
                 child: Utils().textFormFiledView(
+                  order: 5,
                   controller: orderNoController,
                   hintText: '',
                   isMaxLength: true,
@@ -946,6 +955,7 @@ class _AddFileScreenState extends State<AddFileScreen> {
               buildRowText(title: 'Remarks', width: 160),
               Expanded(
                 child: Utils().textFormFiledView(
+                  order: 6,
                   controller: remarksController,
                   hintText: '',
                   isMaxLength: true,

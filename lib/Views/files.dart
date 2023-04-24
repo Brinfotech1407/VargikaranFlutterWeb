@@ -81,6 +81,7 @@ class _FilesScreenState extends State<FilesScreen> {
               SizedBox(
                 width: 200,
                 child: Utils().textFormFiledView(
+                  order: 100,
                   controller: searchController,
                   hintText: '',
                   validator: (value) {},
