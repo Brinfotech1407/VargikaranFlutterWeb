@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
+import 'package:vargikaran_web_app/model/admin_model.dart';
 import 'package:vargikaran_web_app/model/files_model.dart';
 import 'package:vargikaran_web_app/services/preference_service.dart';
 
@@ -50,5 +51,42 @@ class FireStoreServices {
     } catch (e) {
       throw Exception(e.toString());
     }
+  }
+
+  Future<AdminModel?> getUpdatedFileNo() async {
+    try {
+      final DocumentSnapshot<Map<String, dynamic>> doc =
+      await _firestore.collection('Admin').doc('data').get();
+
+      if (doc.exists) {
+        try {
+          final AdminModel adminModel = AdminModel.fromJson(doc.data()!);
+          return adminModel;
+        } catch (e) {
+          return null;
+        }
+      }
+    } catch (e) {
+      throw Exception(e.toString());
+    }
+    return null;
+  }
+
+  Future<AdminModel?> setUpdatedFileNo(int number) async {
+    try {
+
+      final Map<String, dynamic> data = <String, dynamic>{};
+
+      data['FNNO'] = number;
+
+      await _firestore
+          .collection('Admin')
+          .doc('data')
+          .set(data, SetOptions(merge: true));
+
+    } catch (e) {
+      throw Exception(e.toString());
+    }
+    return null;
   }
 }

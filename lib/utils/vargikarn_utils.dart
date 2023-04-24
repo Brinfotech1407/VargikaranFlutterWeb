@@ -19,6 +19,7 @@ class Utils {
     int minLines = 1,
     bool obscureText = false,
     bool readOnly = false,
+    bool enabled = true,
     bool isMaxLength = false,
     int maxLength = 3,
     required double order,
@@ -28,6 +29,7 @@ class Utils {
       child: FocusTraversalOrder(
         order: NumericFocusOrder(order),
         child: TextFormField(
+          enabled: enabled,
           textCapitalization: TextCapitalization.words,
           controller: controller,
           onTap: onTap,
@@ -45,7 +47,8 @@ class Utils {
               hintText: hintText,
               hintStyle: const TextStyle(fontSize: 14),
               focusColor: Colors.black,
-              contentPadding: const EdgeInsets.only(left: 10, top: 18, bottom: 8),
+              contentPadding:
+                  const EdgeInsets.only(left: 10, top: 18, bottom: 8),
               border: const OutlineInputBorder(
                 borderSide: BorderSide(width: 1, color: Colors.grey),
               ),
@@ -88,55 +91,54 @@ class Utils {
       required value}) {
     return Flexible(
       child: FocusTraversalOrder(
-        order: NumericFocusOrder(order),
-        child: Container(
-          margin: const EdgeInsets.all(8),
-          child: DropdownButtonFormField<String>(
-            isDense: true,
-            elevation: 0,
-            dropdownColor: Colors.white,
-           focusColor: Colors.transparent,
-            autovalidateMode: AutovalidateMode.onUserInteraction,
-            decoration: InputDecoration(
-                counterText: "",
-                hintStyle: const TextStyle(fontSize: 14),
-                focusColor: Colors.black,
-                contentPadding: const EdgeInsets.only(left: 10, top: 18, bottom: 8),
-                border: const OutlineInputBorder(
-                  borderSide: BorderSide(width: 1, color: Colors.grey),
+        order: NumericFocusOrder(order),child: Container(
+        margin: const EdgeInsets.all(8),
+        child: DropdownButtonFormField<String>(
+          isDense: true,
+          elevation: 0,
+          dropdownColor: Colors.white,
+          focusColor: Colors.transparent,
+          autovalidateMode: AutovalidateMode.onUserInteraction,
+          decoration: InputDecoration(
+              counterText: "",
+              hintStyle: const TextStyle(fontSize: 14),
+              focusColor: Colors.black,
+              contentPadding:
+                  const EdgeInsets.only(left: 10, top: 18, bottom: 8),
+              border: const OutlineInputBorder(
+                borderSide: BorderSide(width: 1, color: Colors.grey),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderSide: const BorderSide(
+                  color: Colors.grey,
+                  width: 1.0,
                 ),
-                focusedBorder: OutlineInputBorder(
-                  borderSide: const BorderSide(
-                    color: Colors.grey,
-                    width: 1.0,
-                  ),
-                  borderRadius: BorderRadius.circular(8),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderSide: const BorderSide(
+                  color: Colors.grey,
+                  width: 0.5,
                 ),
-                enabledBorder: OutlineInputBorder(
-                  borderSide: const BorderSide(
-                    color: Colors.grey,
-                    width: 0.5,
-                  ),
-                  borderRadius: BorderRadius.circular(8),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              errorBorder: OutlineInputBorder(
+                borderSide: const BorderSide(
+                  color: Colors.red,
+                  width: 1,
                 ),
-                errorBorder: OutlineInputBorder(
-                  borderSide: const BorderSide(
-                    color: Colors.red,
-                    width: 1,
-                  ),
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                disabledBorder: const OutlineInputBorder()),
-            borderRadius: const BorderRadius.all(Radius.circular(8)),
-            validator: validator,
-            value: value,
-            icon: const Padding(
-              padding: EdgeInsets.only(right: 8.0),
-              child: Icon(Icons.keyboard_arrow_down),
-            ),
-            items: item,
-            onChanged: onChanged,
+                borderRadius: BorderRadius.circular(8),
+              ),
+              disabledBorder: const OutlineInputBorder()),
+          borderRadius: const BorderRadius.all(Radius.circular(8)),
+          validator: validator,
+          value: value,
+          icon: const Padding(
+            padding: EdgeInsets.only(right: 8.0),
+            child: Icon(Icons.keyboard_arrow_down),
           ),
+          items: item,
+          onChanged: onChanged,),
         ),
       ),
     );

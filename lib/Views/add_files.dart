@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:uuid/uuid.dart';
-import 'package:vargikaran_web_app/utils/date_time_utils.dart';
 import 'package:vargikaran_web_app/layout/adaptive.dart';
+import 'package:vargikaran_web_app/model/admin_model.dart';
 import 'package:vargikaran_web_app/model/files_model.dart';
 import 'package:vargikaran_web_app/services/firestore_services.dart';
+import 'package:vargikaran_web_app/utils/date_time_utils.dart';
 import 'package:vargikaran_web_app/utils/vargikarn_utils.dart';
 
 class AddFileScreen extends StatefulWidget {
@@ -92,12 +93,27 @@ class _AddFileScreenState extends State<AddFileScreen> {
 
   final _formKey = GlobalKey<FormState>();
   final RxBool _isLoading = false.obs;
+  bool isValueLoaded = false;
+
   @override
   void initState() {
     startDateInputController.text = DateFormat('dd-MM-yyyy').format( DateTime.now());
-   endDateInputController.text = DateFormat('dd-MM-yyyy').format( DateTime.now());
-   recordDateController.text = DateFormat('dd-MM-yyyy').format( DateTime.now());
+    endDateInputController.text = DateFormat('dd-MM-yyyy').format( DateTime.now());
+    recordDateController.text = DateFormat('dd-MM-yyyy').format( DateTime.now());
     super.initState();
+    getFilesData();
+  }
+
+  void getFilesData() {
+    FireStoreServices().getUpdatedFileNo().then((AdminModel? value) {
+      if (value != null) {
+        setState(() {
+          isValueLoaded = true;
+          int updatedCounter = value.FNNO! + 1;
+          fileNoController.text = updatedCounter.toString();
+        });
+      }
+    });
   }
 
   @override
@@ -105,251 +121,272 @@ class _AddFileScreenState extends State<AddFileScreen> {
     final isDesktop = isDisplayDesktop(context);
     final isSmallDesktop = isDisplaySmallDesktop(context);
     return Scaffold(
-      body: Container(
-        margin: const EdgeInsets.only(bottom: 10, top: 10, right: 8, left: 8),
-        child: FocusTraversalGroup(
-          policy: OrderedTraversalPolicy(),
-          child: SingleChildScrollView(
-            child: Form(
-              key: _formKey,
-              child: Obx(
-                () => Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    if (_isLoading.isTrue) ...[
-                      Padding(
-                        padding: const EdgeInsets.only(top: 8.0, bottom: 8),
-                        child: LinearProgressIndicator(
-                          backgroundColor: Colors.cyanAccent,
-                          valueColor:
-                              const AlwaysStoppedAnimation<Color>(Colors.green),
-                          value: progressValue,
-                        ),
-                      ),
-                    ],
-                    SelectableText('Add New File',
-                        style:
-                            TextStyle(fontSize: 22, color: Colors.grey.shade800)),
-                    Card(
-                      elevation: 1,
-                      margin: const EdgeInsets.only(top: 18, bottom: 12),
-                      child: isDesktop
-                          ? buildDesktopDepartmentCardView(isSmallDesktop)
-                          : Container(
-                              padding: const EdgeInsets.only(left: 9),
-                              child: Column(
-                                children: [
-                                  Row(
-                                    children: [
-                                      IconButton(
-                                          onPressed: () {},
-                                          icon: const Icon(
-                                            Icons.settings,
-                                            size: 17,
-                                          )),
-                                      const Text('DEPARTMENT DETAILS',
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                          )),
-                                    ],
+      body: isValueLoaded
+          ? Container(
+              margin:
+                  const EdgeInsets.only(bottom: 10, top: 10, right: 8, left: 8),
+              child: FocusTraversalGroup(
+                policy: OrderedTraversalPolicy(),
+                child: SingleChildScrollView(
+                  child: Form(
+                    key: _formKey,
+                    child: Obx(
+                      () => Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          if (_isLoading.isTrue) ...[
+                            Padding(
+                              padding:
+                                  const EdgeInsets.only(top: 8.0, bottom: 8),
+                              child: LinearProgressIndicator(
+                                backgroundColor: Colors.cyanAccent,
+                                valueColor: const AlwaysStoppedAnimation<Color>(
+                                    Colors.green),
+                                value: progressValue,
+                              ),
+                            ),
+                          ],
+                          SelectableText('Add New File',
+                              style: TextStyle(
+                                  fontSize: 22, color: Colors.grey.shade800)),
+                          Card(
+                            elevation: 1,
+                            margin: const EdgeInsets.only(top: 18, bottom: 12),
+                            child: isDesktop
+                                ? buildDesktopDepartmentCardView(isSmallDesktop)
+                                : Container(
+                                    padding: const EdgeInsets.only(left: 9),
+                                    child: Column(
+                                      children: [
+                                        Row(
+                                          children: [
+                                            IconButton(
+                                                onPressed: () {},
+                                                icon: const Icon(
+                                                  Icons.settings,
+                                                  size: 17,
+                                                )),
+                                            const Text('DEPARTMENT DETAILS',
+                                                style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                )),
+                                          ],
+                                        ),
+                                        const Divider(),
+                                        Row(
+                                          children: [
+                                            buildRowText(
+                                                title: 'Fn. No', width: 160),
+                                            Flexible(
+                                              child: Utils().textFormFiledView(
+                                                order: 1,
+                                                readOnly: true,
+                                                enabled: true,
+                                                controller: fileNoController,
+                                                hintText: 'Enter F.N No',
+                                                validator: (value) {
+                                                  if (value == null ||
+                                                      value.isEmpty) {
+                                                    return onTextEmptyMsg();
+                                                  } else if (value
+                                                      .isAlphabetOnly) {
+                                                    return 'Please enter numeric value';
+                                                  }
+                                                  return null;
+                                                },
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        Row(
+                                          children: [
+                                            buildRowText(
+                                                title: 'Select Department*',
+                                                width: 160),
+                                            Obx(
+                                              () =>
+                                                  buildSelectDepartNameDropdownView(),
+                                            ),
+                                          ],
+                                        ),
+                                        Row(
+                                          children: [
+                                            buildRowText(
+                                                title: 'Select Branch*',
+                                                width: 160),
+                                            Obx(
+                                              () => selectBranchDropDownView(),
+                                            ),
+                                          ],
+                                        )
+                                      ],
+                                    ),
                                   ),
-                                  const Divider(),
-                                  Row(
-                                    children: [
-                                      buildRowText(title: 'Fn. No', width: 160),
-                                      Flexible(
-                                        child: Utils().textFormFiledView(
-                                          order: 1,
-                                          controller: fileNoController,
-                                          hintText: 'Enter F.N No',
-                                          validator: (value) {
-                                            if (value == null || value.isEmpty) {
-                                              return onTextEmptyMsg();
-                                            } else if (value.isAlphabetOnly) {
-                                              return 'Please enter numeric value';
-                                            }
-                                            return null;
-                                          },
+                          ),
+                          Card(
+                            elevation: 1,
+                            margin: const EdgeInsets.only(top: 18, bottom: 12),
+                            child: isSmallDesktop
+                                ? Container(
+                                    padding: const EdgeInsets.all(10),
+                                    child: Column(
+                                      children: [
+                                        buildDocumentDetailsCard(),
+                                        buildDocumentDetailsLocationCard()
+                                      ],
+                                    ),
+                                  )
+                                : isDesktop
+                                    ? buildDesktopDocumentCardView()
+                                    : Container(
+                                        padding: const EdgeInsets.only(left: 9),
+                                        child: Column(
+                                          children: [
+                                            buildDocumentDetailsCard(),
+                                            buildDocumentDetailsLocationCard()
+                                          ],
                                         ),
                                       ),
-                                    ],
+                          ),
+                          Card(
+                            elevation: 1,
+                            margin: const EdgeInsets.only(top: 18, bottom: 12),
+                            child: isDesktop
+                                ? buildDesktopDepartmentLastCardView(
+                                    isSmallDesktop)
+                                : Container(
+                                    margin: const EdgeInsets.only(left: 8),
+                                    padding: const EdgeInsets.only(
+                                        left: 9, top: 8, bottom: 20, right: 8),
+                                    child: Column(
+                                      children: [
+                                        Row(
+                                          children: [
+                                            IconButton(
+                                                onPressed: () {},
+                                                icon: const Icon(
+                                                  Icons.settings,
+                                                  size: 17,
+                                                )),
+                                            const Text('DEPARTMENT DETAILS',
+                                                style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                )),
+                                          ],
+                                        ),
+                                        Row(
+                                          children: [
+                                            buildRowText(title: 'Cupboard'),
+                                            Obx(
+                                              () => buildCupBoardView(),
+                                            ),
+                                          ],
+                                        ),
+                                        const SizedBox(
+                                          height: 8,
+                                        ),
+                                        Row(
+                                          children: [
+                                            buildRowText(title: 'Rack*'),
+                                            Obx(
+                                              () => buildRackView(),
+                                            ),
+                                          ],
+                                        ),
+                                        const SizedBox(
+                                          height: 8,
+                                        ),
+                                        Row(
+                                          children: [
+                                            buildRowText(title: 'Box*'),
+                                            Obx(
+                                              () => boxDropDownList(),
+                                            ),
+                                          ],
+                                        )
+                                      ],
+                                    ),
                                   ),
-                                  Row(
-                                    children: [
-                                      buildRowText(
-                                          title: 'Select Department*',
-                                          width: 160),
-                                      Obx(
-                                        () => buildSelectDepartNameDropdownView(),
-                                      ),
-                                    ],
-                                  ),
-                                  Row(
-                                    children: [
-                                      buildRowText(
-                                          title: 'Select Branch*', width: 160),
-                                      Obx(
-                                        () => selectBranchDropDownView(),
-                                      ),
-                                    ],
-                                  )
-                                ],
-                              ),
+                          ),
+                          if (_isLoading.isTrue) ...[
+                            const Padding(
+                              padding: EdgeInsets.only(top: 8.0, bottom: 8),
+                              child: Center(child: CircularProgressIndicator()),
                             ),
-                    ),
-                    Card(
-                      elevation: 1,
-                      margin: const EdgeInsets.only(top: 18, bottom: 12),
-                      child: isSmallDesktop
-                          ? Container(
-                              padding: const EdgeInsets.all(10),
-                              child: Column(
-                                children: [
-                                  buildDocumentDetailsCard(),
-                                  buildDocumentDetailsLocationCard()
-                                ],
-                              ),
-                            )
-                          : isDesktop
-                              ? buildDesktopDocumentCardView()
-                              : Container(
-                                  padding: const EdgeInsets.only(left: 9),
-                                  child: Column(
-                                    children: [
-                                      buildDocumentDetailsCard(),
-                                      buildDocumentDetailsLocationCard()
-                                    ],
-                                  ),
-                                ),
-                    ),
-                    Card(
-                      elevation: 1,
-                      margin: const EdgeInsets.only(top: 18, bottom: 12),
-                      child: isDesktop
-                          ? buildDesktopDepartmentLastCardView(isSmallDesktop)
-                          : Container(
-                              margin: const EdgeInsets.only(left: 8),
-                              padding: const EdgeInsets.only(
-                                  left: 9, top: 8, bottom: 20, right: 8),
-                              child: Column(
-                                children: [
-                                  Row(
-                                    children: [
-                                      IconButton(
-                                          onPressed: () {},
-                                          icon: const Icon(
-                                            Icons.settings,
-                                            size: 17,
-                                          )),
-                                      const Text('DEPARTMENT DETAILS',
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                          )),
-                                    ],
-                                  ),
-                                  Row(
-                                    children: [
-                                      buildRowText(title: 'Cupboard'),
-                                      Obx(
-                                        () => buildCupBoardView(),
-                                      ),
-                                    ],
-                                  ),
-                                  const SizedBox(
-                                    height: 8,
-                                  ),
-                                  Row(
-                                    children: [
-                                      buildRowText(title: 'Rack*'),
-                                      Obx(
-                                        () => buildRackView(),
-                                      ),
-                                    ],
-                                  ),
-                                  const SizedBox(
-                                    height: 8,
-                                  ),
-                                  Row(
-                                    children: [
-                                      buildRowText(title: 'Box*'),
-                                      Obx(
-                                        () => boxDropDownList(),
-                                      ),
-                                    ],
-                                  )
-                                ],
-                              ),
+                          ] else ...[
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Utils().buildButtonView(
+                                    onTap: () async {
+                                      _isLoading.value = true;
+
+                                      await Future.delayed(
+                                          const Duration(seconds: 3));
+
+                                      if (_formKey.currentState!.validate() &&
+                                          isEnterAllDetails()) {
+                                        final FileModel fileData = FileModel(
+                                          id: userID(),
+                                          applicationName:
+                                              applicationNameController.text,
+                                          boxName: boxDropdownValue.value,
+                                          branch: selectedItemNameDropdownValue
+                                              .value,
+                                          classes:
+                                              selectedItemClassNameDropdownValue
+                                                  .value,
+                                          cupBoardName:
+                                              cupBoardItemNameDropdownValue
+                                                  .value,
+                                          department:
+                                              selectedItemDepartmentNameDropdownValue
+                                                  .value,
+                                          endDate: endDate,
+                                          fnNo: fileNoController.text,
+                                          noOfPages: noOfPagesController.text,
+                                          orderNo: orderNoController.text,
+                                          rackName:
+                                              rackItemNameDropdownValue.value,
+                                          recordDate: recordDateController.text,
+                                          entryDate: DateTimeUtils
+                                              .getCurrentDateTime(),
+                                          remarks: remarksController.text,
+                                          startDate: startDate,
+                                          subject: subjectController.text,
+                                        );
+                                        // ignore: use_build_context_synchronously
+                                        await FireStoreServices()
+                                            .addFilesData(fileData, context);
+
+                                        int count=int.parse(fileNoController.text);
+                                        await FireStoreServices().setUpdatedFileNo(count);
+
+                                        /*   clearTextFiledData();*/
+                                        _formKey.currentState?.reset();
+                                        // ignore: use_build_context_synchronously
+                                        Navigator.pop(context, true);
+                                      }
+
+                                      _isLoading.value = false;
+                                    },
+                                    title: 'Submit'),
+                                Utils().buildButtonView(
+                                    onTap: () {
+                                      Navigator.pop(context);
+                                    },
+                                    title: 'Cancel'),
+                              ],
                             ),
-                    ),
-                    if (_isLoading.isTrue) ...[
-                      const Padding(
-                        padding: EdgeInsets.only(top: 8.0, bottom: 8),
-                        child: Center(child: CircularProgressIndicator()),
-                      ),
-                    ] else ...[
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Utils().buildButtonView(
-                              onTap: () async {
-                                _isLoading.value = true;
-
-                                await Future.delayed(const Duration(seconds: 3));
-
-                                if (_formKey.currentState!.validate() &&
-                                    isEnterAllDetails()) {
-                                  final FileModel fileData = FileModel(
-                                    id: userID(),
-                                    applicationName:
-                                        applicationNameController.text,
-                                    boxName: boxDropdownValue.value,
-                                    branch: selectedItemNameDropdownValue.value,
-                                    classes:
-                                        selectedItemClassNameDropdownValue.value,
-                                    cupBoardName:
-                                        cupBoardItemNameDropdownValue.value,
-                                    department:
-                                        selectedItemDepartmentNameDropdownValue
-                                            .value,
-                                    endDate: endDate,
-                                    fnNo: fileNoController.text,
-                                    noOfPages: noOfPagesController.text,
-                                    orderNo: orderNoController.text,
-                                    rackName: rackItemNameDropdownValue.value,
-                                    recordDate: recordDateController.text,
-                                    entryDate: DateTimeUtils.getCurrentDateTime(),
-                                    remarks: remarksController.text,
-                                    startDate: startDate,
-                                    subject: subjectController.text,
-                                  );
-                                  // ignore: use_build_context_synchronously
-                                  await FireStoreServices()
-                                      .addFilesData(fileData, context);
-
-                                  /*   clearTextFiledData();*/
-                                  _formKey.currentState?.reset();
-                                  // ignore: use_build_context_synchronously
-                                  Navigator.pop(context, true);
-                                }
-
-                                _isLoading.value = false;
-                              },
-                              title: 'Submit'),
-                          Utils().buildButtonView(
-                              onTap: () {
-                                Navigator.pop(context);
-                              },
-                              title: 'Cancel'),
+                          ],
                         ],
                       ),
-                    ],
-                  ],
+                    ),
+                  ),
                 ),
               ),
-            ),
-          ),
-        ),
-      ),
+            )
+          : const Center(child: CircularProgressIndicator()),
     );
   }
 
@@ -745,8 +782,7 @@ class _AddFileScreenState extends State<AddFileScreen> {
                             startDate = pickedDate.millisecondsSinceEpoch;
                             startDateInputController.text = formattedDate;
                           });
-                        } else {
-                        }
+                        } else {}
                       },
                     ),
                     onTap: () {
@@ -789,8 +825,7 @@ class _AddFileScreenState extends State<AddFileScreen> {
                             endDateInputController.text = formattedDate;
                             endDate = pickedDate.millisecondsSinceEpoch;
                           });
-                        } else {
-                        }
+                        } else {}
                       },
                     ),
                     onTap: () {
