@@ -7,9 +7,10 @@ import 'package:vargikaran_web_app/model/files_model.dart';
 import 'package:vargikaran_web_app/services/firestore_services.dart';
 
 class GridViewScreen extends StatefulWidget {
-  const GridViewScreen({Key? key, required this.arrFilesList})
+  const GridViewScreen({Key? key, required this.arrFilesList,required this.sfDataGridKey})
       : super(key: key);
   final List<FileModel> arrFilesList;
+  final GlobalKey<SfDataGridState> sfDataGridKey;
 
   @override
   State<GridViewScreen> createState() => _GridViewScreenState();
@@ -18,7 +19,6 @@ class GridViewScreen extends StatefulWidget {
 class _GridViewScreenState extends State<GridViewScreen> {
   late FilesInfoDataGridSource filesDataSource;
   late bool isWebOrDesktop;
-  GlobalKey<SfDataGridState> key = GlobalKey<SfDataGridState>();
 
   @override
   void initState() {
@@ -36,6 +36,7 @@ class _GridViewScreenState extends State<GridViewScreen> {
   Widget build(BuildContext context) {
     isWebOrDesktop = isDisplayDesktop(context);
     return SfDataGrid(
+      key:widget.sfDataGridKey,
       defaultColumnWidth: 150,
       gridLinesVisibility: GridLinesVisibility.both,
       headerGridLinesVisibility: GridLinesVisibility.both,

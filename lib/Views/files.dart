@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
+import 'package:syncfusion_flutter_datagrid/datagrid.dart';
+import 'package:syncfusion_flutter_datagrid_export/export.dart';
 import 'package:vargikaran_web_app/Views/add_files.dart';
 import 'package:vargikaran_web_app/Views/sfgrid_view.dart';
 import 'package:vargikaran_web_app/model/files_model.dart';
+import 'package:vargikaran_web_app/services/firestore_services.dart';
 import 'package:vargikaran_web_app/utils/vargikarn_utils.dart';
+import 'package:vargikaran_web_app/export/save_file_mobile.dart'
+if (dart.library.html) 'package:vargikaran_web_app/export/save_file_web.dart' as helper;
+import 'package:syncfusion_flutter_pdf/pdf.dart';
 
-import '../services/firestore_services.dart';
 
 class FilesScreen extends StatefulWidget {
   const FilesScreen({Key? key}) : super(key: key);
@@ -26,6 +31,7 @@ class _FilesScreenState extends State<FilesScreen> {
   RxString selectedItemDropdownValue = '10'.obs;
   final searchController = TextEditingController();
   List<FileModel> arrFilesList = [];
+  final GlobalKey<SfDataGridState> sfDataGridKey = GlobalKey<SfDataGridState>();
 
   @override
   void initState() {
@@ -94,7 +100,7 @@ class _FilesScreenState extends State<FilesScreen> {
                   ? const Center(
                       child: CircularProgressIndicator(),
                     )
-                  : GridViewScreen(arrFilesList: arrFilesList)),
+                  : GridViewScreen(arrFilesList: arrFilesList,sfDataGridKey: sfDataGridKey,)),
         ],
       ),
     );
@@ -148,7 +154,9 @@ class _FilesScreenState extends State<FilesScreen> {
           ),
           const Spacer(),
           TextButton(
-            onPressed: () {},
+            onPressed: () {
+              exportDataGridToPdf();
+            },
             style: TextButton.styleFrom(
               side: const BorderSide(width: 2.0),
             ),
@@ -158,7 +166,9 @@ class _FilesScreenState extends State<FilesScreen> {
             width: 4,
           ),
           TextButton(
-            onPressed: () {},
+            onPressed: () async {
+              exportDataGridToPdf();
+            },
             style: TextButton.styleFrom(
               side: const BorderSide(width: 2.0, color: Colors.lightBlueAccent),
             ),
@@ -180,6 +190,17 @@ class _FilesScreenState extends State<FilesScreen> {
       ),
     );
   }
+
+  Future<void> exportDataGridToPdf() async {
+    final PdfDocument document = sfDataGridKey.currentState!.exportToPdfDocument(
+        fitAllColumnsInOnePage: true);
+
+    final List<int> bytes = document.saveSync();
+    await helper.FileSaveHelper.saveAndLaunchFile(bytes, 'VargikarnData.pdf');
+    document.dispose();
+  }
+
+
 
   Widget entryDropDownView() {
     return Container(

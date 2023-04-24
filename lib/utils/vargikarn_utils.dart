@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:quickalert/models/quickalert_type.dart';
 import 'package:quickalert/widgets/quickalert_dialog.dart';
+
 
 class Utils {
   Widget textFormFiledView({
@@ -222,8 +225,8 @@ class Utils {
     }
   }
 
-  linearProgressView(progressValue) {
-    Column(
+  Widget linearProgressView(progressValue) {
+  return  Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         LinearProgressIndicator(

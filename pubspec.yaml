@@ -53,6 +53,9 @@ dependencies:
   #unique id provide
   uuid: ^3.0.7
   syncfusion_flutter_datagrid: ^21.1.41
+  syncfusion_flutter_pdfviewer: ^21.1.41
+  syncfusion_flutter_datagrid_export: ^21.1.41
+  path_provider: ^2.0.14
 
 
 dev_dependencies:
