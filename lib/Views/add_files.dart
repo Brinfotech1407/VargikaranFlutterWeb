@@ -352,6 +352,7 @@ class _AddFileScreenState extends State<AddFileScreen> {
 
   Widget selectBranchDropDownView() {
     return Utils().dropDownFormView(
+      order: 3,
         validator: (value) {
           if (value == 'Select Branch') {
             return onTextEmptyMsg();
@@ -372,6 +373,7 @@ class _AddFileScreenState extends State<AddFileScreen> {
 
   Widget buildSelectDepartNameDropdownView() {
     return Utils().dropDownFormView(
+      order: 2,
       validator: (value) {
         if (value == 'Select Department') {
           return onTextEmptyMsg();
@@ -393,6 +395,7 @@ class _AddFileScreenState extends State<AddFileScreen> {
 
   Widget buildCupBoardView() {
     return Utils().dropDownFormView(
+      order: 13,
       validator: (value) {
         if (value == 'Select Name') {
           return onTextEmptyMsg();
@@ -414,6 +417,7 @@ class _AddFileScreenState extends State<AddFileScreen> {
 
   Widget buildRackView() {
     return Utils().dropDownFormView(
+      order: 13,
       validator: (value) {
         if (value == 'Select Name') {
           return onTextEmptyMsg();
@@ -617,6 +621,7 @@ class _AddFileScreenState extends State<AddFileScreen> {
 
   Widget boxDropDownList() {
     return Utils().dropDownFormView(
+      order: 14,
         validator: (value) {
           if (value == 'Select Name') {
             return onTextEmptyMsg();
@@ -707,7 +712,7 @@ class _AddFileScreenState extends State<AddFileScreen> {
                 Expanded(
                   child: GestureDetector(
                     child: Utils().textFormFiledView(
-                      order: 7,
+                      order: 10,
                       hintText: 'dd-MM-yyyy',
                       controller: startDateInputController,
                       readOnly: true,
@@ -750,7 +755,7 @@ class _AddFileScreenState extends State<AddFileScreen> {
                 Expanded(
                   child: GestureDetector(
                     child: Utils().textFormFiledView(
-                      order: 8,
+                      order: 11,
                       hintText: 'dd-MM-yyyy',
                       controller: endDateInputController,
                       readOnly: true,
@@ -798,7 +803,7 @@ class _AddFileScreenState extends State<AddFileScreen> {
                 buildRowText(title: 'No. of Pages', width: 160),
                 Expanded(
                   child: Utils().textFormFiledView(
-                    order: 9,
+                    order: 12,
                     controller: noOfPagesController,
                     hintText: '',
                     validator: (value) {
@@ -823,6 +828,7 @@ class _AddFileScreenState extends State<AddFileScreen> {
 
   Widget buildSelectClassNameDropDownValue() {
     return Utils().dropDownFormView(
+      order: 9,
       validator: (value) {
         if (value == 'Select Name') {
           return onTextEmptyMsg();
@@ -868,7 +874,7 @@ class _AddFileScreenState extends State<AddFileScreen> {
               buildRowText(title: 'Record Date', width: 160),
               Expanded(
                 child: Utils().textFormFiledView(
-                  order: 2,
+                  order: 4,
                   controller: recordDateController,
                   hintText: '',
                   validator: (value) {
@@ -889,7 +895,7 @@ class _AddFileScreenState extends State<AddFileScreen> {
               buildRowText(title: 'Subject', width: 160),
               Expanded(
                 child: Utils().textFormFiledView(
-                  order: 3,
+                  order: 5,
                   controller: subjectController,
                   hintText: '',
                   maxLine: 4,
@@ -911,7 +917,7 @@ class _AddFileScreenState extends State<AddFileScreen> {
               buildRowText(title: 'Application Name', width: 160),
               Expanded(
                 child: Utils().textFormFiledView(
-                  order: 4,
+                  order: 6,
                   controller: applicationNameController,
                   hintText: '',
                   isMaxLength: true,
@@ -933,7 +939,7 @@ class _AddFileScreenState extends State<AddFileScreen> {
               buildRowText(title: 'Order No', width: 160),
               Expanded(
                 child: Utils().textFormFiledView(
-                  order: 5,
+                  order: 7,
                   controller: orderNoController,
                   hintText: '',
                   isMaxLength: true,
@@ -955,7 +961,7 @@ class _AddFileScreenState extends State<AddFileScreen> {
               buildRowText(title: 'Remarks', width: 160),
               Expanded(
                 child: Utils().textFormFiledView(
-                  order: 6,
+                  order: 8,
                   controller: remarksController,
                   hintText: '',
                   isMaxLength: true,
