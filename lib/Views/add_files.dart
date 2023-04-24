@@ -516,6 +516,7 @@ class _AddFileScreenState extends State<AddFileScreen> {
                           margin: const EdgeInsets.only(right: 10),
                           child: Utils().textFormFiledView(
                             order: 1,
+                            readOnly: true,
                             controller: fileNoController,
                             hintText: 'Enter F.N No',
                             validator: (value) {
