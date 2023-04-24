@@ -649,15 +649,24 @@ class _AddFileScreenState extends State<AddFileScreen> {
           ),
           isSmallDesktop
               ? Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
+                children: [
+                  Flexible(child: Container()),
+                  Flexible(
+                    child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: [
                     buildRowText(title: 'Box*'),
                     Obx(
-                      () => SizedBox(width: 250, child: boxDropDownList()),
+                          () => boxDropDownList(),
                     ),
-                  ],
-                )
+            ],
+          ),
+                  ),
+                  Flexible(child: Container()),
+                ],
+              )
               : Container()
         ],
       ),
