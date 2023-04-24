@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vargikaran_web_app/utils/vargikarn_utils.dart';
 
 import 'home/home.dart';
 
@@ -52,20 +53,33 @@ class _SignUpFormState extends State<SignUpForm> {
               padding: const EdgeInsets.only(top: 10,bottom: 10),
               child: LinearProgressIndicator(value: _formProgress),
             ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: TextFormField(
-                controller: _usernameTextController,
-                decoration: const InputDecoration(hintText: 'Username'),
-              ),
+            Utils().textFormFiledView(
+              order: 200,
+              controller: _usernameTextController,
+              hintText: 'Enter User Name',
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return  'Please enter some text';
+                } else if (value != 'admin') {
+                  return 'Enter UserName is not correct';
+                }
+                return null;
+              },
             ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: TextFormField(
-                controller: _passwordTextController,
-                decoration: const InputDecoration(hintText: 'Password'),
-              ),
+            Utils().textFormFiledView(
+              order: 201,
+              controller: _passwordTextController,
+              hintText: 'Enter Password',
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return  'Please enter some text';
+                } else if (value != 'admin') {
+                  return 'Enter password is not correct';
+                }
+                return null;
+              },
             ),
+            const SizedBox(height: 14,),
             TextButton(
               style: ButtonStyle(
                 foregroundColor: MaterialStateProperty.resolveWith(
