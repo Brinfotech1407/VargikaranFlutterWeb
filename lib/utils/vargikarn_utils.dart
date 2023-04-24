@@ -84,9 +84,11 @@ class Utils {
       {required String? Function(String?)? validator,
       required List<DropdownMenuItem<String>>? item,
       required onChanged,
+        required double order,
       required value}) {
     return Flexible(
-      child: Container(
+      child: FocusTraversalOrder(
+        order: NumericFocusOrder(order),child: Container(
         margin: const EdgeInsets.all(8),
         child: DropdownButtonFormField<String>(
           isDense: true,
@@ -133,7 +135,7 @@ class Utils {
             child: Icon(Icons.keyboard_arrow_down),
           ),
           items: item,
-          onChanged: onChanged,
+          onChanged: onChanged,),
         ),
       ),
     );
