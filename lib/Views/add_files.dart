@@ -799,7 +799,7 @@ class _AddFileScreenState extends State<AddFileScreen> {
                   child: GestureDetector(
                     child: Utils().textFormFiledView(
                       order: 11,
-                      hintText: 'dd-MM-yyyy',
+                      hintText: endDate.toString(),
                       controller: endDateInputController,
                       readOnly: true,
                       suffixIcon: const Icon(Icons.calendar_month),
