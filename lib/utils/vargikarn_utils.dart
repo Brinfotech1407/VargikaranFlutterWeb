@@ -16,6 +16,7 @@ class Utils {
     int minLines = 1,
     bool obscureText = false,
     bool readOnly = false,
+    bool enabled = true,
     bool isMaxLength = false,
     int maxLength = 3,
     required double order,
@@ -25,6 +26,7 @@ class Utils {
       child: FocusTraversalOrder(
         order: NumericFocusOrder(order),
         child: TextFormField(
+          enabled: enabled,
           textCapitalization: TextCapitalization.words,
           controller: controller,
           onTap: onTap,
@@ -42,7 +44,8 @@ class Utils {
               hintText: hintText,
               hintStyle: const TextStyle(fontSize: 14),
               focusColor: Colors.black,
-              contentPadding: const EdgeInsets.only(left: 10, top: 18, bottom: 8),
+              contentPadding:
+                  const EdgeInsets.only(left: 10, top: 18, bottom: 8),
               border: const OutlineInputBorder(
                 borderSide: BorderSide(width: 1, color: Colors.grey),
               ),
@@ -89,13 +92,14 @@ class Utils {
           isDense: true,
           elevation: 0,
           dropdownColor: Colors.white,
-         focusColor: Colors.transparent,
+          focusColor: Colors.transparent,
           autovalidateMode: AutovalidateMode.onUserInteraction,
           decoration: InputDecoration(
               counterText: "",
               hintStyle: const TextStyle(fontSize: 14),
               focusColor: Colors.black,
-              contentPadding: const EdgeInsets.only(left: 10, top: 18, bottom: 8),
+              contentPadding:
+                  const EdgeInsets.only(left: 10, top: 18, bottom: 8),
               border: const OutlineInputBorder(
                 borderSide: BorderSide(width: 1, color: Colors.grey),
               ),
