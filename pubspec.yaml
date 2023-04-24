@@ -56,6 +56,7 @@ dependencies:
   syncfusion_flutter_pdfviewer: ^21.1.41
   syncfusion_flutter_datagrid_export: ^21.1.41
   path_provider: ^2.0.14
+  syncfusion_flutter_xlsio: ^21.1.41
 
 
 dev_dependencies:

@@ -3,6 +3,7 @@ import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 import 'package:syncfusion_flutter_datagrid_export/export.dart';
+import 'package:syncfusion_flutter_xlsio/xlsio.dart' hide Column, Row, Border;
 import 'package:vargikaran_web_app/Views/add_files.dart';
 import 'package:vargikaran_web_app/Views/sfgrid_view.dart';
 import 'package:vargikaran_web_app/model/files_model.dart';
@@ -179,7 +180,9 @@ class _FilesScreenState extends State<FilesScreen> {
             width: 4,
           ),
           TextButton(
-            onPressed: () {},
+            onPressed: () {
+              exportDataGridToExcel();
+            },
             style: TextButton.styleFrom(
               side: const BorderSide(width: 2.0, color: Colors.purpleAccent),
             ),
@@ -199,6 +202,22 @@ class _FilesScreenState extends State<FilesScreen> {
     await helper.FileSaveHelper.saveAndLaunchFile(bytes, 'VargikarnData.pdf');
     document.dispose();
   }
+
+    Future<void> exportDataGridToExcel() async {
+      final Workbook workbook = sfDataGridKey.currentState!.exportToExcelWorkbook(
+          cellExport: (DataGridCellExcelExportDetails details) {
+            if (details.cellType == DataGridExportCellType.columnHeader) {
+              final bool isRightAlign = details.columnName == 'Product No' ||
+                  details.columnName == 'Shipped Date' ||
+                  details.columnName == 'Price';
+              details.excelRange.cellStyle.hAlign =
+              isRightAlign ? HAlignType.right : HAlignType.left;
+            }
+          });
+      final List<int> bytes = workbook.saveAsStream();
+      workbook.dispose();
+      await helper.FileSaveHelper.saveAndLaunchFile(bytes, 'VargikarnData.xlsx');
+    }
 
 
 
